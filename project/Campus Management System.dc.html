@@ -1,0 +1,2188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/industry-1d29e53d-775f-4291-8258-a6914a224ac5/styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<script src="_ds/industry-1d29e53d-775f-4291-8258-a6914a224ac5/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0e161f"/><g fill="none" stroke="#5980a6" stroke-width="1.6"><rect x="30" y="30" width="40" height="40"/><path d="M30 44h40M44 44v26"/></g><text x="50" y="26" text-anchor="middle" fill="#8fb2d4" font-family="Barlow Condensed, sans-serif" font-size="11" letter-spacing="1">NG</text></svg></template>
+<style>
+html,body{margin:0;padding:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-weight:800;letter-spacing:-.015em}
+.card,.dialog,.input,.btn,.tag,.seg,.seg-opt{border-radius:10px}
+.card{box-shadow:var(--shadow-sm)}
+.btn{font-weight:600}
+.blueprint>.corner{display:none}
+.table th{text-transform:uppercase}
+:root{
+--navy:#14224E;--navy-700:#1B2E63;--purple:#6B3FA0;--purple-600:#5A3389;--purple-100:#F1EBFA;--gold:#F2B417;--gold-ink:#7A5605;
+--color-bg:#FFFFFF;--color-surface:#F7F8FB;--color-text:#141A2E;--color-divider:#E4E7F0;
+--color-accent:#6B3FA0;--color-accent-100:#F1EBFA;--color-accent-200:#E3D8F4;--color-accent-300:#C9B4E8;--color-accent-600:#5A3389;--color-accent-700:#54307F;--color-accent-800:#3E2360;--color-accent-900:#14224E;
+--color-neutral-100:#F4F5F8;--color-neutral-200:#E4E7F0;--color-neutral-400:#B9BECF;--color-neutral-800:#3A4260;--color-neutral-900:#141A2E;
+--font-heading:'Manrope',system-ui,sans-serif;--font-body:'Manrope',system-ui,sans-serif;
+--radius-sm:8px;--radius-md:10px;--radius-lg:14px;--radius:10px;
+--shadow-sm:0 1px 2px rgba(20,34,78,.07);--shadow-md:0 6px 18px rgba(20,34,78,.09);--shadow-lg:0 18px 44px rgba(20,34,78,.16);
+--status-ok:#1E8E5A;--status-warn:#D97706;--status-bad:#C63A2F;--ok-ink:#146A43;--warn-ink:#9A5407;--bad-ink:#9E2C23;
+--ok-fill:#E7F6EE;--warn-fill:#FDF3E4;--bad-fill:#FBEBE9;--muted:#5A6480;--rail:#14224E;--rail-ink:#EEF1FA}
+[data-theme="dark"]{--color-bg:#0D1327;--color-surface:#151D38;--color-text:#E8ECF7;--color-divider:#2A3357;--color-accent:#B08BE0;--color-accent-100:#211A38;--color-accent-200:#2B2148;--color-accent-300:#3E2F63;--color-accent-600:#C0A2E8;--color-accent-700:#CDB4EE;--color-accent-800:#E1D3F7;--color-accent-900:#0A1024;--color-neutral-100:#18203C;--color-neutral-200:#232C4C;--color-neutral-400:#5A6480;--color-neutral-800:#C7CEE2;--color-neutral-900:#E8ECF7;--shadow-sm:0 1px 2px rgba(0,0,0,.5);--shadow-md:0 6px 18px rgba(0,0,0,.55);--shadow-lg:0 18px 44px rgba(0,0,0,.65);--status-ok:#4FC98D;--status-warn:#F0B45C;--status-bad:#F08A80;--ok-ink:#8DE0B4;--warn-ink:#F6CE92;--bad-ink:#F7B0A8;--ok-fill:#0F2A20;--warn-fill:#2C2113;--bad-fill:#2E1917;--muted:#A3ADC9;--rail:#0A1024;--rail-ink:#E8ECF7;
+--navy:#0A1024;--purple:#C0A2E8;--purple-600:#CDB4EE;--purple-100:#2B2148;--gold:#F5C445;--gold-ink:#F6D98A}
+a{color:var(--color-accent-700)}a:hover{color:var(--color-accent)}
+.text-muted{color:var(--muted)!important;opacity:1}
+.card-kicker{color:var(--color-accent-700)}
+.tag-ok{background:var(--ok-fill);color:var(--ok-ink);border:1px solid color-mix(in srgb,var(--status-ok) 45%,transparent)}
+.tag-warn{background:var(--warn-fill);color:var(--warn-ink);border:1px solid color-mix(in srgb,var(--status-warn) 45%,transparent)}
+.tag-bad{background:var(--bad-fill);color:var(--bad-ink);border:1px solid color-mix(in srgb,var(--status-bad) 45%,transparent)}
+.btn{transition:background .16s,border-color .16s,color .16s,transform .07s}
+.btn-primary:hover{background:var(--color-accent-600);border-color:var(--color-accent-600)}
+.btn-primary:active,.btn-secondary:active,.btn-ghost:active{transform:translateY(1px)}
+.btn-secondary:hover{background:color-mix(in srgb,var(--color-accent) 12%,transparent);border-color:var(--color-accent)}
+.btn-ghost:hover{background:color-mix(in srgb,var(--color-text) 8%,transparent)}
+.btn:disabled,.btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed;transform:none}
+.btn:focus-visible,button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px}
+.input:focus{border-color:var(--color-accent);outline:none;box-shadow:inset 0 0 0 1px var(--color-accent)}
+.input::placeholder{color:var(--muted);opacity:1}
+[data-theme="dark"] .input{background:#1a1f26;color:var(--color-text);border-color:color-mix(in srgb,#e7eaee 28%,transparent)}
+.table tbody tr{transition:background .14s}
+.table tbody tr:hover{background:color-mix(in srgb,var(--color-accent) 7%,transparent)}
+.table th{color:var(--color-text);letter-spacing:.12em}
+.rail-item{position:relative}
+.rail-item:hover{background:rgba(238,242,246,.09)!important}
+.rail-item:focus-visible{outline:2px solid var(--color-accent);outline-offset:-2px}
+aside::-webkit-scrollbar{width:0}
+[data-look="classic"] aside,[data-look="blueprint"] aside{background:linear-gradient(180deg,#111c26 0%,#0E161F 46%,#0b1218 100%)}
+.figure{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+.display{font-family:var(--font-heading);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin:0}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--purple)}
+.brandmark{width:34px;height:34px;flex:none;display:block}
+.gold-rule{height:3px;width:34px;background:var(--gold);border-radius:2px}
+.rail-item[data-on="1"]{background:rgba(107,63,160,.34)!important}
+.sso{display:flex;align-items:center;justify-content:center;gap:9px;height:44px;border:1px solid var(--color-divider);border-radius:10px;background:var(--color-bg);color:var(--color-text);font-weight:600;font-size:13.5px;cursor:pointer;transition:background .16s,border-color .16s}
+.sso:hover{background:var(--color-surface);border-color:var(--color-accent-300)}
+.chk{width:18px;height:18px;flex:none;border:1.5px solid var(--color-divider);border-radius:5px;display:grid;place-items:center;background:var(--color-bg)}
+.chk[data-on="1"]{background:var(--purple);border-color:var(--purple)}
+.lift{transition:transform .22s cubic-bezier(.2,.7,.3,1),border-color .22s}
+.lift:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--color-accent) 55%,var(--color-divider))}
+.card{background:transparent}
+.hair{height:1px;background:var(--color-divider);border:0;margin:0}
+[data-look="console"] .card,[data-look="classic"] .card{border:0;background:color-mix(in srgb,var(--color-text) 4%,transparent)}
+[data-look="console"] .card .corner,[data-look="console"] .blueprint>.corner,[data-look="classic"] .card>.corner{display:none}
+[data-look="console"] .display,[data-look="classic"] .display{letter-spacing:0;text-transform:none}
+[data-look="console"] .eyebrow,[data-look="classic"] .eyebrow{letter-spacing:.14em}
+[data-look="console"] .table th,[data-look="classic"] .table th{background:transparent;border-bottom:1px solid var(--color-text)}
+[data-look="classic"] .card.blueprint,[data-look="classic"] .card{background:#fff;border:1px solid var(--color-divider);box-shadow:inset 0 2px 0 0 var(--color-accent),0 1px 2px rgba(16,24,32,.05);padding-top:22px;transition:box-shadow .2s,transform .2s cubic-bezier(.2,.7,.3,1)}
+[data-look="classic"] .card:hover{box-shadow:inset 0 2px 0 0 var(--color-accent),0 6px 18px rgba(16,24,32,.09)}
+[data-theme="dark"][data-look="classic"] .card.blueprint,[data-theme="dark"][data-look="classic"] .card{background:#1b2027;box-shadow:inset 0 2px 0 0 var(--color-accent),0 1px 2px rgba(0,0,0,.5)}
+[data-theme="dark"][data-look="classic"] .input,[data-theme="dark"][data-look="console"] .input{background:#1a1f26}
+[data-look="classic"] .table td,[data-look="console"] .table td{padding-top:11px;padding-bottom:11px}
+[data-look="classic"] .table th,[data-look="console"] .table th{font-size:10.5px;letter-spacing:.16em;padding-bottom:9px}
+[data-look="classic"] .input,[data-look="console"] .input{background:var(--color-surface,#fff)}
+[data-look="classic"] .btn-primary{box-shadow:0 1px 2px rgba(16,24,32,.12)}
+[data-look="classic"] .tag,[data-look="console"] .tag{letter-spacing:.06em}
+[data-look="classic"] .table tbody tr:nth-child(even),[data-look="console"] .table tbody tr:nth-child(even){background:color-mix(in srgb,var(--color-text) 3%,transparent)}
+[data-look="classic"] .table tbody tr:hover,[data-look="console"] .table tbody tr:hover{background:color-mix(in srgb,var(--color-accent) 9%,transparent)}
+[data-look="classic"] h3.display,[data-look="console"] h3.display{font-size:22px}
+.tab{position:relative;background:transparent;border:0;cursor:pointer;padding:11px 2px;font-family:var(--font-heading);font-size:13px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);white-space:nowrap;transition:color .16s}
+.tab:hover{color:var(--color-text)}
+.tab[data-on="1"]{color:var(--color-text)}
+.tab[data-on="1"]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--color-accent)}
+.tabs{display:flex;gap:22px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.strip>div+div{border-left:1px solid var(--color-divider);padding-left:20px}
+input,select,textarea,button{font-family:inherit}
+select.input{appearance:none;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 14px) 15px,calc(100% - 9px) 15px;background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:28px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.975)}to{opacity:1;transform:none}}
+@keyframes slideL{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--color-text) 24%,transparent)}::-webkit-scrollbar-track{background:transparent}
+</style>
+</helmet>
+<div data-theme="{{ theme }}" data-look="{{ look }}" style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);font-size:15px">
+
+<sc-if value="{{ showLogin }}" hint-placeholder-val="{{ true }}">
+<div style="min-height:100vh;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr))">
+  <div style="background:#14224E;color:#EEF1FA;padding:clamp(36px,4vw,64px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;min-height:min(600px,88vh)">
+    <div style="position:absolute;inset:0;opacity:.13;background-image:radial-gradient(rgba(238,241,250,.9) 1px,transparent 1px);background-size:26px 26px"></div>
+    <div style="position:absolute;inset:0;background:radial-gradient(110% 80% at 8% 4%, rgba(107,63,160,.62) 0%, rgba(20,34,78,0) 60%),radial-gradient(80% 60% at 96% 96%, rgba(242,180,23,.22) 0%, rgba(20,34,78,0) 60%)"></div>
+    <svg viewBox="0 0 400 260" preserveAspectRatio="none" style="position:absolute;left:0;right:0;bottom:0;width:100%;height:44%;opacity:.5" aria-hidden="true">
+      <g fill="none" stroke="rgba(238,241,250,.34)" stroke-width="1">
+        <path d="M0 210 L70 168 L146 196 L212 140 L286 172 L352 122 L400 148"></path>
+        <path d="M0 244 L70 168M70 168 L146 196M146 196 L212 140M212 140 L286 172M286 172 L352 122"></path>
+      </g>
+      <g fill="#F2B417"><circle cx="70" cy="168" r="3.4"></circle><circle cx="212" cy="140" r="3.4"></circle><circle cx="352" cy="122" r="3.4"></circle></g>
+      <g fill="#B08BE0"><circle cx="146" cy="196" r="3"></circle><circle cx="286" cy="172" r="3"></circle></g>
+    </svg>
+    <div style="position:relative;display:flex;align-items:center;gap:13px">
+      <img src="assets/dmi-logo.png" alt="DMI Foundations — Fully Human &amp; Fully Alive" style="width:64px;height:64px;flex:none;display:block;object-fit:contain;filter:drop-shadow(0 3px 12px rgba(0,0,0,.4))">
+      <div style="line-height:1.25">
+        <div style="font-family:var(--font-heading);font-weight:800;font-size:21px;letter-spacing:-.01em">DMI Campus Connect</div>
+        <div style="font-size:11px;letter-spacing:.14em;color:rgba(238,241,250,.72);text-transform:uppercase">DMI College of Engineering</div>
+      </div>
+    </div>
+    <div style="position:relative;max-width:660px;display:flex;flex-direction:column;gap:20px;padding:var(--space-8) 0">
+      <div class="gold-rule"></div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.2em;color:#F2B417;text-transform:uppercase">Smart College ERP &amp; Learning Platform</div>
+      <h1 class="display" style="font-size:clamp(40px,5.4vw,74px);color:#FBFCFF">Connecting students,<br>faculty and campus<br>services.</h1>
+      <p style="font-size:16px;line-height:1.6;color:rgba(238,241,250,.8);max-width:48ch;margin:0">One platform for admissions, attendance, examinations, fees, learning materials and placements &mdash; for 2,629 students across six departments.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:6px">
+        <span style="font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(238,241,250,.24)">Student information system</span>
+        <span style="font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(238,241,250,.24)">Learning management</span>
+        <span style="font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(238,241,250,.24)">Campus ERP</span>
+      </div>
+    </div>
+    <div style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));border-top:1px solid rgba(238,241,250,.22)">
+      <div style="padding:var(--space-4) 0"><div class="figure" style="font-family:var(--font-heading);font-weight:800;font-size:32px;line-height:1;color:#FBFCFF">2,629</div><div style="font-size:10.5px;font-weight:600;letter-spacing:.16em;color:rgba(238,241,250,.7);text-transform:uppercase;margin-top:5px">Students</div></div>
+      <div style="padding:var(--space-4) 0 var(--space-4) var(--space-4);border-left:1px solid rgba(238,241,250,.16)"><div class="figure" style="font-family:var(--font-heading);font-weight:800;font-size:32px;line-height:1;color:#FBFCFF">151</div><div style="font-size:10.5px;font-weight:600;letter-spacing:.16em;color:rgba(238,241,250,.7);text-transform:uppercase;margin-top:5px">Faculty</div></div>
+      <div style="padding:var(--space-4) 0 var(--space-4) var(--space-4);border-left:1px solid rgba(238,241,250,.16)"><div class="figure" style="font-family:var(--font-heading);font-weight:800;font-size:32px;line-height:1;color:#FBFCFF">06</div><div style="font-size:10.5px;font-weight:600;letter-spacing:.16em;color:rgba(238,241,250,.7);text-transform:uppercase;margin-top:5px">Departments</div></div>
+      <div style="padding:var(--space-4) 0 var(--space-4) var(--space-4);border-left:1px solid rgba(238,241,250,.16)"><div class="figure" style="font-family:var(--font-heading);font-weight:800;font-size:32px;line-height:1;color:#FBFCFF">18</div><div style="font-size:10.5px;font-weight:600;letter-spacing:.16em;color:rgba(238,241,250,.7);text-transform:uppercase;margin-top:5px">Programmes</div></div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:center;padding:clamp(32px,4vw,56px) clamp(24px,3vw,44px)">
+    <div style="width:100%;max-width:452px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;align-items:center;gap:13px">
+        <img src="assets/dmi-logo.png" alt="DMI Foundations crest" style="width:58px;height:58px;flex:none;display:block;object-fit:contain">
+        <div style="line-height:1.25;min-width:0">
+          <div style="font-family:var(--font-heading);font-weight:800;font-size:16.5px">DMI Campus Connect</div>
+          <div style="font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--muted);text-transform:uppercase">DMI College of Engineering</div>
+        </div>
+      </div>
+      <hr class="hair">
+      <div>
+        <div class="eyebrow">Secure sign in</div>
+        <h2 class="display" style="margin:8px 0 8px;font-size:clamp(30px,3vw,40px)">Welcome back</h2>
+        <p class="text-muted" style="font-size:14px;line-height:1.55;margin:0;max-width:44ch">Sign in with your registration number, staff ID or college email address.</p>
+      </div>
+      <div class="field"><label>Email or registration number</label><input class="input" ref="{{ idRef }}" placeholder="21CSE042" autoComplete="username" style="height:46px"></div>
+      <div class="field"><label>Password</label><input class="input" ref="{{ pwRef }}" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" autoComplete="current-password" onKeyDown="{{ onLoginKey }}" style="height:46px"></div>
+      <div class="field"><label>Sign in as</label>
+        <select class="input" value="{{ roleSel }}" onChange="{{ onRoleSel }}" style="height:46px">
+          <sc-for list="{{ roleOptions }}" as="o" hint-placeholder-count="5"><option value="{{ o.v }}">{{ o.t }}</option></sc-for>
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <button type="button" onClick="{{ toggleRemember }}" style="display:flex;align-items:center;gap:9px;background:transparent;border:0;padding:0;cursor:pointer;color:inherit;font-size:13.5px">
+          <span class="chk" data-on="{{ rememberOn }}">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"></path></svg>
+          </span>
+          <span>Remember me</span>
+        </button>
+        <a href="#forgot" onClick="{{ onForgot }}" style="font-size:13.5px;font-weight:600;text-decoration:none">Forgot password?</a>
+      </div>
+      <sc-if value="{{ loginErr }}">
+        <div style="border:1px solid var(--status-bad);color:var(--status-bad);font-size:12.5px;padding:8px 10px;display:flex;gap:8px;align-items:center">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 8v5M12 16.5v.01"></path></svg>
+          <span>{{ loginErr }}</span>
+        </div>
+      </sc-if>
+      <button type="button" class="btn btn-primary" style="height:48px;font-size:15px;font-weight:700;letter-spacing:.01em" onClick="{{ doLogin }}">Log in</button>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="flex:1;height:1px;background:var(--color-divider)"></div>
+        <span style="font-size:12px;color:var(--muted)">or continue with</span>
+        <div style="flex:1;height:1px;background:var(--color-divider)"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <button type="button" class="sso" onClick="{{ onSso }}">
+          <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path fill="#EA4335" d="M12 10.2v3.9h5.5c-.24 1.5-1.75 4.4-5.5 4.4A6.5 6.5 0 1 1 16.4 7l2.8-2.7A10 10 0 1 0 22 12c0-.6-.06-1.2-.16-1.8z"></path></svg>
+          Google
+        </button>
+        <button type="button" class="sso" onClick="{{ onSso }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="#F35325" d="M3 3h8.5v8.5H3z"></path><path fill="#81BC06" d="M12.5 3H21v8.5h-8.5z"></path><path fill="#05A6F0" d="M3 12.5h8.5V21H3z"></path><path fill="#FFBA08" d="M12.5 12.5H21V21h-8.5z"></path></svg>
+          Microsoft
+        </button>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:var(--space-2)">
+        <div style="flex:1;height:1px;background:var(--color-divider)"></div>
+        <span class="eyebrow">Demo accounts</span>
+        <div style="flex:1;height:1px;background:var(--color-divider)"></div>
+      </div>
+      <div style="display:grid;border-top:1px solid var(--color-divider)">
+        <sc-for list="{{ demos }}" as="d" hint-placeholder-count="5">
+          <button type="button" onClick="{{ d.go }}" style="display:flex;align-items:center;gap:14px;text-align:left;padding:12px 4px;border:0;border-bottom:1px solid var(--color-divider);background:transparent;color:inherit;cursor:pointer;transition:padding-left .2s,background .16s" style-hover="background:color-mix(in srgb,var(--color-accent) 8%,transparent);padding-left:10px">
+            <span style="width:15px;height:15px;flex:none;color:var(--color-accent-700)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="{{ d.icon }}"></path></svg>
+            </span>
+            <span style="flex:1;min-width:0">
+              <span style="display:block;font-family:var(--font-heading);font-size:15px;letter-spacing:.12em;text-transform:uppercase">{{ d.role }}</span>
+              <span style="display:block;font-size:12.5px;color:var(--muted);margin-top:1px">{{ d.name }} &middot; {{ d.id }}</span>
+            </span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--muted)"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+          </button>
+        </sc-for>
+      </div>
+      <p class="text-muted" style="font-size:11.5px;margin:0">All demo accounts use the password <strong style="font-family:ui-monospace,Menlo,monospace">demo1234</strong>. Sample data is fictional.</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--color-divider);padding-top:14px;flex-wrap:wrap">
+        <span style="font-size:12px;color:var(--muted)">DMI Campus Connect &middot; Smart College ERP &amp; Learning Platform</span>
+        <a href="#help" onClick="{{ onHelp }}" style="font-size:12.5px;font-weight:600;text-decoration:none">Help &amp; support</a>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showApp }}">
+<div style="display:flex;min-height:100vh;align-items:flex-start">
+
+  <sc-if value="{{ scrim }}">
+    <div onClick="{{ closeNav }}" style="position:fixed;inset:0;background:rgba(10,14,18,.5);z-index:55"></div>
+  </sc-if>
+
+  <aside style="flex:none;display:{{ sideDisplay }};flex-direction:column;gap:var(--space-4);width:{{ sideW }};position:{{ sidePos }};top:0;left:0;height:100vh;z-index:60;background:var(--rail);color:var(--rail-ink);border-right:1px solid rgba(238,242,246,.14);padding:var(--space-4) var(--space-3);overflow-y:auto;overflow-x:hidden">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 4px 0 2px">
+      <img class="brandmark" src="assets/dmi-logo.png" alt="DMI Campus Connect" style="width:34px;height:34px;object-fit:contain">
+      <sc-if value="{{ wide }}">
+        <div style="line-height:1.25;min-width:0;flex:1">
+          <div style="font-family:var(--font-heading);font-weight:800;font-size:14.5px;color:#FBFCFF;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">DMI Campus Connect</div>
+          <div style="font-size:9px;font-weight:600;letter-spacing:.1em;color:rgba(238,241,250,.72);text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">DMI College of Engg.</div>
+        </div>
+      </sc-if>
+    </div>
+    <nav style="display:flex;flex-direction:column;gap:2px">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="12">
+        <button type="button" class="rail-item" data-on="{{ n.on }}" onClick="{{ n.go }}" title="{{ n.label }}" style="display:flex;align-items:center;gap:12px;width:100%;padding:10px 11px;border:0;border-left:3px solid {{ n.mark }};border-radius:0 10px 10px 0;cursor:pointer;text-align:left;background:{{ n.bg }};color:{{ n.fg }};transition:background .15s,color .15s">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="{{ n.icon }}"></path></svg>
+          <sc-if value="{{ wide }}">
+            <span style="flex:1;font-size:13.5px;font-weight:600;letter-spacing:.005em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ n.label }}</span>
+          </sc-if>
+          <sc-if value="{{ n.badge }}">
+            <span style="font-size:11px;font-weight:700;min-width:20px;height:19px;padding:0 6px;border-radius:999px;display:grid;place-items:center;background:var(--gold);color:#3A2A02">{{ n.badge }}</span>
+          </sc-if>
+        </button>
+      </sc-for>
+    </nav>
+    <div style="margin-top:auto;display:flex;flex-direction:column;gap:var(--space-3);padding-top:var(--space-4);border-top:1px solid rgba(238,242,246,.16)">
+      <sc-if value="{{ wide }}">
+        <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(238,242,246,.66)">Signed in as</div>
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:30px;height:30px;flex:none;display:grid;place-items:center;border:1px solid rgba(238,242,246,.3);font-family:var(--font-heading);font-size:12px;color:#8fb2d4">{{ me.initials }}</div>
+          <div style="min-width:0;line-height:1.25">
+            <div style="font-size:13px;color:#f6f8fa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ me.name }}</div>
+            <div style="font-size:10.5px;color:rgba(238,242,246,.72);letter-spacing:.12em;text-transform:uppercase">{{ me.roleLabel }}</div>
+          </div>
+        </div>
+      </sc-if>
+      <button type="button" class="rail-item" onClick="{{ logout }}" style="width:100%;display:flex;align-items:center;justify-content:center;gap:9px;padding:10px;border:1px solid rgba(238,242,246,.28);background:transparent;color:#eef2f6;cursor:pointer;font-family:var(--font-heading);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"></path></svg>
+        <sc-if value="{{ wide }}"><span>Sign out</span></sc-if>
+      </button>
+    </div>
+  </aside>
+
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column">
+    <header style="position:sticky;top:0;z-index:45;background:color-mix(in srgb,var(--color-bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--color-divider);padding:12px var(--space-6);display:flex;align-items:center;gap:var(--space-3)">
+      <button type="button" class="btn btn-secondary btn-icon" onClick="{{ toggleNav }}" title="Menu" style="display:{{ hamburger }};flex:none">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+      </button>
+      <sc-if value="{{ isConsole }}">
+        <div style="display:flex;align-items:center;gap:11px;flex:none">
+          <div style="width:30px;height:30px;flex:none;display:grid;place-items:center;background:#0E161F;color:#eef2f6;font-family:var(--font-heading);font-size:13px;letter-spacing:.04em">CS</div>
+          <div style="line-height:1.15">
+            <div style="font-family:var(--font-heading);font-size:14px;letter-spacing:.18em">CAMPUSSPHERE</div>
+            <div style="font-size:9.5px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase">Northgate Institute</div>
+          </div>
+        </div>
+      </sc-if>
+      <div style="min-width:0;display:{{ crumbDisplay }};align-items:center;gap:10px;overflow:hidden;flex:1 1 auto">
+        <span class="eyebrow" style="white-space:nowrap;display:{{ ayearDisplay }}">{{ page.kicker }}</span>
+        <span style="width:14px;height:1px;background:var(--color-divider);flex:none;display:{{ ayearDisplay }}"></span>
+        <span style="font-family:var(--font-heading);font-size:16px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ page.title }}</span>
+      </div>
+      <sc-if value="{{ isConsole }}"><div style="flex:1"></div></sc-if>
+      <button type="button" class="btn btn-secondary btn-icon" onClick="{{ toggleLook }}" title="{{ lookTitle }}" style="flex:none">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="{{ lookIcon }}"></path></svg>
+      </button>
+      <div style="position:relative;flex:0 1 300px;min-width:186px;display:{{ searchDisplay }};margin-left:auto">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="position:absolute;left:9px;top:11px;opacity:.72;pointer-events:none"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3"></path></svg>
+        <input class="input" ref="{{ qRef }}" onInput="{{ onQuery }}" placeholder="Search students, subjects, pages&hellip;" style="padding-left:29px">
+        <sc-if value="{{ hasResults }}">
+          <div class="blueprint elev-lg" style="position:absolute;top:42px;right:0;width:min(360px,80vw);background:var(--color-bg);z-index:70;max-height:340px;overflow:auto;animation:pop .16s ease-out">
+            <sc-for list="{{ results }}" as="r" hint-placeholder-count="3">
+              <button type="button" onClick="{{ r.go }}" style="display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 11px;border:0;border-bottom:1px solid var(--color-divider);background:transparent;color:inherit;cursor:pointer" style-hover="background:color-mix(in srgb,var(--color-accent) 10%,transparent)">
+                <span style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent);width:66px;flex:none">{{ r.kind }}</span>
+                <span style="flex:1;min-width:0"><span style="display:block;font-size:13.5px">{{ r.label }}</span><span style="display:block;font-size:11.5px;opacity:.72">{{ r.sub }}</span></span>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+      <button type="button" class="btn btn-secondary btn-icon" onClick="{{ toggleSearch }}" title="Search" style="flex:none;display:{{ searchBtnDisplay }}">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3"></path></svg>
+      </button>
+      <button type="button" class="btn btn-secondary btn-icon" onClick="{{ toggleTheme }}" title="Toggle theme" style="flex:none">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="{{ themeIcon }}"></path></svg>
+      </button>
+      <div style="position:relative;flex:none">
+        <button type="button" class="btn btn-secondary btn-icon" onClick="{{ toggleBell }}" title="Notifications" style="flex:none">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"></path></svg>
+        </button>
+        <sc-if value="{{ unread }}">
+          <span style="position:absolute;top:-5px;right:-5px;min-width:17px;height:17px;padding:0 4px;display:grid;place-items:center;background:var(--color-accent);color:var(--color-bg);font-family:var(--font-heading);font-size:11.5px">{{ unread }}</span>
+        </sc-if>
+        <sc-if value="{{ bellOpen }}">
+          <div class="blueprint elev-lg" style="position:absolute;top:44px;right:0;width:min(370px,84vw);background:var(--color-bg);z-index:70;max-height:400px;overflow:auto;animation:pop .16s ease-out">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--color-divider)">
+              <span style="font-family:var(--font-heading);font-size:14px;letter-spacing:.06em;text-transform:uppercase">Notifications</span>
+              <button type="button" class="btn btn-ghost" style="font-size:11.5px" onClick="{{ markAllRead }}">Mark all read</button>
+            </div>
+            <sc-for list="{{ notifs }}" as="n" hint-placeholder-count="4">
+              <button type="button" onClick="{{ n.go }}" style="display:flex;gap:10px;width:100%;text-align:left;padding:10px 12px;border:0;border-bottom:1px solid var(--color-divider);background:{{ n.bg }};color:inherit;cursor:pointer" style-hover="background:color-mix(in srgb,var(--color-accent) 9%,transparent)">
+                <span style="width:26px;height:26px;flex:none;display:grid;place-items:center;border:1px solid var(--color-divider);color:{{ n.tone }}">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="{{ n.icon }}"></path></svg>
+                </span>
+                <span style="flex:1;min-width:0">
+                  <span style="display:block;font-size:13px;line-height:1.3">{{ n.title }}</span>
+                  <span style="display:block;font-size:11.5px;opacity:.72;margin-top:2px">{{ n.body }}</span>
+                  <span style="display:block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;opacity:.62;margin-top:3px">{{ n.when }}</span>
+                </span>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+      <select class="input" value="{{ ayear }}" onChange="{{ onAyear }}" title="Academic year" style="width:auto;min-width:118px;flex:none;height:36px;font-size:13px;font-weight:600;display:{{ ayearDisplay }}">
+        <sc-for list="{{ ayears }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.t }}</option></sc-for>
+      </select>
+      <div style="display:flex;align-items:center;gap:10px;flex:none;padding-left:12px;border-left:1px solid var(--color-divider)">
+        <div style="width:36px;height:36px;flex:none;display:grid;place-items:center;border-radius:999px;background:var(--purple);color:#fff;font-size:13px;font-weight:700">{{ me.initials }}</div>
+        <div style="line-height:1.25;display:{{ ayearDisplay }}">
+          <div style="font-size:13.5px;font-weight:700;white-space:nowrap">{{ me.name }}</div>
+          <div style="font-size:11px;color:var(--muted);white-space:nowrap">{{ me.roleLabel }}</div>
+        </div>
+        <button type="button" class="btn btn-secondary btn-icon" onClick="{{ logout }}" title="Log out" style="flex:none">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"></path></svg>
+        </button>
+      </div>
+    </header>
+
+    <sc-if value="{{ isConsole }}">
+      <div style="position:sticky;top:58px;z-index:44;background:var(--color-bg);border-bottom:1px solid var(--color-divider);padding:0 var(--space-6)">
+        <div class="tabs" style="max-width:1480px;margin:0 auto">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="10">
+            <button type="button" class="tab" data-on="{{ n.on }}" onClick="{{ n.go }}">{{ n.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <main style="width:100%;max-width:{{ mainW }};margin:0 auto;padding:var(--space-8) var(--space-6) var(--space-8);display:flex;flex-direction:column;gap:34px">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;border-bottom:1px solid var(--color-divider);padding-bottom:var(--space-4)">
+        <div style="min-width:0;max-width:76ch">
+          <div class="eyebrow">{{ page.kicker }}</div>
+          <h2 class="display" style="margin:10px 0 10px;font-size:clamp(34px,3.6vw,52px)">{{ page.title }}</h2>
+          <p class="text-muted" style="font-size:14.5px;line-height:1.55;margin:0;max-width:68ch;text-wrap:pretty">{{ page.sub }}</p>
+        </div>
+        <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;align-self:flex-end">
+          <sc-for list="{{ page.actions }}" as="a" hint-placeholder-count="2">
+            <button type="button" class="btn {{ a.cls }}" onClick="{{ a.go }}" style="white-space:nowrap;letter-spacing:.06em">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="{{ a.icon }}"></path></svg>
+              <span>{{ a.label }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <sc-if value="{{ kpiStrip }}">
+        <div class="strip" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(176px,1fr));border-top:1px solid var(--color-text);border-bottom:1px solid var(--color-divider)">
+          <sc-for list="{{ page.kpis }}" as="k" hint-placeholder-count="5">
+            <div style="padding:18px 20px 16px 0;display:flex;flex-direction:column;gap:7px;animation:fadeUp .3s ease-out both">
+              <span style="font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)">{{ k.label }}</span>
+              <span class="figure" style="font-family:var(--font-heading);font-size:40px;line-height:.95;color:{{ k.ink }}">{{ k.value }}</span>
+              <span style="display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted)">
+                <span style="width:22px;height:2px;background:{{ k.tone }};flex:none"></span>{{ k.sub }}
+              </span>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ kpiCards }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(198px,1fr));gap:20px">
+          <sc-for list="{{ page.kpis }}" as="k" hint-placeholder-count="5">
+            <div class="card blueprint lift" style="padding:var(--space-4);gap:var(--space-2);animation:fadeUp .3s ease-out both">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+                <span style="font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)">{{ k.label }}</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--color-accent-700)"><path d="{{ k.icon }}"></path></svg>
+              </div>
+              <div class="figure" style="font-family:var(--font-heading);font-size:42px;line-height:.98;letter-spacing:-.01em;color:{{ k.ink }}">{{ k.value }}</div>
+              <div style="font-size:12.5px;color:var(--muted);line-height:1.4">{{ k.sub }}</div>
+              <div style="height:2px;background:var(--color-divider);margin-top:auto"><div style="height:2px;width:{{ k.bar }};background:{{ k.tone }};transform-origin:left;animation:grow .6s ease-out both"></div></div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:var(--space-6);align-items:start">
+
+        <sc-if value="{{ blocks.today }}">
+          <section class="card blueprint" style="padding:20px;gap:var(--space-3)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+              <h3 class="display" style="margin:0;font-size:23px;letter-spacing:.1em">Today&rsquo;s classes</h3>
+              <span class="eyebrow" style="white-space:nowrap">{{ todayLabel }}</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <sc-for list="{{ todayClasses }}" as="c" hint-placeholder-count="4">
+                <div style="display:flex;gap:12px;align-items:stretch;padding:9px 11px;border:1px solid {{ c.border }};background:{{ c.bg }};transition:background .2s">
+                  <div style="width:62px;flex:none;line-height:1.25">
+                    <div style="font-family:var(--font-heading);font-size:15px">{{ c.start }}</div>
+                    <div style="font-size:11.5px;opacity:.72">{{ c.end }}</div>
+                  </div>
+                  <div style="width:1px;background:var(--color-divider);flex:none"></div>
+                  <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+                      <span style="font-size:14px;font-weight:500">{{ c.name }}</span>
+                      <span class="tag tag-outline" style="font-size:11.5px">{{ c.code }}</span>
+                      <sc-if value="{{ c.live }}">
+                        <span style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;background:var(--color-accent);color:var(--color-bg);padding:2px 6px">In progress</span>
+                      </sc-if>
+                    </div>
+                    <div style="font-size:12px;opacity:.72;margin-top:2px">{{ c.who }} &middot; Room {{ c.room }}</div>
+                  </div>
+                </div>
+              </sc-for>
+              <sc-if value="{{ noClasses }}">
+                <div class="text-muted" style="font-size:13px;padding:14px 2px">No scheduled classes today.</div>
+              </sc-if>
+            </div>
+          </section>
+        </sc-if>
+
+        <sc-if value="{{ blocks.attendance }}">
+          <section class="card blueprint" style="padding:20px;gap:var(--space-3)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+              <h3 class="display" style="margin:0;font-size:23px;letter-spacing:.1em">{{ attTitle }}</h3>
+              <span class="eyebrow" style="white-space:nowrap">{{ attMeta }}</span>
+            </div>
+            <div style="display:flex;gap:var(--space-4);align-items:center;flex-wrap:wrap">
+              <svg viewBox="0 0 120 120" style="width:138px;height:138px;flex:none">
+                <circle cx="60" cy="60" r="51" fill="none" stroke="var(--color-divider)" stroke-width="9"></circle>
+                <circle cx="60" cy="60" r="51" fill="none" stroke="{{ donutTone }}" stroke-width="9" stroke-dasharray="{{ donutDash }}" transform="rotate(-90 60 60)" style="transition:stroke-dasharray .7s ease-out"></circle>
+                <text x="60" y="57" text-anchor="middle" style="font-family:var(--font-heading);font-size:27px;fill:var(--color-text)">{{ donutValue }}</text>
+                <text x="60" y="73" text-anchor="middle" style="font-size:9px;letter-spacing:.14em;fill:var(--color-text);opacity:.72">{{ donutCaption }}</text>
+              </svg>
+              <div style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:9px">
+                <sc-for list="{{ attBars }}" as="b" hint-placeholder-count="5">
+                  <div>
+                    <div style="display:flex;justify-content:space-between;gap:8px;font-size:12px;margin-bottom:3px">
+                      <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.label }}</span>
+                      <span style="font-family:var(--font-heading);color:{{ b.tone }}">{{ b.value }}</span>
+                    </div>
+                    <div style="height:5px;background:var(--color-divider)"><div style="height:5px;width:{{ b.bar }};background:{{ b.tone }};transform-origin:left;animation:grow .6s ease-out both"></div></div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="font-size:11.5px;opacity:.72;border-top:1px solid var(--color-divider);padding-top:9px">{{ attNote }}</div>
+          </section>
+        </sc-if>
+
+        <sc-if value="{{ blocks.perf }}">
+          <section class="card blueprint" style="padding:20px;gap:var(--space-3)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+              <h3 class="display" style="margin:0;font-size:23px;letter-spacing:.1em">{{ perfTitle }}</h3>
+              <span class="eyebrow" style="white-space:nowrap">{{ perfMeta }}</span>
+            </div>
+            <div style="display:flex;align-items:flex-end;gap:10px;height:170px;padding-top:6px">
+              <sc-for list="{{ perfBars }}" as="b" hint-placeholder-count="5">
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end">
+                  <span style="font-family:var(--font-heading);font-size:14px;color:{{ b.tone }}">{{ b.value }}</span>
+                  <div style="width:100%;height:{{ b.h }};background:{{ b.fill }};border:1px solid {{ b.tone }};transform-origin:bottom;animation:pop .5s ease-out both"></div>
+                  <span style="font-size:11.5px;opacity:.72;letter-spacing:.06em;text-align:center">{{ b.label }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="font-size:11.5px;opacity:.72;border-top:1px solid var(--color-divider);padding-top:9px">{{ perfNote }}</div>
+          </section>
+        </sc-if>
+
+        <sc-if value="{{ blocks.feed }}">
+          <section class="card blueprint" style="padding:20px;gap:var(--space-3)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+              <h3 class="display" style="margin:0;font-size:23px;letter-spacing:.1em">Announcements</h3>
+              <button type="button" class="btn btn-ghost" style="font-size:11.5px" onClick="{{ goNotifs }}">View all</button>
+            </div>
+            <div style="display:flex;flex-direction:column">
+              <sc-for list="{{ feed }}" as="f" hint-placeholder-count="4">
+                <div style="display:flex;gap:11px;padding:10px 0;border-bottom:1px solid var(--color-divider)">
+                  <div style="width:44px;flex:none;text-align:center;border:1px solid var(--color-divider);padding:3px 0;height:fit-content">
+                    <div style="font-family:var(--font-heading);font-size:16px;line-height:1">{{ f.day }}</div>
+                    <div class="eyebrow" style="white-space:nowrap">{{ f.mon }}</div>
+                  </div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:13.5px;line-height:1.35">{{ f.title }}</div>
+                    <div style="font-size:11.5px;opacity:.72;margin-top:2px">{{ f.body }}</div>
+                    <div style="margin-top:5px"><span class="tag {{ f.tagCls }}" style="font-size:11.5px">{{ f.tag }}</span></div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+        </sc-if>
+
+        <sc-if value="{{ blocks.events }}">
+          <section class="card blueprint" style="padding:20px;gap:var(--space-3)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <h3 class="display" style="margin:0;font-size:23px;letter-spacing:.1em">Upcoming</h3>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <sc-for list="{{ upcoming }}" as="e" hint-placeholder-count="5">
+                <div style="display:flex;align-items:center;gap:11px;padding:8px 0;border-bottom:1px solid var(--color-divider)">
+                  <span style="width:9px;height:9px;flex:none;border:1px solid {{ e.tone }};background:{{ e.fill }}"></span>
+                  <span style="flex:1;min-width:0;font-size:13px">{{ e.title }}</span>
+                  <span style="font-size:11.5px;opacity:.72;white-space:nowrap">{{ e.when }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+        </sc-if>
+
+      </div>
+
+      <sc-if value="{{ blocks.timetable }}">
+        <section class="card blueprint" style="padding:20px;gap:var(--space-3)">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);flex-wrap:wrap">
+            <h3 class="display" style="margin:0;font-size:23px;letter-spacing:.1em">{{ ttTitle }}</h3>
+            <div style="display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap">
+              <span style="display:flex;align-items:center;gap:6px;font-size:11px;opacity:.72"><span style="width:10px;height:10px;background:color-mix(in srgb, var(--color-accent) 25%, transparent);border:1px solid var(--color-accent)"></span>In progress</span>
+              <sc-for list="{{ ttFilters }}" as="f" hint-placeholder-count="1">
+                <select class="input" style="width:auto;min-width:130px" value="{{ f.value }}" onChange="{{ f.on }}">
+                  <sc-for list="{{ f.options }}" as="o"><option value="{{ o.v }}">{{ o.t }}</option></sc-for>
+                </select>
+              </sc-for>
+            </div>
+          </div>
+          <div style="overflow-x:auto;padding:2px">
+            <div style="min-width:940px;display:grid;grid-template-columns:96px repeat(6,1fr);gap:5px">
+              <div></div>
+              <sc-for list="{{ ttDays }}" as="d" hint-placeholder-count="6">
+                <div style="text-align:center;font-family:var(--font-heading);font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:2px 0 5px;border-bottom:2px solid {{ d.mark }};color:{{ d.fg }}">{{ d.label }}</div>
+              </sc-for>
+              <sc-for list="{{ ttRows }}" as="r" hint-placeholder-count="7">
+                <div style="display:contents">
+                  <div style="grid-column:{{ r.col }};display:flex;flex-direction:{{ r.dir }};align-items:center;justify-content:center;gap:4px;padding:6px;background:{{ r.tbg }};border:1px solid var(--color-divider)">
+                    <span style="font-family:var(--font-heading);font-size:13px;letter-spacing:.05em">{{ r.start }}</span>
+                    <span style="font-size:11.5px;opacity:.72">{{ r.end }}</span>
+                  </div>
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="6">
+                    <div style="min-height:78px;padding:7px 8px;border:1px solid {{ c.border }};background:{{ c.bg }};display:flex;flex-direction:column;gap:2px">
+                      <sc-if value="{{ c.has }}">
+                        <span style="font-size:11px;letter-spacing:.08em;color:var(--color-accent)">{{ c.code }}</span>
+                        <span style="font-size:12.5px;line-height:1.2">{{ c.name }}</span>
+                        <span style="font-size:11.5px;opacity:.72;margin-top:auto">{{ c.who }}</span>
+                        <span style="font-size:11.5px;opacity:.72">{{ c.room }}</span>
+                      </sc-if>
+                      <sc-if value="{{ c.free }}"><span style="font-size:11px;opacity:.62;margin:auto">{{ c.name }}</span></sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </section>
+      </sc-if>
+
+      <sc-if value="{{ blocks.marker }}">
+        <section class="card blueprint" style="padding:20px;gap:var(--space-4)">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:var(--space-3)">
+            <sc-for list="{{ mkFields }}" as="f" hint-placeholder-count="5">
+              <div class="field">
+                <label>{{ f.label }}</label>
+                <sc-if value="{{ f.isSelect }}">
+                  <select class="input" value="{{ f.value }}" onChange="{{ f.on }}">
+                    <sc-for list="{{ f.options }}" as="o"><option value="{{ o.v }}">{{ o.t }}</option></sc-for>
+                  </select>
+                </sc-if>
+                <sc-if value="{{ f.isDate }}"><input class="input" type="date" value="{{ f.value }}" onChange="{{ f.on }}"></sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);flex-wrap:wrap;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);padding:10px 0">
+            <div style="display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap">
+              <sc-for list="{{ mkTally }}" as="t" hint-placeholder-count="4">
+                <div style="display:flex;align-items:baseline;gap:6px">
+                  <span style="font-family:var(--font-heading);font-size:20px;color:{{ t.tone }}">{{ t.n }}</span>
+                  <span class="eyebrow" style="white-space:nowrap">{{ t.label }}</span>
+                </div>
+              </sc-for>
+              <div style="display:flex;align-items:baseline;gap:6px;padding-left:var(--space-3);border-left:1px solid var(--color-divider)">
+                <span style="font-family:var(--font-heading);font-size:20px;color:var(--color-accent)">{{ mkPct }}</span>
+                <span class="eyebrow" style="white-space:nowrap">Session %</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:var(--space-2);flex-wrap:wrap">
+              <button type="button" class="btn btn-secondary" style="font-size:12.5px" onClick="{{ mkAllPresent }}">Mark all present</button>
+              <button type="button" class="btn btn-secondary" style="font-size:12.5px" onClick="{{ mkReset }}">Reset</button>
+              <button type="button" class="btn btn-primary" style="font-size:12.5px" onClick="{{ mkSave }}">Save attendance</button>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;max-height:520px;overflow-y:auto;padding-right:2px">
+            <sc-for list="{{ mkRows }}" as="s" hint-placeholder-count="8">
+              <div style="display:flex;align-items:center;gap:12px;padding:7px 9px;border:1px solid {{ s.border }};background:{{ s.bg }}">
+                <span style="width:26px;font-size:11px;opacity:.62;font-family:var(--font-heading)">{{ s.no }}</span>
+                <span style="width:30px;height:30px;flex:none;display:grid;place-items:center;border:1px solid var(--color-divider);font-family:var(--font-heading);font-size:11.5px;color:var(--color-accent)">{{ s.ini }}</span>
+                <span style="flex:1;min-width:0">
+                  <span style="display:block;font-size:13.5px">{{ s.name }}</span>
+                  <span style="display:block;font-size:11px;opacity:.72">{{ s.id }} &middot; {{ s.att }}% cumulative</span>
+                </span>
+                <span style="font-size:11px;color:{{ s.riskTone }};width:96px;text-align:right">{{ s.risk }}</span>
+                <span style="display:flex;border:1px solid var(--color-divider)">
+                  <sc-for list="{{ s.opts }}" as="o" hint-placeholder-count="4">
+                    <button type="button" onClick="{{ o.go }}" title="{{ o.full }}" style="width:36px;height:31px;border:0;border-left:1px solid var(--color-divider);cursor:pointer;background:{{ o.bg }};color:{{ o.fg }};font-family:var(--font-heading);font-size:12.5px;letter-spacing:.04em;transition:background .14s">{{ o.k }}</button>
+                  </sc-for>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </sc-if>
+
+      <sc-if value="{{ blocks.cards }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(304px,1fr));gap:var(--space-6)">
+          <sc-for list="{{ cards }}" as="c" hint-placeholder-count="4">
+            <div class="card blueprint" style="padding:20px;gap:var(--space-2);animation:fadeUp .28s ease-out both">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+                <span class="card-kicker">{{ c.kicker }}</span>
+                <span class="tag {{ c.tagCls }}">{{ c.tag }}</span>
+              </div>
+              <div class="card-title">{{ c.title }}</div>
+              <p class="card-body">{{ c.body }}</p>
+              <sc-if value="{{ c.hasBar }}">
+                <div style="margin-top:2px">
+                  <div style="display:flex;justify-content:space-between;font-size:11px;opacity:.72;margin-bottom:4px"><span>{{ c.barLabel }}</span><span>{{ c.barValue }}</span></div>
+                  <div style="height:5px;background:var(--color-divider)"><div style="height:5px;width:{{ c.bar }};background:{{ c.tone }};transform-origin:left;animation:grow .5s ease-out both"></div></div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ c.hasRate }}">
+                <div style="display:flex;align-items:center;gap:9px;margin-top:2px">
+                  <div style="display:flex;gap:4px">
+                    <sc-for list="{{ c.rate }}" as="r" hint-placeholder-count="5">
+                      <button type="button" onClick="{{ r.go }}" title="{{ r.title }}" style="width:19px;height:19px;padding:0;border:1px solid {{ r.border }};background:{{ r.bg }};cursor:pointer;transition:background .14s"></button>
+                    </sc-for>
+                  </div>
+                  <span style="font-size:11.5px;opacity:.72">{{ c.rateLabel }}</span>
+                </div>
+              </sc-if>
+              <div class="card-meta" style="justify-content:space-between;border-top:1px solid var(--color-divider);padding-top:9px;margin-top:3px;gap:8px;flex-wrap:wrap">
+                <span>{{ c.meta }}</span>
+                <span style="display:flex;gap:6px">
+                  <sc-for list="{{ c.actions }}" as="a" hint-placeholder-count="1">
+                    <button type="button" class="btn {{ a.cls }}" style="font-size:11.5px;padding:4px 10px" onClick="{{ a.go }}">{{ a.t }}</button>
+                  </sc-for>
+                </span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ blocks.table }}">
+        <section class="card blueprint" style="padding:20px;gap:var(--space-3)">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);flex-wrap:wrap">
+            <div>
+              <h3 class="display" style="margin:0;font-size:23px;letter-spacing:.1em">{{ tbl.title }}</h3>
+              <div style="font-size:11.5px;opacity:.72">{{ tbl.sub }}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--space-2);flex-wrap:wrap">
+              <sc-for list="{{ tbl.chips }}" as="c" hint-placeholder-count="3">
+                <button type="button" onClick="{{ c.go }}" style="font-family:var(--font-heading);font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;padding:5px 11px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.fg }};cursor:pointer;transition:background .15s">{{ c.label }}</button>
+              </sc-for>
+              <sc-for list="{{ tbl.filters }}" as="f" hint-placeholder-count="1">
+                <select class="input" style="width:auto;min-width:132px" value="{{ f.value }}" onChange="{{ f.on }}">
+                  <sc-for list="{{ f.options }}" as="o"><option value="{{ o.v }}">{{ o.t }}</option></sc-for>
+                </select>
+              </sc-for>
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="table" style="min-width:640px">
+              <thead>
+                <tr>
+                  <sc-for list="{{ tbl.cols }}" as="c" hint-placeholder-count="5"><th style="text-align:{{ c.align }};width:{{ c.w }}">{{ c.label }}</th></sc-for>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{ tbl.rows }}" as="r" hint-placeholder-count="6">
+                  <tr>
+                    <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="5">
+                      <td style="text-align:{{ c.align }};vertical-align:middle">
+                        <sc-if value="{{ c.two }}">
+                          <span style="display:block;font-size:13.5px">{{ c.t }}</span>
+                          <span style="display:block;font-size:11.5px;opacity:.72">{{ c.s }}</span>
+                        </sc-if>
+                        <sc-if value="{{ c.plain }}"><span style="color:{{ c.tone }};font-family:{{ c.font }};font-size:{{ c.size }}">{{ c.t }}</span></sc-if>
+                        <sc-if value="{{ c.tag }}"><span class="tag {{ c.cls }}">{{ c.t }}</span></sc-if>
+                        <sc-if value="{{ c.bar }}">
+                          <div style="display:flex;align-items:center;gap:9px;min-width:120px">
+                            <div style="flex:1;height:5px;background:var(--color-divider)"><div style="height:5px;width:{{ c.w2 }};background:{{ c.tone }}"></div></div>
+                            <span style="font-family:var(--font-heading);font-size:13.5px;color:{{ c.tone }};width:46px;text-align:right">{{ c.t }}</span>
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ c.btns }}">
+                          <span style="display:flex;gap:6px;justify-content:{{ c.just }}">
+                            <sc-for list="{{ c.list }}" as="b" hint-placeholder-count="1">
+                              <button type="button" class="btn {{ b.cls }}" style="font-size:11.5px;padding:3px 9px" onClick="{{ b.go }}">{{ b.t }}</button>
+                            </sc-for>
+                          </span>
+                        </sc-if>
+                      </td>
+                    </sc-for>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+          <sc-if value="{{ tbl.note }}"><div style="font-size:11.5px;opacity:.72;border-top:1px solid var(--color-divider);padding-top:9px">{{ tbl.note }}</div></sc-if>
+        </section>
+      </sc-if>
+
+      <sc-if value="{{ blocks.calendar }}">
+        <section class="card blueprint" style="padding:20px;gap:var(--space-3)">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);flex-wrap:wrap">
+            <h3 class="display" style="margin:0;font-size:23px;letter-spacing:.1em">{{ calTitle }}</h3>
+            <div style="display:flex;gap:var(--space-2)">
+              <button type="button" class="btn btn-secondary" style="font-size:12.5px" onClick="{{ calPrev }}">&larr; Previous</button>
+              <button type="button" class="btn btn-secondary" style="font-size:12.5px" onClick="{{ calNext }}">Next &rarr;</button>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--color-divider);border:1px solid var(--color-divider)">
+            <sc-for list="{{ dows }}" as="d" hint-placeholder-count="7">
+              <div style="background:var(--color-bg);padding:7px 6px;text-align:center;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;opacity:.72">{{ d }}</div>
+            </sc-for>
+            <sc-for list="{{ calDays }}" as="d" hint-placeholder-count="35">
+              <div style="background:var(--color-bg);min-height:92px;padding:6px 7px;opacity:{{ d.op }};display:flex;flex-direction:column;gap:3px">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:4px">
+                  <span style="font-family:var(--font-heading);font-size:14px;color:{{ d.tone }}">{{ d.n }}</span>
+                  <sc-if value="{{ d.today }}"><span style="font-size:11px;letter-spacing:.1em;background:var(--color-accent);color:var(--color-bg);padding:1px 5px">TODAY</span></sc-if>
+                </div>
+                <sc-for list="{{ d.events }}" as="e" hint-placeholder-count="1">
+                  <div style="font-size:11.5px;line-height:1.25;border-left:2px solid {{ e.tone }};padding-left:5px;opacity:.85">{{ e.title }}</div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </sc-if>
+
+      <sc-if value="{{ blocks.profile }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:var(--space-6);align-items:start">
+          <section class="card blueprint" style="padding:20px;gap:var(--space-3);max-width:340px">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="blueprint duotone" style="width:100%;aspect-ratio:4/5;border:1px solid var(--color-divider)">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <image-slot id="ngcms-profile-photo" shape="rect" placeholder="Drop a portrait"></image-slot>
+            </div>
+            <div>
+              <div style="font-family:var(--font-heading);font-size:24px;line-height:1.1">{{ prof.name }}</div>
+              <div style="font-size:12.5px;opacity:.72">{{ prof.sub }}</div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <sc-for list="{{ prof.tags }}" as="t" hint-placeholder-count="3"><span class="tag tag-accent">{{ t }}</span></sc-for>
+            </div>
+          </section>
+          <section class="card blueprint" style="padding:20px;gap:var(--space-3)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <h3 class="display" style="margin:0;font-size:23px;letter-spacing:.1em">{{ prof.detailTitle }}</h3>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--space-3) var(--space-4)">
+              <sc-for list="{{ prof.fields }}" as="f" hint-placeholder-count="10">
+                <div style="border-bottom:1px solid var(--color-divider);padding-bottom:7px">
+                  <div style="font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;opacity:.72">{{ f.label }}</div>
+                  <div style="font-size:14px;margin-top:2px">{{ f.value }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;margin-top:var(--space-2)">
+              <sc-for list="{{ prof.actions }}" as="a" hint-placeholder-count="2">
+                <button type="button" class="btn {{ a.cls }}" style="font-size:12.5px" onClick="{{ a.go }}">{{ a.t }}</button>
+              </sc-for>
+            </div>
+          </section>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ blocks.settings }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--space-6);align-items:start">
+          <sc-for list="{{ setGroups }}" as="g" hint-placeholder-count="3">
+            <section class="card blueprint" style="padding:20px;gap:var(--space-3)">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <div>
+                <h3 class="display" style="margin:0;font-size:23px;letter-spacing:.1em">{{ g.title }}</h3>
+                <div style="font-size:11.5px;opacity:.72">{{ g.sub }}</div>
+              </div>
+              <div style="display:flex;flex-direction:column">
+                <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--color-divider)">
+                    <span style="min-width:0">
+                      <span style="display:block;font-size:13.5px">{{ r.label }}</span>
+                      <span style="display:block;font-size:11.5px;opacity:.72">{{ r.sub }}</span>
+                    </span>
+                    <sc-if value="{{ r.isToggle }}">
+                      <button type="button" onClick="{{ r.go }}" style="width:44px;height:23px;flex:none;padding:2px;border:1px solid {{ r.border }};background:{{ r.track }};cursor:pointer;display:flex;justify-content:{{ r.just }};transition:background .18s">
+                        <span style="width:17px;height:17px;background:{{ r.knob }};transition:background .18s"></span>
+                      </button>
+                    </sc-if>
+                    <sc-if value="{{ r.isBtn }}">
+                      <button type="button" class="btn {{ r.cls }}" style="font-size:12px;padding:4px 10px;flex:none" onClick="{{ r.go }}">{{ r.btnLabel }}</button>
+                    </sc-if>
+                    <sc-if value="{{ r.isText }}"><span style="font-size:12.5px;opacity:.7;flex:none">{{ r.value }}</span></sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </section>
+          </sc-for>
+        </div>
+      </sc-if>
+    </main>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ modal }}">
+  <div class="dialog-backdrop" style="z-index:80;animation:pop .16s ease-out" onClick="{{ closeModal }}">
+    <div class="dialog blueprint" style="width:min(520px,100%);background:var(--color-bg);max-height:86vh;overflow:auto" onClick="{{ stop }}">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+        <div>
+          <div class="card-kicker">{{ modal.kicker }}</div>
+          <div class="dialog-title" style="margin-top:2px">{{ modal.title }}</div>
+          <div style="font-size:12.5px;opacity:.72;margin-top:2px">{{ modal.sub }}</div>
+        </div>
+        <button type="button" class="btn btn-secondary btn-icon" onClick="{{ closeModal }}" title="Close">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <sc-if value="{{ modal.hasRows }}">
+        <div style="display:flex;flex-direction:column;border-top:1px solid var(--color-divider)">
+          <sc-for list="{{ modal.rows }}" as="r" hint-placeholder-count="4">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--color-divider)">
+              <span class="eyebrow" style="white-space:nowrap">{{ r.k }}</span>
+              <span style="font-size:13.5px;text-align:right">{{ r.v }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ modal.hasBig }}">
+        <div style="border:1px solid var(--color-accent);padding:12px 14px;display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+          <span style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.72">{{ modal.bigLabel }}</span>
+          <span style="font-family:var(--font-heading);font-size:29px;color:var(--color-accent)">{{ modal.big }}</span>
+        </div>
+      </sc-if>
+      <sc-if value="{{ modal.hasFields }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:var(--space-3)">
+          <sc-for list="{{ modal.fields }}" as="f" hint-placeholder-count="3">
+            <div class="field" style="grid-column:span {{ f.span }}">
+              <label>{{ f.label }}</label>
+              <sc-if value="{{ f.isText }}"><input class="input" placeholder="{{ f.placeholder }}" value="{{ f.value }}" onChange="{{ f.on }}"></sc-if>
+              <sc-if value="{{ f.isDate }}"><input class="input" type="date" value="{{ f.value }}" onChange="{{ f.on }}"></sc-if>
+              <sc-if value="{{ f.isArea }}"><textarea class="input" placeholder="{{ f.placeholder }}" value="{{ f.value }}" onChange="{{ f.on }}"></textarea></sc-if>
+              <sc-if value="{{ f.isSelect }}">
+                <select class="input" value="{{ f.value }}" onChange="{{ f.on }}">
+                  <sc-for list="{{ f.options }}" as="o"><option value="{{ o.v }}">{{ o.t }}</option></sc-for>
+                </select>
+              </sc-if>
+              <sc-if value="{{ f.isFile }}">
+                <div style="border:1px dashed var(--color-divider);padding:14px;text-align:center;font-size:12.5px;opacity:.7">{{ f.value }}</div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ modal.note }}"><div style="font-size:12px;opacity:.72;border-left:2px solid var(--color-accent);padding-left:10px">{{ modal.note }}</div></sc-if>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-secondary" onClick="{{ closeModal }}">{{ modal.cancel }}</button>
+        <sc-if value="{{ modal.hasConfirm }}">
+          <button type="button" class="btn btn-primary blueprint" onClick="{{ modal.confirm }}">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            {{ modal.confirmLabel }}
+          </button>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ toast }}">
+  <div class="blueprint elev-lg" style="position:fixed;right:20px;bottom:20px;z-index:90;background:var(--color-bg);padding:11px 15px;display:flex;align-items:center;gap:10px;max-width:340px;animation:fadeUp .22s ease-out">
+    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--status-ok);flex:none"><path d="M20 6L9 17l-5-5"></path></svg>
+    <span style="font-size:13px">{{ toast }}</span>
+  </div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:960},&quot;look&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;classic&quot;,&quot;blueprint&quot;,&quot;console&quot;],&quot;default&quot;:&quot;classic&quot;,&quot;tsType&quot;:&quot;'classic' | 'blueprint' | 'console'&quot;,&quot;section&quot;:&quot;Layout&quot;}}">
+class Component extends DCLogic {
+  constructor(p){
+    super(p);
+    this.idRef = React.createRef();
+    this.pwRef = React.createRef();
+    this.qRef = React.createRef();
+  }
+
+  state = {
+    theme:'light', session:null, route:'dashboard', navOpen:false,
+    query:'', bellOpen:false, modal:null, toast:null, vw:1280, searchOpen:false,
+    loginErr:'', now:new Date(2026,6,27,11,20), db:this.seed(), look:null,
+    sel:{}, marking:null, form:{}
+  };
+
+  // ─── data ────────────────────────────────────────────────────────────
+  pt(g){ return {O:10,'A+':9,A:8,'B+':7,B:6,C:5}[g] || 0; }
+
+  seed(){
+    const S = (s)=>{ const a=s.split('|'); return {code:a[0],name:a[1],credits:+a[2],grade:a[3],point:this.pt(a[3])}; };
+    const subjects = [
+      {code:'CS501',name:'Computer Networks',short:'Networks',faculty:'Prof. Kavitha Suresh',credits:4,room:'A-204',kind:'Theory',held:52,attended:47,ia1:44,ia2:41,asg:18,prac:null},
+      {code:'CS502',name:'Compiler Design',short:'Compiler',faculty:'Dr. Arun Prakash',credits:4,room:'A-206',kind:'Theory',held:48,attended:39,ia1:36,ia2:38,asg:16,prac:null},
+      {code:'CS503',name:'Machine Learning',short:'Mach. Learning',faculty:'Dr. Meera Rajan',credits:4,room:'A-301',kind:'Theory',held:50,attended:46,ia1:46,ia2:45,asg:19,prac:null},
+      {code:'CS504',name:'Software Engineering',short:'Soft. Engg.',faculty:'Prof. Divya Nair',credits:3,room:'B-112',kind:'Theory',held:46,attended:41,ia1:40,ia2:43,asg:19,prac:null},
+      {code:'CS505',name:'Cryptography & Network Security',short:'Cryptography',faculty:'Prof. Rahul Iyer',credits:3,room:'A-204',kind:'Theory',held:44,attended:32,ia1:31,ia2:34,asg:14,prac:null},
+      {code:'CS506',name:'Computer Networks Laboratory',short:'Networks Lab',faculty:'Prof. Kavitha Suresh',credits:2,room:'CN-Lab',kind:'Practical',held:24,attended:23,ia1:null,ia2:null,asg:null,prac:47},
+      {code:'HS501',name:'Professional Ethics & Values',short:'Ethics',faculty:'Dr. Lakshmi Rao',credits:2,room:'B-104',kind:'Theory',held:22,attended:18,ia1:38,ia2:42,asg:17,prac:null}
+    ];
+    const tt = {
+      Mon:['CS501','CS503','CS502','CS504','CS506','CS506','HS501'],
+      Tue:['CS502','CS505','CS501','CS503','CS504','LIB','CS505'],
+      Wed:['CS503','CS501','CS504','CS505','CS506','CS506','CS502'],
+      Thu:['CS504','CS502','CS503','CS501','HS501','CS505','LIB'],
+      Fri:['CS505','CS504','CS502','CS506','CS506','CS503','CS501'],
+      Sat:['CS501','CS503','CS502','HS501','SPT','SPT','']
+    };
+    const names = ['Aarav Menon','Diya Krishnan','Farhan Sheikh','Ishita Bose','Joel Mathew','Kavya Ramesh','Manav Gupta','Nithya Prakash','Om Sundaram','Priya Varghese','Rahul Deshmukh','Sneha Balaji','Tarun Chandrasekar','Vidya Nambiar','Yusuf Rahman','Zoya Fernandes'];
+    const attn = [86,93,71,95,88,90,64,97,82,91,76,94,68,89,84,92];
+    const cls = names.map((n,i)=>({
+      id:'21CSE0'+(40+i*3).toString().padStart(2,'0'), name:n, att:attn[i],
+      cgpa:(7.1+((i*7)%29)/10).toFixed(2), sec:'B', fees: i%7===0?'Pending':'Cleared'
+    }));
+    const sems = [
+      {n:1,gpa:8.12,cr:22,rows:['MA101|Engineering Mathematics I|4|A','PH102|Engineering Physics|3|A+','CY103|Engineering Chemistry|3|A','CS104|Problem Solving & C|4|O','EG105|Engineering Graphics|3|B+','HS106|Technical English|3|A','CS107|C Programming Lab|2|O']},
+      {n:2,gpa:8.34,cr:23,rows:['MA201|Engineering Mathematics II|4|A+','CS202|Data Structures|4|O','EE203|Basic Electrical Engineering|3|A','CS204|Digital Principles|4|A+','HS205|Environmental Science|3|A','CS206|Data Structures Lab|2|O','CS207|Digital Lab|2|A+']},
+      {n:3,gpa:8.61,cr:24,rows:['MA301|Discrete Mathematics|4|A+','CS302|Object Oriented Programming|4|O','CS303|Computer Architecture|4|A+','CS304|Operating Systems|4|A','CS305|Database Management Systems|4|A+','CS306|OOP Lab|2|O','CS307|DBMS Lab|2|O']},
+      {n:4,gpa:8.48,cr:23,rows:['MA401|Probability & Statistics|4|A','CS402|Design & Analysis of Algorithms|4|A+','CS403|Theory of Computation|4|B+','CS404|Microprocessors|3|A','CS405|Web Technologies|4|O','CS406|Algorithms Lab|2|A+','CS407|Web Tech Lab|2|O']}
+    ].map(s=>({...s, rows:s.rows.map(S)}));
+    return {
+      subjects, tt, cls, sems,
+      depts:[
+        {code:'CSE',name:'Computer Science & Engineering',hod:'Dr. Meera Rajan',fac:38,stu:642,att:88.4,pass:94.2,block:'A Block'},
+        {code:'ECE',name:'Electronics & Communication',hod:'Dr. S. Anand',fac:29,stu:511,att:86.1,pass:91.8,block:'B Block'},
+        {code:'MECH',name:'Mechanical Engineering',hod:'Dr. P. Ganesan',fac:26,stu:468,att:83.7,pass:89.4,block:'C Block'},
+        {code:'IT',name:'Information Technology',hod:'Dr. Nithya Balan',fac:22,stu:398,att:89.2,pass:95.1,block:'A Block'},
+        {code:'CIVIL',name:'Civil Engineering',hod:'Dr. R. Krishnan',fac:19,stu:326,att:81.3,pass:87.6,block:'D Block'},
+        {code:'MBA',name:'School of Management',hod:'Dr. Fathima Zahra',fac:17,stu:284,att:90.6,pass:96.3,block:'E Block'}
+      ],
+      faculty:[
+        {id:'FAC1180',name:'Prof. Kavitha Suresh',desig:'Associate Professor',dept:'CSE',subs:'CS501, CS506',hours:18,secs:4,exp:11,load:'Optimal'},
+        {id:'FAC1024',name:'Dr. Arun Prakash',desig:'Professor',dept:'CSE',subs:'CS502, CS402',hours:16,secs:3,exp:17,load:'Optimal'},
+        {id:'HOD204',name:'Dr. Meera Rajan',desig:'Professor & Head',dept:'CSE',subs:'CS503',hours:10,secs:2,exp:22,load:'Light'},
+        {id:'FAC1312',name:'Prof. Divya Nair',desig:'Assistant Professor',dept:'CSE',subs:'CS504, CS305',hours:22,secs:5,exp:6,load:'Heavy'},
+        {id:'FAC1198',name:'Prof. Rahul Iyer',desig:'Assistant Professor',dept:'CSE',subs:'CS505',hours:14,secs:3,exp:8,load:'Optimal'},
+        {id:'FAC1077',name:'Dr. Lakshmi Rao',desig:'Associate Professor',dept:'CSE',subs:'HS501',hours:12,secs:4,exp:14,load:'Light'},
+        {id:'FAC1245',name:'Dr. Vinod Shetty',desig:'Professor',dept:'CSE',subs:'CS601, CS604',hours:20,secs:4,exp:19,load:'Heavy'},
+        {id:'FAC1401',name:'Prof. Anjali Menon',desig:'Assistant Professor',dept:'CSE',subs:'CS302, CS306',hours:19,secs:4,exp:5,load:'Optimal'}
+      ],
+      assignments:[
+        {id:'A1',code:'CS501',title:'Subnetting & VLSM Worksheet',due:'28 Jul 2026',status:'Pending',max:20,score:null,files:0,of:62,sub:41,brief:'Solve 12 subnetting problems and submit as a single PDF with working shown.'},
+        {id:'A2',code:'CS503',title:'Regression on Housing Dataset',due:'30 Jul 2026',status:'Pending',max:20,score:null,files:0,of:62,sub:18,brief:'Build and evaluate a linear regression model; submit notebook and a one-page report.'},
+        {id:'A3',code:'CS505',title:'RSA Implementation in Python',due:'05 Aug 2026',status:'Pending',max:20,score:null,files:0,of:62,sub:6,brief:'Implement key generation, encryption and decryption; include test vectors.'},
+        {id:'A4',code:'CS502',title:'Lexical Analyzer in C',due:'21 Jul 2026',status:'Submitted',max:20,score:18,files:2,of:62,sub:59,brief:'Write a lexical analyzer for a subset of C using Lex.'},
+        {id:'A5',code:'CS504',title:'SRS Document — Campus App',due:'15 Jul 2026',status:'Graded',max:20,score:19,files:1,of:62,sub:62,brief:'Prepare an IEEE-830 style SRS for a campus utility application.'}
+      ],
+      materials:[
+        {code:'CS501',title:'Unit III — Network Layer & Routing',kind:'PDF',size:'4.2 MB',by:'Prof. Kavitha Suresh',on:'22 Jul 2026',dl:214},
+        {code:'CS501',title:'Wireshark Lab Handout',kind:'PDF',size:'1.1 MB',by:'Prof. Kavitha Suresh',on:'18 Jul 2026',dl:186},
+        {code:'CS503',title:'Gradient Descent — Slide Deck',kind:'PPTX',size:'8.6 MB',by:'Dr. Meera Rajan',on:'24 Jul 2026',dl:301},
+        {code:'CS502',title:'Syntax Analysis — Solved Problems',kind:'PDF',size:'2.8 MB',by:'Dr. Arun Prakash',on:'19 Jul 2026',dl:158},
+        {code:'CS504',title:'Agile Estimation Case Study',kind:'DOCX',size:'640 KB',by:'Prof. Divya Nair',on:'12 Jul 2026',dl:97},
+        {code:'CS505',title:'Number Theory Primer',kind:'PDF',size:'1.9 MB',by:'Prof. Rahul Iyer',on:'09 Jul 2026',dl:143}
+      ],
+      leaves:[
+        {id:'L1',who:'Aarav Menon',rid:'21CSE042',type:'Medical',from:'12 Jun 2026',to:'13 Jun 2026',days:2,reason:'Viral fever — medical certificate attached.',status:'Approved',by:'Prof. Kavitha Suresh'},
+        {id:'L2',who:'Aarav Menon',rid:'21CSE042',type:'On Duty',from:'04 Jul 2026',to:'04 Jul 2026',days:1,reason:'Inter-college hackathon at Vellore.',status:'Approved',by:'Dr. Meera Rajan'},
+        {id:'L3',who:'Aarav Menon',rid:'21CSE042',type:'Casual',from:'29 Jul 2026',to:'29 Jul 2026',days:1,reason:'Sibling wedding at Kochi.',status:'Pending',by:''},
+        {id:'L4',who:'Farhan Sheikh',rid:'21CSE046',type:'Medical',from:'27 Jul 2026',to:'29 Jul 2026',days:3,reason:'Dengue — hospitalised, report attached.',status:'Pending',by:''},
+        {id:'L5',who:'Kavya Ramesh',rid:'21CSE055',type:'On Duty',from:'31 Jul 2026',to:'01 Aug 2026',days:2,reason:'State-level basketball selection.',status:'Pending',by:''},
+        {id:'L6',who:'Manav Gupta',rid:'21CSE058',type:'Casual',from:'03 Aug 2026',to:'03 Aug 2026',days:1,reason:'Passport verification appointment.',status:'Pending',by:''}
+      ],
+      fees:[
+        {id:'F1',head:'Tuition Fee — 2026/27',amt:92500,status:'Paid',on:'12 Jun 2026',mode:'Net Banking',rct:'RCT-2026-0442'},
+        {id:'F2',head:'Examination Fee — Semester 5',amt:4200,status:'Paid',on:'02 Jul 2026',mode:'UPI',rct:'RCT-2026-0781'},
+        {id:'F3',head:'Hostel & Mess — Term 1',amt:48000,status:'Pending',on:'Due 10 Aug 2026',mode:'—',rct:''},
+        {id:'F4',head:'Transport — Route 14',amt:18500,status:'Paid',on:'20 Jun 2026',mode:'UPI',rct:'RCT-2026-0553'},
+        {id:'F5',head:'Library & Laboratory',amt:6000,status:'Paid',on:'12 Jun 2026',mode:'Net Banking',rct:'RCT-2026-0443'}
+      ],
+      notifs:[
+        {id:'N1',kind:'Attendance',title:'Attendance shortage — CS505',body:'Cryptography & Network Security is at 72.7%. Minimum required is 75%.',when:'2 hours ago',tone:'bad',route:'attendance',read:false},
+        {id:'N2',kind:'Assignment',title:'New assignment posted — CS503',body:'Regression on Housing Dataset, due 30 Jul 2026.',when:'5 hours ago',tone:'accent',route:'assignments',read:false},
+        {id:'N3',kind:'Deadline',title:'Submission due tomorrow — CS501',body:'Subnetting & VLSM Worksheet closes 28 Jul, 23:59.',when:'Today, 08:10',tone:'warn',route:'assignments',read:false},
+        {id:'N4',kind:'Examination',title:'Model Examination I timetable published',body:'Model exams run 03 Aug – 08 Aug. Hall tickets available.',when:'Yesterday',tone:'accent',route:'examinations',read:false},
+        {id:'N5',kind:'Fees',title:'Hostel fee reminder',body:'₹48,000 payable by 10 Aug 2026 to avoid a late fee.',when:'2 days ago',tone:'warn',route:'fees',read:true},
+        {id:'N6',kind:'Leave',title:'Leave approved — On Duty, 04 Jul',body:'Approved by Dr. Meera Rajan.',when:'3 days ago',tone:'ok',route:'leave',read:true},
+        {id:'N7',kind:'Results',title:'Semester 4 results published',body:'GPA 8.48 · CGPA 8.46. No arrears.',when:'18 Jul 2026',tone:'ok',route:'results',read:true},
+        {id:'N8',kind:'Announcement',title:'Cognizance ’26 registrations open',body:'Annual technical symposium, 12 Sep. Register before 20 Aug.',when:'16 Jul 2026',tone:'accent',route:'notifications',read:true}
+      ],
+      events:[
+        {d:'27',m:'Jul',title:'Model Examination I — schedule released',tag:'Examination',tone:'accent',when:'Today'},
+        {d:'28',m:'Jul',title:'CS501 assignment submission closes',tag:'Assignment',tone:'warn',when:'Tomorrow'},
+        {d:'01',m:'Aug',title:'Guest lecture — Edge AI, Dr. R. Sundaram',tag:'Event',tone:'accent',when:'Sat, 01 Aug'},
+        {d:'03',m:'Aug',title:'Model Examination I begins',tag:'Examination',tone:'accent',when:'Mon, 03 Aug'},
+        {d:'10',m:'Aug',title:'Hostel & mess fee due',tag:'Fees',tone:'warn',when:'Mon, 10 Aug'},
+        {d:'15',m:'Aug',title:'Independence Day — institute holiday',tag:'Holiday',tone:'ok',when:'Sat, 15 Aug'},
+        {d:'24',m:'Aug',title:'Internal Assessment II begins',tag:'Examination',tone:'accent',when:'Mon, 24 Aug'},
+        {d:'12',m:'Sep',title:'Cognizance ’26 — technical symposium',tag:'Event',tone:'accent',when:'Sat, 12 Sep'},
+        {d:'20',m:'Oct',title:'End-semester examinations begin',tag:'Examination',tone:'accent',when:'Tue, 20 Oct'}
+      ],
+      exams:[
+        {code:'CS501',name:'Computer Networks',date:'03 Aug 2026',day:'Monday',time:'09:30 – 12:30',room:'Hall A-1',seat:'A1-034'},
+        {code:'CS502',name:'Compiler Design',date:'04 Aug 2026',day:'Tuesday',time:'09:30 – 12:30',room:'Hall A-1',seat:'A1-034'},
+        {code:'CS503',name:'Machine Learning',date:'05 Aug 2026',day:'Wednesday',time:'09:30 – 12:30',room:'Hall B-2',seat:'B2-011'},
+        {code:'CS504',name:'Software Engineering',date:'06 Aug 2026',day:'Thursday',time:'09:30 – 12:30',room:'Hall B-2',seat:'B2-011'},
+        {code:'CS505',name:'Cryptography & Network Security',date:'07 Aug 2026',day:'Friday',time:'09:30 – 12:30',room:'Hall A-1',seat:'A1-034'},
+        {code:'CS506',name:'Computer Networks Laboratory',date:'08 Aug 2026',day:'Saturday',time:'09:30 – 12:30',room:'CN-Lab',seat:'—'}
+      ],
+      drives:[
+        {co:'Zoho Corporation',role:'Member Technical Staff',ctc:'₹9.5 LPA',date:'31 Jul 2026',elig:'CGPA ≥ 7.0, no arrears',status:'Registered'},
+        {co:'Freshworks',role:'Software Engineer I',ctc:'₹12.0 LPA',date:'12 Aug 2026',elig:'CGPA ≥ 8.0, no arrears',status:'Eligible'},
+        {co:'TCS Digital',role:'Systems Engineer',ctc:'₹7.2 LPA',date:'05 Aug 2026',elig:'CGPA ≥ 6.5',status:'Eligible'},
+        {co:'Qualcomm India',role:'Software Intern → FTE',ctc:'₹18.0 LPA',date:'22 Aug 2026',elig:'CGPA ≥ 8.5, no arrears',status:'Not eligible'}
+      ],
+      certs:[
+        {title:'Bonafide Certificate',on:'14 Jul 2026',ref:'BON/2026/1184',status:'Issued'},
+        {title:'Semester 4 Grade Sheet',on:'18 Jul 2026',ref:'GS/S4/21CSE042',status:'Issued'},
+        {title:'Course Completion — NPTEL Deep Learning',on:'02 May 2026',ref:'NPTEL26CS88',status:'Issued'},
+        {title:'Transfer Certificate',on:'—',ref:'—',status:'Not applicable'}
+      ]
+    };
+  }
+
+  users(){
+    return {
+      '21CSE042':{role:'student',name:'Aarav Menon',id:'21CSE042',initials:'AM',roleLabel:'Student',dept:'CSE',extra:'Semester 5 · Section B'},
+      'FAC1180':{role:'faculty',name:'Prof. Kavitha Suresh',id:'FAC1180',initials:'KS',roleLabel:'Faculty',dept:'CSE',extra:'Associate Professor'},
+      'HOD204':{role:'hod',name:'Dr. Meera Rajan',id:'HOD204',initials:'MR',roleLabel:'Head of Dept.',dept:'CSE',extra:'Professor & Head, CSE'},
+      'ADM001':{role:'admin',name:'Dr. S. Venkatesh',id:'ADM001',initials:'SV',roleLabel:'Administrator',dept:'Registry',extra:'Registrar'},
+      'PAR7042':{role:'parent',name:'Ramesh Menon',id:'PAR7042',initials:'RM',roleLabel:'Parent',dept:'—',extra:'Guardian of Aarav Menon'}
+    };
+  }
+
+  // ─── lifecycle ───────────────────────────────────────────────────────
+  componentDidMount(){
+    this.onResize = ()=> this.setState({vw: window.innerWidth});
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+    this.onDoc = (e)=>{ if(this.state.bellOpen || this.state.query) this.setState({bellOpen:false}); };
+    document.addEventListener('click', this.onDoc, true);
+    try{
+      const t = localStorage.getItem('ngcms:theme'); if(t) this.setState({theme:t});
+      const l = localStorage.getItem('ngcms:look'); if(l) this.setState({look:l});
+    }catch(e){}
+  }
+  componentWillUnmount(){
+    window.removeEventListener('resize', this.onResize);
+    document.removeEventListener('click', this.onDoc, true);
+    if(this.tt) clearTimeout(this.tt);
+  }
+
+  // ─── actions ─────────────────────────────────────────────────────────
+  toast(msg){
+    this.setState({toast:msg});
+    if(this.tt) clearTimeout(this.tt);
+    this.tt = setTimeout(()=>this.setState({toast:null}), 2800);
+  }
+  go = (route)=> this.setState({route, navOpen:false, query:'', bellOpen:false, marking:null, sel:{}});
+  login = (id, pw)=>{
+    const u = this.users()[String(id||'').trim().toUpperCase()];
+    if(!u){ this.setState({loginErr:'No account found for that register number or staff ID.'}); return; }
+    if(pw !== 'demo1234'){ this.setState({loginErr:'Incorrect password. Demo accounts use demo1234.'}); return; }
+    this.setState({session:u, loginErr:'', route:'dashboard'});
+  };
+  mode(){ return (this.state.session||{}).role || 'student'; }
+
+  // ─── derived helpers ─────────────────────────────────────────────────
+  periods(){ return [['09:00','09:50'],['09:50','10:40'],['11:00','11:50'],['11:50','12:40'],['13:30','14:20'],['14:20','15:10'],['15:10','16:00']]; }
+  dayKey(d){ return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()]; }
+  subj(code){ return this.state.db.subjects.find(s=>s.code===code); }
+  attTotals(){
+    const s = this.state.db.subjects;
+    const held = s.reduce((a,b)=>a+b.held,0), att = s.reduce((a,b)=>a+b.attended,0);
+    return {held, att, pct: +(att/held*100).toFixed(1)};
+  }
+  totalOf(s){
+    if(s.kind==='Practical') return Math.round(s.prac/50*40) + 44;
+    const ia = Math.round(((s.ia1+s.ia2)/2)/50*30);
+    return ia + Math.round(s.asg/20*10) + Math.round((s.ia1+s.ia2)/2/50*60*0.98);
+  }
+  gradeOf(t){ return t>=91?'O':t>=81?'A+':t>=71?'A':t>=61?'B+':t>=56?'B':t>=50?'C':'RA'; }
+  cgpa(){
+    const sems = this.state.db.sems;
+    const cr = sems.reduce((a,s)=>a+s.cr,0);
+    return +(sems.reduce((a,s)=>a+s.gpa*s.cr,0)/cr).toFixed(2);
+  }
+  tone(k){ return k==='ok'?'var(--status-ok)':k==='warn'?'var(--status-warn)':k==='bad'?'var(--status-bad)':'var(--color-accent)'; }
+  attTone(p){ return p>=85?'var(--status-ok)':p>=75?'var(--color-accent)':'var(--status-bad)'; }
+
+  navFor(role){
+    const I = {
+      dash:'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z',
+      user:'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0',
+      check:'M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M9 2h6v4H9zM9 14l2 2 4-4',
+      clock:'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 6v6l4 2',
+      book:'M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z',
+      file:'M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zM14 2v6h6M8 13h8M8 17h5',
+      cap:'M22 10L12 5 2 10l10 5 10-5zM6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5',
+      award:'M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM7 6H4a2 2 0 0 0 0 4h3M17 6h3a2 2 0 0 1 0 4h-3',
+      card:'M2 7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zM2 10h20',
+      out:'M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9',
+      folder:'M3 7a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z',
+      bell:'M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0',
+      cal:'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z',
+      case:'M8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1M2 8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zM2 13h20',
+      users:'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8',
+      chart:'M3 3v18h18M7 16V9M12 16V5M17 16v-3',
+      gear:'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.9 14.2a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1v.2a2 2 0 1 1-4 0v-.2a1.6 1.6 0 0 0-2.7-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7H4a2 2 0 1 1 0-4h.2a1.6 1.6 0 0 0 1.1-2.7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 2.7-1.1V4a2 2 0 1 1 4 0v.2a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7h.2a2 2 0 1 1 0 4h-.2a1.6 1.6 0 0 0-1.5 1.4z'
+    };
+    const all = {
+      dashboard:['Dashboard',I.dash], profile:['Profile',I.user], people:['People',I.users],
+      attendance:['Attendance',I.check], timetable:['Timetable',I.clock], academics:['Academics',I.book],
+      assignments:['Assignments',I.file], examinations:['Examinations',I.cap], results:['Results',I.award],
+      fees:['Fees',I.card], leave:['Leave',I.out], materials:['Materials',I.folder],
+      notifications:['Notifications',I.bell], calendar:['Calendar',I.cal], placement:['Placement',I.case],
+      reports:['Reports',I.chart], settings:['Settings',I.gear]
+    };
+    const sets = {
+      student:['dashboard','profile','attendance','timetable','academics','assignments','examinations','results','fees','leave','materials','notifications','calendar','placement','settings'],
+      faculty:['dashboard','profile','attendance','timetable','academics','assignments','examinations','results','leave','materials','people','notifications','calendar','reports','settings'],
+      hod:['dashboard','people','attendance','timetable','academics','examinations','results','leave','reports','notifications','calendar','placement','settings'],
+      admin:['dashboard','people','academics','attendance','timetable','examinations','results','fees','reports','notifications','calendar','placement','settings'],
+      parent:['dashboard','profile','attendance','timetable','results','examinations','fees','notifications','calendar','settings']
+    };
+    return (sets[role]||sets.student).map(k=>({key:k, label:all[k][0], icon:all[k][1]}));
+  }
+
+  // ─── view models ─────────────────────────────────────────────────────
+  loginVals(){
+    const U = this.users();
+    const icons = {
+      student:'M22 10L12 5 2 10l10 5 10-5zM6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5',
+      faculty:'M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z',
+      hod:'M12 2l3 6 6 .9-4.5 4.3 1.1 6.3L12 16.5 6.4 19.5l1.1-6.3L3 8.9 9 8z',
+      admin:'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+      parent:'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0M22 21v-2a4 4 0 0 0-3-3.9'
+    };
+    return {
+      demos: Object.values(U).map(u=>({
+        role:u.roleLabel, name:u.name, id:u.id, icon:icons[u.role],
+        go:()=>{ if(this.idRef.current) this.idRef.current.value = u.id; if(this.pwRef.current) this.pwRef.current.value='demo1234'; this.login(u.id,'demo1234'); }
+      })),
+      idRef:this.idRef, pwRef:this.pwRef,
+      roleSel: this.sv('loginRole','Student'),
+      roleOptions: ['Student','Faculty','Head of Department','Administrator','Parent'].map(r=>({v:r,t:r})),
+      onRoleSel: (e)=>{
+        const v = e.target.value; this.put('loginRole', v);
+        const map = {'Student':'21CSE042','Faculty':'FAC1180','Head of Department':'HOD204','Administrator':'ADM001','Parent':'PAR7042'};
+        if(this.idRef.current) this.idRef.current.value = map[v] || '';
+      },
+      rememberOn: this.sv('remember',true) ? '1' : '0',
+      toggleRemember: ()=> this.put('remember', !this.sv('remember',true)),
+      onForgot: (e)=>{ e.preventDefault(); this.toast('A reset link has been sent to your registered college email.'); },
+      onSso: ()=> this.toast('Single sign-on is configured by the IT office for @dmice.edu.in accounts.'),
+      onHelp: (e)=>{ e.preventDefault(); this.toast('Help desk: helpdesk@dmice.edu.in · 044 2745 1234'); },
+      loginErr:this.state.loginErr,
+      doLogin:()=> this.login(this.idRef.current && this.idRef.current.value, this.pwRef.current && this.pwRef.current.value),
+      onLoginKey:(e)=>{ if(e.key==='Enter') this.login(this.idRef.current.value, this.pwRef.current.value); }
+    };
+  }
+
+  shellVals(){
+    const s = this.state, me = s.session, db = s.db;
+    const mobile = s.vw < 900;
+    const look = s.look || this.props.look || 'classic';
+    const con = look==='console' && !mobile;
+    const cycle = {classic:'blueprint', blueprint:'console', console:'classic'};
+    const lookName = {classic:'Classic', blueprint:'Blueprint', console:'Console'};
+    const nav = this.navFor(me.role).map(n=>({
+      ...n,
+      go:()=>this.go(n.key),
+      on: s.route===n.key ? '1' : '0',
+      bg: s.route===n.key ? 'rgba(107,63,160,.34)' : 'transparent',
+      fg: s.route===n.key ? '#FBFCFF' : 'rgba(238,241,250,.82)',
+      mark: s.route===n.key ? '#F2B417' : 'transparent',
+      badge: n.key==='notifications' ? (db.notifs.filter(x=>!x.read).length||null)
+           : n.key==='leave' && (me.role!=='student') ? db.leaves.filter(l=>l.status==='Pending').length
+           : null
+    }));
+    const q = s.query.trim().toLowerCase();
+    let results = [];
+    if(q){
+      nav.forEach(n=>{ if(n.label.toLowerCase().includes(q)) results.push({kind:'Page',label:n.label,sub:'Navigate',go:n.go}); });
+      db.subjects.forEach(x=>{ if((x.name+x.code).toLowerCase().includes(q)) results.push({kind:'Subject',label:x.code+' · '+x.name,sub:x.faculty,go:()=>this.go('academics')}); });
+      db.cls.forEach(x=>{ if((x.name+x.id).toLowerCase().includes(q)) results.push({kind:'Student',label:x.name,sub:x.id+' · CSE 5-B · '+x.att+'% attendance',go:()=>this.go(me.role==='student'?'profile':'people')}); });
+      db.faculty.forEach(x=>{ if(x.name.toLowerCase().includes(q)) results.push({kind:'Faculty',label:x.name,sub:x.desig+' · '+x.dept,go:()=>this.go(me.role==='student'?'academics':'people')}); });
+      results = results.slice(0,8);
+    }
+    const unread = db.notifs.filter(n=>!n.read).length;
+    return {
+      theme:s.theme, me, wide: !mobile || s.navOpen, nav, qRef:this.qRef,
+      look, isConsole: con, mainW: con ? '1180px' : '1480px',
+      kpiStrip: con && !!(this.pageKpis||[]).length, kpiCards: !con,
+      hamburger: con ? 'none' : 'inline-flex',
+      crumbDisplay: con ? 'none' : 'flex',
+      ayear: this.sv('ayear','2026 – 27'),
+      ayears: ['2026 – 27','2025 – 26','2024 – 25'].map(y=>({v:y,t:y})),
+      onAyear: (e)=>{ this.put('ayear', e.target.value); this.toast('Academic year switched to '+e.target.value+'.'); },
+      ayearDisplay: s.vw < 1180 ? 'none' : 'block',
+      searchDisplay: s.vw < 1100 && !s.searchOpen ? 'none' : 'block',
+      searchBtnDisplay: s.vw < 1100 ? 'inline-flex' : 'none',
+      toggleSearch: (e)=>{ e.stopPropagation(); this.setState({searchOpen:!s.searchOpen}); },
+      lookTitle: 'Style: '+(lookName[look]||'Classic')+' — switch to '+lookName[cycle[look]||'blueprint'],
+      lookIcon: look==='console' ? 'M3 4h18v4H3zM3 11h18M3 16h12'
+        : look==='blueprint' ? 'M4 4h16v16H4zM4 9h16M9 9v11'
+        : 'M3 3h7v18H3zM14 3h7v7h-7zM14 14h7v7h-7z',
+      toggleLook: ()=>{ const v = cycle[look]||'blueprint'; this.setState({look:v, navOpen:false}); try{localStorage.setItem('ngcms:look',v);}catch(e){} },
+      sideDisplay: con ? 'none' : (mobile && !s.navOpen ? 'none' : 'flex'),
+      sideW: mobile ? '250px' : '232px',
+      sidePos: mobile ? 'fixed' : 'sticky',
+      scrim: mobile && s.navOpen,
+      closeNav: ()=>this.setState({navOpen:false}),
+      toggleNav: ()=>this.setState({navOpen:!s.navOpen}),
+      toggleTheme: ()=>{ const t = s.theme==='light'?'dark':'light'; this.setState({theme:t}); try{localStorage.setItem('ngcms:theme',t);}catch(e){} },
+      themeIcon: s.theme==='light' ? 'M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z' : 'M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4',
+      onQuery: (e)=> this.setState({query:e.target.value}),
+      hasResults: results.length>0, results,
+      unread: unread || null,
+      bellOpen: s.bellOpen,
+      toggleBell: (e)=>{ e.stopPropagation(); this.setState({bellOpen:!s.bellOpen}); },
+      markAllRead: (e)=>{ e.stopPropagation(); this.setState({db:{...db, notifs:db.notifs.map(n=>({...n,read:true}))}}); this.toast('All notifications marked as read.'); },
+      notifs: db.notifs.slice(0,6).map(n=>({
+        ...n, tone:this.tone(n.tone),
+        bg: n.read ? 'transparent' : 'color-mix(in srgb, var(--color-accent) 6%, transparent)',
+        icon: n.kind==='Fees'?'M2 7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zM2 10h20'
+            : n.kind==='Attendance'?'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 8v5M12 16.5v.01'
+            : n.kind==='Results'?'M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z'
+            : 'M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zM14 2v6h6',
+        go:()=>this.go(n.route)
+      })),
+      logout: ()=>this.setState({session:null, route:'dashboard', query:'', bellOpen:false}),
+      goNotifs: ()=>this.go('notifications'),
+      toast: s.toast
+    };
+  }
+
+  dashVals(){
+    const s = this.state, db = s.db, role = this.mode(), me = s.session;
+    const t = this.attTotals(), cg = this.cgpa();
+    const day = this.dayKey(s.now);
+    const mins = s.now.getHours()*60 + s.now.getMinutes();
+    const rows = db.tt[day] || [];
+    const per = this.periods();
+    const toMin = (x)=>{ const p=x.split(':'); return +p[0]*60 + +p[1]; };
+    const mine = role==='faculty' ? db.subjects.filter(x=>x.faculty===me.name).map(x=>x.code)
+               : role==='hod' ? db.subjects.filter(x=>x.faculty===me.name).map(x=>x.code) : null;
+    let todayClasses = rows.map((code,i)=>{
+      if(!code) return null;
+      const sub = this.subj(code);
+      const label = sub ? sub.name : (code==='LIB'?'Library / Mentoring':'Sports & Clubs');
+      const live = mins>=toMin(per[i][0]) && mins<toMin(per[i][1]);
+      return {
+        code: sub?code:'—', name:label, who: sub? (role==='faculty'||role==='hod' ? 'CSE 5-B · 62 students' : sub.faculty) : 'Open session',
+        room: sub?sub.room:'Library', start:per[i][0], end:per[i][1], live,
+        bg: live ? 'color-mix(in srgb, var(--color-accent) 12%, transparent)' : 'transparent',
+        border: live ? 'var(--color-accent)' : 'var(--color-divider)',
+        _code: code
+      };
+    }).filter(Boolean);
+    if(mine) todayClasses = todayClasses.filter(c=>mine.includes(c._code));
+    const perfBars = db.sems.map(x=>({label:'Sem '+x.n, value:x.gpa.toFixed(2), h:(x.gpa/10*100)+'%', tone:'var(--color-accent)', fill:'color-mix(in srgb, var(--color-accent) 16%, transparent)'}))
+      .concat([{label:'Sem 5*', value:'8.76', h:'87.6%', tone:'var(--status-ok)', fill:'color-mix(in srgb, var(--status-ok) 16%, transparent)'}]);
+    const attBars = db.subjects.slice(0,5).map(x=>{
+      const p = +(x.attended/x.held*100).toFixed(1);
+      return {label:x.short, value:p+'%', bar:p+'%', tone:this.attTone(p)};
+    });
+    const deptBars = db.depts.map(d=>({label:d.code, value:d.att.toFixed(1), h:(d.att)+'%', tone:this.attTone(d.att), fill:'color-mix(in srgb, var(--color-accent) 16%, transparent)'}));
+    const feed = db.notifs.filter(n=>['Announcement','Examination','Results','Fees'].includes(n.kind)).slice(0,4).map((n,i)=>({
+      day:['27','26','25','18'][i], mon:['Jul','Jul','Jul','Jul'][i], title:n.title, body:n.body,
+      tag:n.kind, tagCls: n.tone==='warn'?'tag-neutral':'tag-accent'
+    }));
+    const upcoming = db.events.slice(0,6).map(e=>({title:e.title, when:e.when, tone:this.tone(e.tone), fill:'color-mix(in srgb, var(--color-accent) 22%, transparent)'}));
+    const K = {
+      att:'M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M9 2h6v4H9zM9 14l2 2 4-4',
+      cap:'M22 10L12 5 2 10l10 5 10-5zM6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5',
+      file:'M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zM14 2v6h6',
+      cal:'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z',
+      card:'M2 7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zM2 10h20',
+      users:'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0',
+      chart:'M3 3v18h18M7 16V9M12 16V5M17 16v-3'
+    };
+    const pendingA = db.assignments.filter(a=>a.status==='Pending').length;
+    const pendingL = db.leaves.filter(l=>l.status==='Pending').length;
+    const dues = db.fees.filter(f=>f.status==='Pending').reduce((a,b)=>a+b.amt,0);
+    const kpiSets = {
+      student:[
+        {label:'Attendance',value:t.pct+'%',sub:t.att+' of '+t.held+' periods',icon:K.att,tone:this.attTone(t.pct),bar:t.pct+'%'},
+        {label:'CGPA',value:cg.toFixed(2),sub:'4 semesters · no arrears',icon:K.cap,tone:'var(--color-accent)',bar:(cg*10)+'%'},
+        {label:'Pending assignments',value:String(pendingA),sub:'Next due 28 Jul',icon:K.file,tone:'var(--status-warn)',bar:'60%'},
+        {label:'Upcoming exams',value:'6',sub:'Model Exam I · from 03 Aug',icon:K.cal,tone:'var(--color-accent)',bar:'45%'},
+        {label:'Fee balance',value:'₹48,000',sub:'Due 10 Aug 2026',icon:K.card,tone:'var(--status-bad)',bar:'28%'}
+      ],
+      faculty:[
+        {label:'Classes today',value:String(todayClasses.length),sub:'Mon · 3 sections',icon:K.cal,tone:'var(--color-accent)',bar:'55%'},
+        {label:'Students taught',value:'168',sub:'4 sections · 2 subjects',icon:K.users,tone:'var(--color-accent)',bar:'70%'},
+        {label:'Avg. attendance',value:'88.2%',sub:'Across CS501 & CS506',icon:K.att,tone:'var(--status-ok)',bar:'88%'},
+        {label:'To grade',value:'41',sub:'CS501 worksheet submissions',icon:K.file,tone:'var(--status-warn)',bar:'66%'},
+        {label:'Leave requests',value:String(pendingL),sub:'Awaiting your decision',icon:K.chart,tone:'var(--status-warn)',bar:'40%'}
+      ],
+      hod:[
+        {label:'Dept. students',value:'642',sub:'CSE · 4 years · 12 sections',icon:K.users,tone:'var(--color-accent)',bar:'80%'},
+        {label:'Faculty',value:'38',sub:'6 professors · 14 assoc.',icon:K.users,tone:'var(--color-accent)',bar:'62%'},
+        {label:'Avg. attendance',value:'88.4%',sub:'Department, this month',icon:K.att,tone:'var(--status-ok)',bar:'88%'},
+        {label:'Pass percentage',value:'94.2%',sub:'Semester 4 results',icon:K.cap,tone:'var(--status-ok)',bar:'94%'},
+        {label:'Approvals',value:String(pendingL),sub:'Leave & OD requests',icon:K.file,tone:'var(--status-warn)',bar:'35%'}
+      ],
+      admin:[
+        {label:'Students',value:'2,629',sub:'6 departments · 18 programmes',icon:K.users,tone:'var(--color-accent)',bar:'86%'},
+        {label:'Faculty',value:'151',sub:'Student : faculty 17.4 : 1',icon:K.users,tone:'var(--color-accent)',bar:'58%'},
+        {label:'Institute attendance',value:'86.6%',sub:'Rolling 30 days',icon:K.att,tone:'var(--status-ok)',bar:'87%'},
+        {label:'Fee collection',value:'82.4%',sub:'₹41.2 Cr of ₹50.0 Cr',icon:K.card,tone:'var(--status-warn)',bar:'82%'},
+        {label:'Open admissions',value:'318',sub:'2026 intake · 74 verified',icon:K.file,tone:'var(--color-accent)',bar:'48%'}
+      ],
+      parent:[
+        {label:'Ward attendance',value:t.pct+'%',sub:'Aarav Menon · CSE 5-B',icon:K.att,tone:this.attTone(t.pct),bar:t.pct+'%'},
+        {label:'CGPA',value:cg.toFixed(2),sub:'Rank 14 of 62 in section',icon:K.cap,tone:'var(--color-accent)',bar:(cg*10)+'%'},
+        {label:'Fee balance',value:'₹48,000',sub:'Hostel & mess · due 10 Aug',icon:K.card,tone:'var(--status-bad)',bar:'28%'},
+        {label:'Subjects at risk',value:'1',sub:'CS505 below 75%',icon:K.chart,tone:'var(--status-bad)',bar:'15%'},
+        {label:'Upcoming exams',value:'6',sub:'Model Exam I · from 03 Aug',icon:K.cal,tone:'var(--color-accent)',bar:'45%'}
+      ]
+    };
+    const titles = {
+      student:['Semester 5 · Section B','Good morning, Aarav','Odd semester 2026/27 · Week 9 of 16. One subject is below the 75% attendance requirement.'],
+      faculty:['Computer Science & Engineering','Good morning, Prof. Suresh','You have '+todayClasses.length+' classes today and '+pendingL+' pending approvals.'],
+      hod:['Department of CSE','Department overview','642 students, 38 faculty and 24 running subjects under your charge.'],
+      admin:['Northgate Institute of Technology','Institute overview','Live figures across six departments for the odd semester, 2026/27.'],
+      parent:['Guardian view · Aarav Menon','Good morning, Mr. Menon','Semester 5 progress for your ward, updated to 27 July 2026.']
+    };
+    const T = titles[role];
+    const isStu = role==='student' || role==='parent';
+    return {
+      page:{ kicker:T[0], title:T[1], sub:T[2],
+        kpis:(kpiSets[role]||[]).map(k=>Object.assign({},k,{ink: k.tone==='var(--status-bad)'?'var(--bad-ink)':k.tone==='var(--status-warn)'?'var(--warn-ink)':'var(--color-text)'})),
+        actions:[
+        {label:'Academic calendar', cls:'btn-secondary', icon:K.cal, go:()=>this.go('calendar')},
+        {label: role==='faculty'?'Take attendance': role==='student'?'My timetable': role==='parent'?'View results':'Reports', cls:'btn-primary',
+         icon: role==='faculty'?K.att:K.chart,
+         go:()=>this.go(role==='faculty'?'attendance': role==='student'?'timetable': role==='parent'?'results':'reports')}
+      ]},
+      blocks:{ today: role!=='admin' && role!=='hod', attendance:true, perf:true, feed:true, events: role!=='student' },
+      todayClasses, noClasses: todayClasses.length===0,
+      todayLabel: 'Monday, 27 July',
+      attTitle: role==='admin'||role==='hod' ? 'Attendance by department' : isStu ? 'Attendance overview' : 'My subjects',
+      attMeta: role==='admin'||role==='hod' ? 'This month' : t.att+' / '+t.held+' periods',
+      donutTone: this.attTone(role==='admin'?86.6:role==='hod'?88.4:t.pct),
+      donutDash: (( (role==='admin'?86.6:role==='hod'?88.4:t.pct) /100)*2*Math.PI*51).toFixed(1)+' 999',
+      donutValue: (role==='admin'?'86.6':role==='hod'?'88.4':t.pct)+'%',
+      donutCaption: role==='admin'||role==='hod' ? 'INSTITUTE AVG' : 'OVERALL',
+      attBars: (role==='admin'||role==='hod') ? db.depts.slice(0,5).map(d=>({label:d.name.split(' ')[0]+' ('+d.code+')', value:d.att+'%', bar:d.att+'%', tone:this.attTone(d.att)})) : attBars,
+      attNote: (role==='admin'||role==='hod') ? 'Civil Engineering is 3.7 points below the institute average — flagged for review.' : 'Minimum requirement is 75%. CS505 is short by 2.3 points (5 periods).',
+      perfTitle: role==='admin'||role==='hod' ? 'Attendance by department' : 'Academic performance',
+      perfMeta: role==='admin'||role==='hod' ? '6 departments' : 'GPA per semester · *provisional',
+      perfBars: (role==='admin'||role==='hod') ? deptBars : perfBars,
+      perfNote: (role==='admin'||role==='hod') ? 'Institute average 86.6%. Two departments below the 85% target.' : 'CGPA '+cg.toFixed(2)+' across 92 credits. Sem 5 is provisional on internals only.',
+      feed, upcoming
+    };
+  }
+
+  // ─── generic builders ────────────────────────────────────────────────
+  B(o){ return Object.assign({today:false,attendance:false,perf:false,feed:false,events:false,timetable:false,marker:false,cards:false,table:false,calendar:false,profile:false,settings:false}, o||{}); }
+  cell(o){ return Object.assign({plain:false,two:false,tag:false,bar:false,btns:false,t:'',s:'',cls:'',tone:'inherit',font:'inherit',size:'14px',w2:'0%',just:'flex-end',align:'left',list:[]}, o); }
+  c2(t,s){ return this.cell({two:true,t,s}); }
+  cp(t,o){ return this.cell(Object.assign({plain:true,t},o||{})); }
+  cn(t){ return this.cell({plain:true,t,font:'var(--font-heading)',size:'15px'}); }
+  ct(t,cls){ return this.cell({tag:true,t,cls:cls||'tag-neutral'}); }
+  cb(p){ return this.cell({bar:true,t:p+'%',w2:Math.min(p,100)+'%',tone:this.attTone(p)}); }
+  ca(list){ return this.cell({btns:true,list,align:'right'}); }
+  col(label,align,w){ return {label, align:align||'left', w:w||'auto'}; }
+  card(o){ return Object.assign({kicker:'',tag:'',tagCls:'tag-neutral',title:'',body:'',hasBar:false,bar:'0%',barLabel:'',barValue:'',tone:'var(--color-accent)',hasRate:false,rate:[],rateLabel:'',meta:'',actions:[]}, o); }
+  kpi(label,value,sub,icon,tone,bar){
+    const t = tone||'var(--color-accent)';
+    const alert = t==='var(--status-bad)' || t==='var(--status-warn)';
+    return {label,value,sub,icon,tone:t,bar:bar||'50%', ink: alert ? (t==='var(--status-bad)'?'var(--bad-ink)':'var(--warn-ink)') : 'var(--color-text)'};
+  }
+  ico(k){
+    const I={att:'M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M9 2h6v4H9zM9 14l2 2 4-4',
+      cap:'M22 10L12 5 2 10l10 5 10-5zM6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5',
+      file:'M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zM14 2v6h6',
+      cal:'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z',
+      card:'M2 7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zM2 10h20',
+      users:'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0',
+      chart:'M3 3v18h18M7 16V9M12 16V5M17 16v-3',
+      clock:'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 6v6l4 2',
+      down:'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3',
+      plus:'M12 5v14M5 12h14',
+      case:'M8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1M2 8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zM2 13h20',
+      send:'M22 2L11 13M22 2l-7 20-4-9-9-4z'};
+    return I[k]||I.file;
+  }
+  sv(k,d){ const v=this.state.sel[k]; return v===undefined?d:v; }
+  put(k,v){ this.setState({sel:Object.assign({},this.state.sel,{[k]:v})}); }
+  sel1(k,def,options){ return {value:this.sv(k,def), options:options.map(o=>({v:o,t:o})), on:(e)=>this.put(k,e.target.value)}; }
+  chips(k,def,options){ const cur=this.sv(k,def); return options.map(o=>({
+    label:o, go:()=>this.put(k,o),
+    bg: cur===o?'var(--color-accent)':'transparent', fg: cur===o?'var(--color-bg)':'var(--color-text)',
+    border: cur===o?'var(--color-accent)':'var(--color-divider)' })); }
+  openModal(m){ this.setState({modal:m, form:Object.assign({}, m.form||{})}); }
+  money(n){ return '₹'+n.toLocaleString('en-IN'); }
+
+  // ─── pages ───────────────────────────────────────────────────────────
+  pageVals(){
+    const fn = this['pg_'+this.state.route];
+    return fn ? fn.call(this) : this.pg_dashboard();
+  }
+  pg_dashboard(){ const v=this.dashVals(); v.blocks=this.B(v.blocks); return v; }
+
+  pg_profile(){
+    const role=this.mode(), me=this.state.session, db=this.state.db, t=this.attTotals();
+    const stu = role==='student'||role==='parent';
+    const fields = stu ? [
+      {label:'Register number',value:'21CSE042'},{label:'Programme',value:'B.E. Computer Science & Engineering'},
+      {label:'Department',value:'Computer Science & Engineering'},{label:'Semester / Section',value:'Semester 5 · Section B'},
+      {label:'Batch',value:'2022 – 2026'},{label:'Date of birth',value:'09 March 2004'},
+      {label:'Blood group',value:'O positive'},{label:'Institute email',value:'21cse042@northgate.edu.in'},
+      {label:'Mobile',value:'+91 98407 21884'},{label:'Residence',value:'Day scholar · Route 14'},
+      {label:'Guardian',value:'Ramesh Menon (Father)'},{label:'Guardian mobile',value:'+91 94440 10228'},
+      {label:'Mentor',value:'Prof. Kavitha Suresh'},{label:'Admission quota',value:'Merit · Counselling'}
+    ] : [
+      {label:'Staff ID',value:me.id},{label:'Designation',value:me.extra},
+      {label:'Department',value:me.dept},{label:'Qualification',value:role==='admin'?'Ph.D. Public Administration':'Ph.D. Computer Science'},
+      {label:'Experience',value:role==='hod'?'22 years':role==='admin'?'26 years':'11 years'},
+      {label:'Institute email',value:me.id.toLowerCase()+'@northgate.edu.in'},
+      {label:'Mobile',value:'+91 98410 33'+me.id.slice(-3)},{label:'Cabin',value:role==='admin'?'Admin Block, Room 12':'A Block, Room 214'},
+      {label:'Subjects handled',value:role==='faculty'?'CS501, CS506':role==='hod'?'CS503':'—'},
+      {label:'Date of joining',value:'14 June 2015'}
+    ];
+    const certs = db.certs.map(c=>({cells:[ this.c2(c.title, c.ref), this.cp(c.on), this.ct(c.status, c.status==='Issued'?'tag-accent':'tag-neutral'),
+      this.ca(c.status==='Issued'?[{t:'Download',cls:'btn-secondary',go:()=>this.toast('Downloading '+c.title+'…')}]:[]) ]}));
+    return {
+      page:{kicker: stu?'Student record':'Staff record', title:'Profile', sub:'Master record as held by the registry. Corrections are routed to your department office.',
+        kpis: stu?[
+          this.kpi('Attendance', t.pct+'%', 'Cumulative', this.ico('att'), this.attTone(t.pct), t.pct+'%'),
+          this.kpi('CGPA', this.cgpa().toFixed(2), '92 credits earned', this.ico('cap'), 'var(--color-accent)', this.cgpa()*10+'%'),
+          this.kpi('Section rank', '14 / 62', 'Semester 4', this.ico('chart'), 'var(--color-accent)', '78%'),
+          this.kpi('Arrears', '0', 'All subjects cleared', this.ico('cap'), 'var(--status-ok)', '100%')
+        ]:null, actions:[{label:'Request correction',cls:'btn-secondary',icon:this.ico('file'),go:()=>this.openModal({
+          kicker:'Registry', title:'Request a record correction', sub:'Goes to the department office for verification.',
+          fields:[{key:'f',label:'Field',kind:'select',options:['Mobile number','Residential address','Guardian details','Blood group'],span:1},
+                  {key:'v',label:'Corrected value',kind:'text',placeholder:'New value',span:1},
+                  {key:'r',label:'Reason',kind:'area',placeholder:'Why this change is needed',span:2}],
+          confirmLabel:'Submit request', onConfirm:()=>{ this.setState({modal:null}); this.toast('Correction request sent to the CSE office.'); }})},
+          {label:'Download bonafide',cls:'btn-primary',icon:this.ico('down'),go:()=>this.toast('Bonafide certificate queued for download.')}]},
+      blocks:this.B({profile:true, table:stu}),
+      prof:{ name: stu?'Aarav Menon':me.name, sub: stu?'21CSE042 · B.E. CSE · Semester 5, Section B':me.extra+' · '+me.dept,
+        tags: stu?['CSE 5-B','Day scholar','Merit quota']:[me.roleLabel, me.dept, 'Full time'],
+        detailTitle:'Personal & academic details', fields,
+        actions:[{t:'Change password',cls:'btn-secondary',go:()=>this.go('settings')},{t:'View timetable',cls:'btn-secondary',go:()=>this.go('timetable')}] },
+      tbl:{ title:'Certificates & documents', sub:'Issued by the registry against your record', chips:[], filters:[],
+        cols:[this.col('Document'),this.col('Issued on'),this.col('Status'),this.col('','right','120px')], rows:certs,
+        note:'Digitally signed copies carry a QR verification code valid for 12 months.' }
+    };
+  }
+
+  pg_people(){
+    const db=this.state.db, role=this.mode();
+    const tabs = role==='admin' ? ['Students','Faculty','Admissions'] : ['Students','Faculty'];
+    const tab = this.sv('peopleTab','Students');
+    const secFilter = this.sv('peopleSec','All sections');
+    let cols=[], rows=[], note='';
+    if(tab==='Students'){
+      cols=[this.col('Student'),this.col('Section'),this.col('Attendance','left','200px'),this.col('CGPA'),this.col('Fees'),this.col('','right','130px')];
+      rows = db.cls.filter(s=>secFilter==='All sections'||('Section '+s.sec)===secFilter).map(s=>({cells:[
+        this.c2(s.name, s.id), this.cp('CSE 5-'+s.sec), this.cb(s.att), this.cn(s.cgpa),
+        this.ct(s.fees, s.fees==='Cleared'?'tag-accent':'tag-neutral'),
+        this.ca([{t:'Open',cls:'btn-secondary',go:()=>this.openModal({kicker:'Student record',title:s.name,sub:s.id+' · B.E. CSE · Semester 5, Section '+s.sec,
+          rows:[{k:'Attendance',v:s.att+'%'},{k:'CGPA',v:s.cgpa},{k:'Fees',v:s.fees},{k:'Mentor',v:'Prof. Kavitha Suresh'},{k:'Guardian',v:'+91 94440 1'+s.id.slice(-4)}],
+          note: s.att<75?'Attendance is below the 75% requirement — a shortage notice has been issued.':'No academic flags on this record.',
+          cancel:'Close', confirmLabel:'Message guardian', onConfirm:()=>{this.setState({modal:null}); this.toast('Message sent to the guardian of '+s.name+'.');}})}])
+      ]}));
+      note = rows.length+' students · '+db.cls.filter(s=>s.att<75).length+' below the 75% attendance requirement.';
+    } else if(tab==='Faculty'){
+      cols=[this.col('Faculty'),this.col('Designation'),this.col('Subjects'),this.col('Hours / week','right'),this.col('Sections','right'),this.col('Load'),this.col('','right','130px')];
+      rows = db.faculty.map(f=>({cells:[
+        this.c2(f.name, f.id), this.cp(f.desig), this.cp(f.subs), this.cell({plain:true,t:String(f.hours),align:'right',font:'var(--font-heading)',size:'15px'}),
+        this.cell({plain:true,t:String(f.secs),align:'right'}),
+        this.ct(f.load, f.load==='Heavy'?'tag-neutral':'tag-accent'),
+        this.ca([{t:'Workload',cls:'btn-secondary',go:()=>this.openModal({kicker:'Faculty workload',title:f.name,sub:f.desig+' · '+f.dept+' · '+f.exp+' years',
+          rows:[{k:'Subjects',v:f.subs},{k:'Contact hours',v:f.hours+' / week'},{k:'Sections',v:String(f.secs)},{k:'Load status',v:f.load},{k:'Staff ID',v:f.id}],
+          note: f.load==='Heavy'?'Above the 18 hour guideline — consider reallocating one section.':'Within the departmental workload guideline.',
+          cancel:'Close'})}])
+      ]}));
+      note = 'Departmental guideline is 14–18 contact hours per week.';
+    } else {
+      const apps=[['Sanjay Krishnan','B.E. CSE','188 / 200','Verified'],['Meghna Iyer','B.Tech IT','181 / 200','Verified'],['Arjun Pillai','B.E. ECE','176 / 200','Documents pending'],['Rhea Thomas','B.E. CSE','192 / 200','Verified'],['Imran Qureshi','B.E. MECH','164 / 200','Documents pending'],['Divya Suresh','MBA','173 / 200','Interview scheduled']];
+      cols=[this.col('Applicant'),this.col('Programme'),this.col('Entrance score'),this.col('Status'),this.col('','right','170px')];
+      rows = apps.map(a=>({cells:[ this.c2(a[0],'APP-2026-'+(1000+apps.indexOf(a))), this.cp(a[1]), this.cn(a[2]),
+        this.ct(a[3], a[3]==='Verified'?'tag-accent':'tag-neutral'),
+        this.ca([{t:'Admit',cls:'btn-primary',go:()=>this.toast(a[0]+' admitted to '+a[1]+'. Register number allotted.')},{t:'Hold',cls:'btn-secondary',go:()=>this.toast(a[0]+' moved to the hold list.')}])
+      ]}));
+      note = '318 applications open for the 2026 intake · 74 verified · 26 seats confirmed.';
+    }
+    return {
+      page:{kicker: role==='admin'?'Institute directory':'Department of CSE', title:'People', sub:'Students, faculty and admissions in one directory. Search from the top bar to jump to a record.',
+        kpis:[ this.kpi('Students', role==='admin'?'2,629':'642', role==='admin'?'6 departments':'CSE · 12 sections', this.ico('users'),'var(--color-accent)','86%'),
+          this.kpi('Faculty', role==='admin'?'151':'38','Teaching staff on roll', this.ico('users'),'var(--color-accent)','58%'),
+          this.kpi('Below 75%','2','Attendance shortage notices', this.ico('att'),'var(--status-bad)','12%'),
+          this.kpi('Fee defaulters', role==='admin'?'214':'31','Pending beyond due date', this.ico('card'),'var(--status-warn)','24%')],
+        actions:[{label:'Export CSV',cls:'btn-secondary',icon:this.ico('down'),go:()=>this.toast('Directory exported as CSV.')},
+          {label:'Add record',cls:'btn-primary',icon:this.ico('plus'),go:()=>this.openModal({kicker:'Registry',title:'Add a new record',sub:'Creates a user account and issues credentials by email.',
+            fields:[{key:'n',label:'Full name',kind:'text',placeholder:'e.g. Nandita Rao'},{key:'r',label:'Role',kind:'select',options:['Student','Faculty','HOD','Parent','Administrator']},
+              {key:'d',label:'Department',kind:'select',options:db.depts.map(d=>d.code)},{key:'e',label:'Email',kind:'text',placeholder:'name@northgate.edu.in'}],
+            confirmLabel:'Create account', onConfirm:(f)=>{this.setState({modal:null}); this.toast((f.n||'Record')+' created · credentials emailed.');}})}]},
+      blocks:this.B({table:true}),
+      tbl:{ title:tab, sub: tab==='Students'?'B.E. Computer Science & Engineering · Semester 5':tab==='Faculty'?'Teaching staff and allocation':'2026 admission pipeline',
+        chips:this.chips('peopleTab','Students',tabs),
+        filters: tab==='Students'?[this.sel1('peopleSec','All sections',['All sections','Section A','Section B','Section C'])]:[],
+        cols, rows, note }
+    };
+  }
+
+  pg_attendance(){
+    const role=this.mode(), db=this.state.db, t=this.attTotals();
+    if(role==='faculty'){
+      const key = this.sv('mkSub','CS501')+'|'+this.sv('mkDate','2026-07-27');
+      const mk = this.state.marking && this.state.marking.key===key ? this.state.marking.map : null;
+      const cur = (id)=> mk ? (mk[id]||'P') : 'P';
+      const setSt = (id,v)=>{ const base={}; db.cls.forEach(x=>base[x.id]=cur(x.id)); base[id]=v; this.setState({marking:{key,map:base}}); };
+      const opts=[['P','Present'],['A','Absent'],['OD','On duty'],['L','Leave']];
+      const tone={P:'var(--status-ok)',A:'var(--status-bad)',OD:'var(--color-accent)',L:'var(--status-warn)'};
+      const rows = db.cls.map((s,i)=>{
+        const v = cur(s.id);
+        return { no:String(i+1).padStart(2,'0'), ini:s.name.split(' ').map(x=>x[0]).join(''), name:s.name, id:s.id, att:s.att,
+          risk: s.att<75?'Shortage':'', riskTone:'var(--status-bad)',
+          bg: v==='P'?'transparent':'color-mix(in srgb, '+tone[v]+' 9%, transparent)',
+          border: v==='P'?'var(--color-divider)':tone[v],
+          opts: opts.map(o=>({k:o[0], full:o[1], go:()=>setSt(s.id,o[0]),
+            bg: v===o[0]?tone[o[0]]:'transparent', fg: v===o[0]?'var(--color-bg)':'var(--color-text)'})) };
+      });
+      const counts = {P:0,A:0,OD:0,L:0}; db.cls.forEach(s=>counts[cur(s.id)]++);
+      const pct = Math.round((counts.P+counts.OD)/db.cls.length*100);
+      const subs = db.subjects.filter(s=>s.faculty===this.state.session.name);
+      return {
+        page:{kicker:'Attendance register', title:'Take attendance', sub:'Select the class, mark each student, then save. Percentages recalculate across the portal immediately.',
+          kpis:null, actions:[{label:'Edit past session',cls:'btn-secondary',icon:this.ico('clock'),go:()=>this.toast('Opening the register for 24 Jul · CS501.')},
+            {label:'Shortage report',cls:'btn-primary',icon:this.ico('chart'),go:()=>this.go('reports')}]},
+        blocks:this.B({marker:true, table:true}),
+        mkFields:[
+          Object.assign({label:'Course',isSelect:true,isDate:false}, this.sel1('mkCourse','B.E. CSE',['B.E. CSE','B.Tech IT','B.E. ECE'])),
+          Object.assign({label:'Semester',isSelect:true,isDate:false}, this.sel1('mkSem','Semester 5',['Semester 5','Semester 3','Semester 7'])),
+          Object.assign({label:'Section',isSelect:true,isDate:false}, this.sel1('mkSec','Section B',['Section A','Section B','Section C'])),
+          Object.assign({label:'Subject',isSelect:true,isDate:false}, this.sel1('mkSub','CS501', subs.map(s=>s.code))),
+          Object.assign({label:'Date',isSelect:false,isDate:true}, {value:this.sv('mkDate','2026-07-27'), options:[], on:(e)=>this.put('mkDate',e.target.value)})
+        ],
+        mkTally:[{n:counts.P,label:'Present',tone:'var(--status-ok)'},{n:counts.A,label:'Absent',tone:'var(--status-bad)'},{n:counts.OD,label:'On duty',tone:'var(--color-accent)'},{n:counts.L,label:'Leave',tone:'var(--status-warn)'}],
+        mkPct: pct+'%', mkRows:rows,
+        mkAllPresent: ()=>{ const base={}; db.cls.forEach(x=>base[x.id]='P'); this.setState({marking:{key,map:base}}); this.toast('All 16 students marked present.'); },
+        mkReset: ()=>{ this.setState({marking:null}); this.toast('Register reset.'); },
+        mkSave: ()=>{
+          const code=this.sv('mkSub','CS501');
+          const subjects = db.subjects.map(s=> s.code===code ? Object.assign({},s,{held:s.held+1, attended:s.attended + (counts.P+counts.OD>0?1:0)}) : s);
+          this.setState({db:Object.assign({},db,{subjects})});
+          this.toast('Saved · '+code+' · '+counts.P+' present, '+counts.A+' absent, '+counts.OD+' OD, '+counts.L+' leave.');
+        },
+        tbl:{ title:'Recent sessions', sub:'Your last five saved registers', chips:[], filters:[],
+          cols:[this.col('Date'),this.col('Subject'),this.col('Section'),this.col('Marked','left','190px'),this.col('','right','120px')],
+          rows:[['24 Jul','CS501','5-B',94],['23 Jul','CS506','5-B',100],['22 Jul','CS501','5-A',88],['21 Jul','CS501','5-B',91],['20 Jul','CS506','5-C',97]].map(r=>({cells:[
+            this.cp(r[0]+' 2026'), this.cp(r[1]), this.cp('CSE '+r[2]), this.cb(r[3]),
+            this.ca([{t:'Edit',cls:'btn-secondary',go:()=>this.toast('Register for '+r[0]+' · '+r[1]+' unlocked for 30 minutes.')}])]})),
+          note:'Registers stay editable for 48 hours; after that a correction has to be countersigned by the HOD.' }
+      };
+    }
+    const dept = role==='hod'||role==='admin';
+    const rows = dept
+      ? db.depts.map(d=>({cells:[ this.c2(d.name, d.code+' · '+d.hod), this.cp(String(d.stu),{align:'right'}), this.cp(String(d.fac),{align:'right'}), this.cb(d.att),
+          this.ct(d.att>=85?'On track':'Review','tag-'+(d.att>=85?'accent':'neutral')),
+          this.ca([{t:'Drill down',cls:'btn-secondary',go:()=>this.toast('Opening section-wise attendance for '+d.code+'.')}])]}))
+      : db.subjects.map(s=>{ const p=+(s.attended/s.held*100).toFixed(1);
+          return {cells:[ this.c2(s.name, s.code+' · '+s.faculty), this.cp(s.kind), this.cp(String(s.held),{align:'right'}), this.cp(String(s.attended),{align:'right'}),
+            this.cb(p), this.ct(p>=85?'Good':p>=75?'Watch':'Shortage', p>=75?'tag-accent':'tag-neutral') ]}; });
+    return {
+      page:{kicker: dept?'Attendance monitoring':'Semester 5 · Section B', title: dept?'Attendance monitoring':'My attendance',
+        sub: dept?'Live percentages by department. Anything under 85% is flagged for departmental review.':'Subject-wise attendance for the current semester. 75% is required to sit the semester examination.',
+        kpis: dept?[ this.kpi('Institute','86.6%','Rolling 30 days',this.ico('att'),'var(--status-ok)','87%'),
+            this.kpi('Best','MBA 90.6%','School of Management',this.ico('chart'),'var(--color-accent)','91%'),
+            this.kpi('Lowest','CIVIL 81.3%','Below the 85% target',this.ico('chart'),'var(--status-bad)','81%'),
+            this.kpi('Shortage notices','148','Issued this month',this.ico('file'),'var(--status-warn)','30%')]
+          : [ this.kpi('Overall', t.pct+'%', t.att+' of '+t.held+' periods', this.ico('att'), this.attTone(t.pct), t.pct+'%'),
+            this.kpi('Best subject','95.8%','Computer Networks Lab',this.ico('cap'),'var(--status-ok)','96%'),
+            this.kpi('At risk','1','CS505 · 72.7%',this.ico('chart'),'var(--status-bad)','15%'),
+            this.kpi('Periods missed','40','Since 01 June',this.ico('clock'),'var(--status-warn)','35%')],
+        actions:[{label:'Download statement',cls:'btn-secondary',icon:this.ico('down'),go:()=>this.toast('Attendance statement downloaded.')}]},
+      blocks:this.B({attendance:true, table:true}),
+      attTitle: dept?'Attendance by department':'Attendance overview', attMeta: dept?'This month':t.att+' / '+t.held+' periods',
+      donutTone:this.attTone(dept?86.6:t.pct), donutDash:(((dept?86.6:t.pct)/100)*2*Math.PI*51).toFixed(1)+' 999',
+      donutValue:(dept?'86.6':t.pct)+'%', donutCaption: dept?'INSTITUTE AVG':'OVERALL',
+      attBars: dept? db.depts.slice(0,5).map(d=>({label:d.code, value:d.att+'%', bar:d.att+'%', tone:this.attTone(d.att)}))
+        : db.subjects.slice(0,5).map(s=>{const p=+(s.attended/s.held*100).toFixed(1); return {label:s.short,value:p+'%',bar:p+'%',tone:this.attTone(p)};}),
+      attNote: dept?'Civil Engineering is 3.7 points below the institute average — flagged for review.':'CS505 is short by 2.3 points. Five consecutive periods will clear the shortage.',
+      tbl:{ title: dept?'Department register':'Subject-wise attendance', sub: dept?'Semester to date':'01 June 2026 – 27 July 2026', chips:[], filters:[],
+        cols: dept?[this.col('Department'),this.col('Students','right'),this.col('Faculty','right'),this.col('Attendance','left','200px'),this.col('Status'),this.col('','right','140px')]
+          :[this.col('Subject'),this.col('Type'),this.col('Held','right'),this.col('Attended','right'),this.col('Percentage','left','200px'),this.col('Status')],
+        rows, note: dept?'Figures refresh every time a faculty member saves a register.':'On-duty periods count towards attendance. Medical leave is excluded from the denominator.' }
+    };
+  }
+
+  pg_timetable(){
+    const role=this.mode(), db=this.state.db, per=this.periods();
+    const days=['Mon','Tue','Wed','Thu','Fri','Sat'];
+    const today=this.dayKey(this.state.now);
+    const mins=this.state.now.getHours()*60+this.state.now.getMinutes();
+    const toMin=(x)=>{const p=x.split(':');return +p[0]*60 + +p[1];};
+    const mine = role==='faculty' ? db.subjects.filter(x=>x.faculty===this.state.session.name).map(x=>x.code) : null;
+    const rows=[];
+    per.forEach((p,i)=>{
+      if(i===2) rows.push({col:'1/-1',dir:'row',start:'BREAK',end:'10:40 – 11:00',tbg:'color-mix(in srgb, var(--color-text) 5%, transparent)',cells:[]});
+      if(i===4) rows.push({col:'1/-1',dir:'row',start:'LUNCH',end:'12:40 – 13:30',tbg:'color-mix(in srgb, var(--color-text) 5%, transparent)',cells:[]});
+      rows.push({ col:'1/2', dir:'column', start:p[0], end:p[1], tbg:'transparent',
+        cells: days.map(d=>{
+          const code=(db.tt[d]||[])[i];
+          const sub=this.subj(code);
+          const live = d===today && mins>=toMin(p[0]) && mins<toMin(p[1]);
+          const hidden = mine && code && !mine.includes(code);
+          if(!code || hidden) return {has:false,free:true,name:hidden?'—':'Free',code:'',who:'',room:'',bg:'transparent',border:'var(--color-divider)'};
+          if(!sub) return {has:true,free:false,code:code==='LIB'?'LIB':'CLUB',name:code==='LIB'?'Library / Mentoring':'Sports & Clubs',who:'Open session',room:code==='LIB'?'Library':'Grounds',bg:'transparent',border:'var(--color-divider)'};
+          return {has:true,free:false,code:sub.code,name:sub.name,who: role==='faculty'?'CSE 5-B · 62':sub.faculty.replace('Prof. ','').replace('Dr. ',''),room:sub.room,
+            bg: live?'color-mix(in srgb, var(--color-accent) 22%, transparent)':'transparent',
+            border: live?'var(--color-accent)':'var(--color-divider)'};
+        }) });
+    });
+    return {
+      page:{kicker: role==='faculty'?'My teaching schedule':'Semester 5 · Section B', title:'Weekly timetable',
+        sub:'Monday to Saturday, seven periods a day. The class running right now is highlighted.',
+        kpis:[ this.kpi('Periods / week', role==='faculty'?'18':'42','Including laboratories',this.ico('clock'),'var(--color-accent)','70%'),
+          this.kpi('Contact hours', role==='faculty'?'18 h':'35 h','Theory + practical',this.ico('cal'),'var(--color-accent)','62%'),
+          this.kpi('Free periods', role==='faculty'?'24':'2','Library & mentoring',this.ico('file'),'var(--color-accent)','20%'),
+          this.kpi('Next class', 'CS503','09:50 · A-301',this.ico('cap'),'var(--color-accent)','48%')],
+        actions:[{label:'Print',cls:'btn-secondary',icon:this.ico('file'),go:()=>this.toast('Timetable sent to the print queue.')},
+          {label:'Add to calendar',cls:'btn-primary',icon:this.ico('cal'),go:()=>this.toast('Timetable exported as an .ics calendar file.')}]},
+      blocks:this.B({timetable:true}),
+      ttTitle:'Week 9 · 27 July – 01 August 2026',
+      ttFilters: (role==='hod'||role==='admin')?[Object.assign({},this.sel1('ttSec','CSE 5-B',['CSE 5-A','CSE 5-B','CSE 5-C','CSE 3-A','IT 5-A']))]:[],
+      ttDays: days.map(d=>({label:d, mark: d===today?'var(--color-accent)':'var(--color-divider)', fg: d===today?'var(--color-accent-700)':'var(--color-text)'})),
+      ttRows: rows
+    };
+  }
+
+  pg_academics(){
+    const role=this.mode(), db=this.state.db;
+    if(role==='student'||role==='parent'){
+      const rated = this.state.sel.ratings||{};
+      const cards = db.subjects.map(s=>{
+        const p=+(s.attended/s.held*100).toFixed(1);
+        const val = rated[s.code]||0;
+        return this.card({kicker:s.code+' · '+s.credits+' credits', tag:s.kind, tagCls: s.kind==='Practical'?'tag-neutral':'tag-accent',
+          title:s.name, body:s.faculty+' · Room '+s.room+'. '+s.held+' periods held this semester.',
+          hasBar:true, bar:p+'%', barLabel:'Attendance', barValue:p+'%', tone:this.attTone(p),
+          hasRate: role==='student', rateLabel: val? 'Rated '+val+' / 5':'Rate this faculty',
+          rate:[1,2,3,4,5].map(n=>({ title:n+' of 5', border: n<=val?'var(--color-accent)':'var(--color-divider)',
+            bg: n<=val?'var(--color-accent)':'transparent',
+            go:()=>{ const r=Object.assign({},rated,{[s.code]:n}); this.put('ratings',r); this.toast('Feedback recorded for '+s.faculty+'.'); } })),
+          meta:'Semester 5', actions:[{t:'Materials',cls:'btn-secondary',go:()=>this.go('materials')}]});
+      });
+      return { page:{kicker:'Curriculum', title:'Academics', sub:'Seven registered subjects worth 22 credits. Faculty feedback is anonymous and closes on 20 August.',
+          kpis:[ this.kpi('Registered subjects','7','22 credits',this.ico('cap'),'var(--color-accent)','70%'),
+            this.kpi('Credits earned','92','Semesters 1 – 4',this.ico('chart'),'var(--color-accent)','82%'),
+            this.kpi('Feedback given', String(Object.keys(rated).length)+' / 7','Closes 20 Aug',this.ico('file'),'var(--status-warn)',(Object.keys(rated).length/7*100)+'%'),
+            this.kpi('Electives','1','Machine Learning',this.ico('cap'),'var(--color-accent)','40%')],
+          actions:[{label:'Syllabus',cls:'btn-secondary',icon:this.ico('down'),go:()=>this.toast('Semester 5 syllabus downloaded.')}]},
+        blocks:this.B({cards:true}), cards };
+    }
+    const alloc = role==='admin'
+      ? db.depts.map(d=>({cells:[ this.c2(d.name,d.code+' · '+d.block), this.cp(d.hod), this.cp(String(d.fac),{align:'right'}), this.cp(String(d.stu),{align:'right'}),
+          this.cb(d.pass), this.ca([{t:'Programmes',cls:'btn-secondary',go:()=>this.toast(d.code+' runs 3 programmes across 8 semesters.')}])]}))
+      : db.subjects.map(s=>({cells:[ this.c2(s.name,s.code+' · '+s.credits+' credits'), this.cp(s.faculty), this.cp(s.kind),
+          this.cp(s.kind==='Practical'?'2 sections':'3 sections'), this.cp(String(s.credits*3)+' h',{align:'right'}),
+          this.ca([{t:'Reassign',cls:'btn-secondary',go:()=>this.openModal({kicker:'Subject allocation',title:'Reassign '+s.code,sub:s.name,
+            fields:[{key:'f',label:'Faculty',kind:'select',options:db.faculty.map(x=>x.name)},{key:'s',label:'Section',kind:'select',options:['Section A','Section B','Section C']}],
+            confirmLabel:'Save allocation', onConfirm:(f)=>{this.setState({modal:null}); this.toast(s.code+' reallocated to '+(f.f||db.faculty[0].name)+'.');}})}])]}));
+    return {
+      page:{kicker: role==='admin'?'Institute':'Department of CSE', title: role==='admin'?'Departments & courses':'Subject allocation',
+        sub: role==='admin'?'Six departments, eighteen programmes and the staff strength behind each.':'Who teaches what this semester, and the contact hours each allocation carries.',
+        kpis:[ this.kpi(role==='admin'?'Departments':'Subjects', role==='admin'?'6':'24','Running this semester',this.ico('cap'),'var(--color-accent)','60%'),
+          this.kpi('Faculty', role==='admin'?'151':'38','On roll',this.ico('users'),'var(--color-accent)','58%'),
+          this.kpi('Avg. workload','16.4 h','Guideline 14–18 h',this.ico('clock'),'var(--status-ok)','82%'),
+          this.kpi('Unallocated','1','CS604 · Semester 6',this.ico('file'),'var(--status-warn)','8%')],
+        actions:[{label:'Allocate subject',cls:'btn-primary',icon:this.ico('plus'),go:()=>this.openModal({kicker:'Subject allocation',title:'Allocate a subject',sub:'Assigns a faculty member for the current semester.',
+          fields:[{key:'s',label:'Subject',kind:'select',options:db.subjects.map(x=>x.code+' · '+x.short)},{key:'f',label:'Faculty',kind:'select',options:db.faculty.map(x=>x.name)},
+            {key:'sec',label:'Section',kind:'select',options:['Section A','Section B','Section C']},{key:'h',label:'Hours / week',kind:'text',placeholder:'4'}],
+          confirmLabel:'Allocate', onConfirm:()=>{this.setState({modal:null}); this.toast('Allocation saved and published to the timetable.');}})}]},
+      blocks:this.B({table:true}),
+      tbl:{ title: role==='admin'?'Departments':'Allocation & workload', sub:'Odd semester 2026/27', chips:[], filters:[],
+        cols: role==='admin'?[this.col('Department'),this.col('Head'),this.col('Faculty','right'),this.col('Students','right'),this.col('Pass %','left','190px'),this.col('','right','140px')]
+          :[this.col('Subject'),this.col('Faculty'),this.col('Type'),this.col('Sections'),this.col('Hours','right'),this.col('','right','130px')],
+        rows:alloc, note: role==='admin'?'Pass percentage is taken from the Semester 4 results published on 18 July 2026.':'Workload is counted in contact hours; laboratory hours count at 0.75.' }
+    };
+  }
+
+  pg_assignments(){
+    const role=this.mode(), db=this.state.db;
+    if(role==='faculty'||role==='hod'||role==='admin'){
+      const rows = db.assignments.map(a=>({cells:[
+        this.c2(a.title, a.code+' · '+this.subj(a.code).short), this.cp(a.due),
+        this.cb(Math.round(a.sub/a.of*100)), this.cp(a.sub+' / '+a.of,{align:'right'}),
+        this.ct(a.status==='Graded'?'Graded':a.sub===a.of?'Closed':'Open', a.status==='Graded'?'tag-accent':'tag-neutral'),
+        this.ca([{t:'Submissions',cls:'btn-secondary',go:()=>this.openModal({kicker:a.code,title:a.title,sub:a.sub+' of '+a.of+' submissions received',
+          rows:db.cls.slice(0,6).map(s=>({k:s.name,v: s.att>80?'Submitted':'Not submitted'})), note:'Grading closes seven days after the due date.',
+          cancel:'Close', confirmLabel:'Download all', onConfirm:()=>{this.setState({modal:null}); this.toast('Submissions for '+a.code+' downloaded as a zip.');}})},
+          {t:'Grade',cls:'btn-primary',go:()=>this.toast('Opening the grading sheet for '+a.code+'.')}])]}));
+      return {
+        page:{kicker:'Coursework', title:'Assignments', sub:'Everything you have set this semester, with live submission counts.',
+          kpis:[ this.kpi('Open','3','Accepting submissions',this.ico('file'),'var(--color-accent)','50%'),
+            this.kpi('To grade','41','CS501 worksheet',this.ico('chart'),'var(--status-warn)','66%'),
+            this.kpi('Avg. submission','78%','Across five assignments',this.ico('att'),'var(--status-ok)','78%'),
+            this.kpi('Avg. score','17.4 / 20','Graded work',this.ico('cap'),'var(--color-accent)','87%')],
+          actions:[{label:'Create assignment',cls:'btn-primary',icon:this.ico('plus'),go:()=>this.openModal({kicker:'New assignment',title:'Create an assignment',sub:'Published to the section immediately and pushed as a notification.',
+            fields:[{key:'t',label:'Title',kind:'text',placeholder:'e.g. TCP congestion control study',span:2},
+              {key:'s',label:'Subject',kind:'select',options:db.subjects.map(x=>x.code)},{key:'d',label:'Due date',kind:'date',value:'2026-08-14'},
+              {key:'m',label:'Maximum marks',kind:'text',placeholder:'20'},{key:'sec',label:'Section',kind:'select',options:['Section A','Section B','Section C']},
+              {key:'b',label:'Brief',kind:'area',placeholder:'What students have to do',span:2}],
+            confirmLabel:'Publish', onConfirm:(f)=>{ const a={id:'A'+Date.now(),code:f.s||'CS501',title:f.t||'Untitled assignment',due:(f.d||'2026-08-14'),status:'Pending',max:+(f.m||20),score:null,files:0,of:62,sub:0,brief:f.b||''};
+              this.setState({modal:null, db:Object.assign({},db,{assignments:[a].concat(db.assignments)})}); this.toast('Assignment published to 62 students.'); }})}]},
+        blocks:this.B({table:true}),
+        tbl:{title:'Assignments set', sub:'Semester 5 · Section B', chips:[], filters:[],
+          cols:[this.col('Assignment'),this.col('Due'),this.col('Submitted','left','190px'),this.col('Count','right'),this.col('Status'),this.col('','right','200px')],
+          rows, note:'Students receive a reminder 24 hours before the deadline automatically.'}
+      };
+    }
+    const cards = db.assignments.map(a=>{
+      const late = a.status==='Pending';
+      return this.card({kicker:a.code+' · '+this.subj(a.code).short, tag:a.status, tagCls: a.status==='Pending'?'tag-neutral':'tag-accent',
+        title:a.title, body:a.brief,
+        hasBar:a.score!==null, bar:(a.score/a.max*100)+'%', barLabel:'Score', barValue:a.score+' / '+a.max, tone:'var(--status-ok)',
+        meta:'Due '+a.due+(a.files?' · '+a.files+' file(s)':''),
+        actions: late?[{t:'Submit',cls:'btn-primary',go:()=>this.openModal({kicker:a.code+' · due '+a.due, title:'Submit assignment', sub:a.title,
+          fields:[{key:'f',label:'Attachment',kind:'file',value:'Drop a PDF, notebook or archive here (max 25 MB)',span:2},
+            {key:'n',label:'Note for the faculty',kind:'area',placeholder:'Optional',span:2}],
+          note:'Late submissions are accepted for 48 hours with a 10% penalty.', confirmLabel:'Submit work',
+          onConfirm:()=>{ this.setState({modal:null, db:Object.assign({},db,{assignments:db.assignments.map(x=>x.id===a.id?Object.assign({},x,{status:'Submitted',files:1,sub:x.sub+1}):x)})}); this.toast(a.code+' submitted. Receipt emailed.'); }})}]
+          :[{t:'View feedback',cls:'btn-secondary',go:()=>this.openModal({kicker:a.code,title:a.title,sub:'Graded by '+this.subj(a.code).faculty,
+            rows:[{k:'Score',v:(a.score||'—')+' / '+a.max},{k:'Submitted',v:a.due},{k:'Files',v:String(a.files)},{k:'Plagiarism',v:'4% · within limits'}],
+            note:'Well-structured submission. Cite the RFC numbers in the next one.', cancel:'Close'})}]});
+    });
+    return {
+      page:{kicker:'Coursework', title:'Assignments', sub:'Three submissions are still open. The nearest deadline is 28 July at 23:59.',
+        kpis:[ this.kpi('Pending','3','Next due 28 Jul',this.ico('file'),'var(--status-warn)','60%'),
+          this.kpi('Submitted','2','Awaiting one grade',this.ico('att'),'var(--color-accent)','40%'),
+          this.kpi('Average score','18.5 / 20','Graded work',this.ico('cap'),'var(--status-ok)','92%'),
+          this.kpi('On-time rate','100%','This semester',this.ico('clock'),'var(--status-ok)','100%')],
+        actions:[]},
+      blocks:this.B({cards:true}), cards
+    };
+  }
+
+  pg_examinations(){
+    const role=this.mode(), db=this.state.db;
+    const staff = role==='faculty'||role==='hod'||role==='admin';
+    const rows = db.exams.map(e=>({cells:[
+      this.c2(e.name, e.code), this.cp(e.date+' · '+e.day), this.cp(e.time), this.cp(e.room),
+      staff? this.cp('62 candidates') : this.cn(e.seat),
+      this.ca(staff?[{t:'Enter marks',cls:'btn-primary',go:()=>this.openModal({kicker:e.code+' · mark entry',title:'Enter marks — '+e.name,sub:'Semester examination · maximum 100 · Section B',
+          fields:db.state===0?[]:db.cls.slice(0,10).map((s,i)=>({key:'m'+i,label:s.name+' · '+s.id,kind:'text',placeholder:'—',value:String(58+((i*7)%38))})),
+          note:'Showing 10 of 62 candidates. Marks are locked once the controller of examinations publishes the result.',
+          confirmLabel:'Save marks', onConfirm:()=>{this.setState({modal:null}); this.toast('Marks saved for '+e.code+' · 10 candidates updated.');}})}]
+        :[{t:'Hall ticket',cls:'btn-secondary',go:()=>this.openModal({kicker:'Hall ticket',title:e.name,sub:e.code+' · Model Examination I',
+          rows:[{k:'Candidate',v:'Aarav Menon · 21CSE042'},{k:'Date',v:e.date+' · '+e.day},{k:'Reporting',v:'09:00'},{k:'Session',v:e.time},{k:'Hall',v:e.room},{k:'Seat',v:e.seat}],
+          note:'Carry your institute identity card. Programmable calculators are not permitted.', cancel:'Close', confirmLabel:'Download PDF',
+          onConfirm:()=>{this.setState({modal:null}); this.toast('Hall ticket downloaded.');}})}])
+    ]}));
+    return {
+      page:{kicker:'Model Examination I · August 2026', title:'Examinations',
+        sub: staff?'Examination schedule, invigilation and mark entry for the current assessment cycle.':'Your examination schedule, hall allotment and seat numbers.',
+        kpis:[ this.kpi('Papers','6','03 – 08 August',this.ico('cap'),'var(--color-accent)','60%'),
+          this.kpi('Days to first paper','7','CS501 · 03 Aug',this.ico('clock'),'var(--status-warn)','35%'),
+          this.kpi(staff?'Candidates':'Hall','62','Hall A-1 · A-Ground',this.ico('users'),'var(--color-accent)','62%'),
+          this.kpi(staff?'Marks pending':'Arrears', staff?'2 papers':'0', staff?'CS505, CS506':'No pending papers',this.ico('file'), staff?'var(--status-warn)':'var(--status-ok)','20%')],
+        actions: staff?[{label:'Publish timetable',cls:'btn-secondary',icon:this.ico('send'),go:()=>this.toast('Examination timetable published to 642 students.')},
+            {label:'Mark entry',cls:'btn-primary',icon:this.ico('file'),go:()=>this.toast('Select a paper below to open its entry sheet.')}]
+          :[{label:'Download timetable',cls:'btn-secondary',icon:this.ico('down'),go:()=>this.toast('Examination timetable downloaded.')}]},
+      blocks:this.B({table:true}),
+      tbl:{title:'Examination timetable', sub:'Model Examination I · Semester 5', chips:[], filters:[],
+        cols:[this.col('Paper'),this.col('Date'),this.col('Session'),this.col('Hall'),this.col(staff?'Strength':'Seat'),this.col('','right','160px')],
+        rows, note:'Reporting time is 30 minutes before the session. Answer scripts are valued centrally.'}
+    };
+  }
+
+  pg_results(){
+    const db=this.state.db, role=this.mode();
+    const semNames = db.sems.map(s=>'Semester '+s.n).concat(['Semester 5 · internal']);
+    const pick = this.sv('resSem','Semester 4');
+    const cg=this.cgpa();
+    let cols, rows, note;
+    if(pick==='Semester 5 · internal'){
+      cols=[this.col('Subject'),this.col('IA-1','right'),this.col('IA-2','right'),this.col('Assignment','right'),this.col('Practical','right'),this.col('Total','left','170px'),this.col('Grade')];
+      rows = db.subjects.map(s=>{ const tot=this.totalOf(s); const g=this.gradeOf(tot);
+        return {cells:[ this.c2(s.name,s.code), this.cp(s.ia1===null?'—':String(s.ia1),{align:'right'}), this.cp(s.ia2===null?'—':String(s.ia2),{align:'right'}),
+          this.cp(s.asg===null?'—':String(s.asg),{align:'right'}), this.cp(s.prac===null?'—':String(s.prac),{align:'right'}),
+          this.cell({bar:true,t:tot+'%',w2:tot+'%',tone: tot>=75?'var(--status-ok)':tot>=60?'var(--color-accent)':'var(--status-warn)'}),
+          this.ct(g, g==='O'||g==='A+'?'tag-accent':'tag-neutral') ]}; });
+      note='Provisional. Semester marks are not included until the end-semester examination is valued.';
+    } else {
+      const sem = db.sems.find(s=>'Semester '+s.n===pick) || db.sems[3];
+      cols=[this.col('Subject'),this.col('Code'),this.col('Credits','right'),this.col('Grade'),this.col('Grade point','right'),this.col('Credit point','right')];
+      rows = sem.rows.map(r=>({cells:[ this.cp(r.name), this.cp(r.code), this.cp(String(r.credits),{align:'right'}),
+        this.ct(r.grade, r.point>=9?'tag-accent':'tag-neutral'), this.cell({plain:true,t:String(r.point),align:'right'}),
+        this.cell({plain:true,t:String(r.point*r.credits),align:'right',font:'var(--font-heading)'}) ]}));
+      note='GPA '+sem.gpa.toFixed(2)+' from '+sem.cr+' credits. Published '+(sem.n===4?'18 July 2026':'earlier')+'. No arrears.';
+    }
+    return {
+      page:{kicker: role==='parent'?'Ward · Aarav Menon':'Examination results', title:'Results', sub:'Semester-wise grade sheets, GPA and the cumulative average across the programme.',
+        kpis:[ this.kpi('CGPA', cg.toFixed(2),'92 credits · 4 semesters',this.ico('cap'),'var(--color-accent)',cg*10+'%'),
+          this.kpi('Latest GPA','8.48','Semester 4',this.ico('chart'),'var(--status-ok)','85%'),
+          this.kpi('Class rank','14 / 62','CSE 5-B',this.ico('users'),'var(--color-accent)','78%'),
+          this.kpi('Arrears','0','No pending papers',this.ico('file'),'var(--status-ok)','100%')],
+        actions:[{label:'Grade sheet',cls:'btn-secondary',icon:this.ico('down'),go:()=>this.toast('Consolidated grade sheet downloaded.')},
+          {label:'Apply for revaluation',cls:'btn-secondary',icon:this.ico('file'),go:()=>this.openModal({kicker:'Controller of examinations',title:'Apply for revaluation',sub:'₹500 per paper · window closes 08 August 2026',
+            fields:[{key:'p',label:'Paper',kind:'select',options:db.sems[3].rows.map(r=>r.code+' · '+r.name)},{key:'t',label:'Type',kind:'select',options:['Revaluation','Photocopy of script','Retotalling']}],
+            confirmLabel:'Submit & pay', onConfirm:()=>{this.setState({modal:null}); this.toast('Revaluation request submitted. Payment link sent by email.');}})}]},
+      blocks:this.B({perf:true, table:true}),
+      perfTitle:'GPA trend', perfMeta:'Per semester · *provisional',
+      perfBars: db.sems.map(x=>({label:'Sem '+x.n, value:x.gpa.toFixed(2), h:(x.gpa/10*100)+'%', tone:'var(--color-accent)', fill:'color-mix(in srgb, var(--color-accent) 16%, transparent)'}))
+        .concat([{label:'Sem 5*', value:'8.76', h:'87.6%', tone:'var(--status-ok)', fill:'color-mix(in srgb, var(--status-ok) 16%, transparent)'}]),
+      perfNote:'CGPA '+cg.toFixed(2)+'. A CGPA of 7.5 or above keeps every placement drive open.',
+      tbl:{title:pick, sub:'Grade sheet', chips:this.chips('resSem','Semester 4',semNames), filters:[], cols, rows, note}
+    };
+  }
+
+  pg_fees(){
+    const db=this.state.db, role=this.mode();
+    const total=db.fees.reduce((a,b)=>a+b.amt,0);
+    const paid=db.fees.filter(f=>f.status==='Paid').reduce((a,b)=>a+b.amt,0);
+    const due=total-paid;
+    if(role==='admin'){
+      const rows=db.depts.map(d=>{ const coll=Math.round(d.att); return {cells:[ this.c2(d.name,d.code), this.cp(this.money(d.stu*74000),{align:'right'}),
+        this.cp(this.money(Math.round(d.stu*74000*coll/100)),{align:'right'}), this.cb(coll),
+        this.ca([{t:'Send reminder',cls:'btn-secondary',go:()=>this.toast('Fee reminder sent to '+d.code+' defaulters.')}])]}; });
+      return { page:{kicker:'Finance', title:'Fees management', sub:'Collection against demand for the academic year 2026/27.',
+          kpis:[ this.kpi('Demand','₹50.0 Cr','2026/27',this.ico('card'),'var(--color-accent)','100%'),
+            this.kpi('Collected','₹41.2 Cr','82.4% of demand',this.ico('card'),'var(--status-ok)','82%'),
+            this.kpi('Outstanding','₹8.8 Cr','214 defaulters',this.ico('chart'),'var(--status-bad)','18%'),
+            this.kpi('Scholarships','₹3.4 Cr','486 students',this.ico('cap'),'var(--color-accent)','34%')],
+          actions:[{label:'Export ledger',cls:'btn-secondary',icon:this.ico('down'),go:()=>this.toast('Fee ledger exported.')},
+            {label:'Raise demand note',cls:'btn-primary',icon:this.ico('send'),go:()=>this.toast('Demand notes issued to 214 students.')}]},
+        blocks:this.B({table:true}),
+        tbl:{title:'Collection by department', sub:'Academic year 2026/27', chips:[], filters:[],
+          cols:[this.col('Department'),this.col('Demand','right'),this.col('Collected','right'),this.col('Collection','left','190px'),this.col('','right','170px')],
+          rows, note:'Figures update as payments settle. Reconciliation runs nightly at 02:00.'} };
+    }
+    const rows=db.fees.map(f=>({cells:[
+      this.c2(f.head, f.rct||'Awaiting payment'), this.cell({plain:true,t:this.money(f.amt),align:'right',font:'var(--font-heading)',size:'15px'}),
+      this.cp(f.on), this.cp(f.mode), this.ct(f.status, f.status==='Paid'?'tag-accent':'tag-neutral'),
+      this.ca(f.status==='Paid'
+        ?[{t:'Receipt',cls:'btn-secondary',go:()=>this.openModal({kicker:'Receipt '+f.rct,title:f.head,sub:'Northgate Institute of Technology · Finance office',
+            rows:[{k:'Student',v:'Aarav Menon · 21CSE042'},{k:'Receipt no.',v:f.rct},{k:'Paid on',v:f.on},{k:'Mode',v:f.mode},{k:'Status',v:'Realised'}],
+            big:this.money(f.amt), bigLabel:'Amount paid', note:'This is a computer-generated receipt and does not require a signature.',
+            cancel:'Close', confirmLabel:'Download PDF', onConfirm:()=>{this.setState({modal:null}); this.toast('Receipt '+f.rct+' downloaded.');}})}]
+        :[{t:'Pay now',cls:'btn-primary',go:()=>this.openModal({kicker:'Secure payment',title:'Pay '+f.head,sub:'Payments settle within two working hours.',
+            big:this.money(f.amt), bigLabel:'Amount payable',
+            fields:[{key:'m',label:'Payment method',kind:'select',options:['UPI','Net banking','Debit card','Credit card','NEFT / RTGS']},
+              {key:'r',label:'Reference name',kind:'text',placeholder:'Ramesh Menon'}],
+            note:'A late fee of ₹100 per day applies after 10 August 2026.', confirmLabel:'Pay '+this.money(f.amt),
+            onConfirm:()=>{ const rct='RCT-2026-'+(900+Math.floor(Math.random()*90));
+              this.setState({modal:null, db:Object.assign({},db,{fees:db.fees.map(x=>x.id===f.id?Object.assign({},x,{status:'Paid',on:'27 Jul 2026',mode:(this.state.form.m||'UPI'),rct}):x)})});
+              this.toast('Payment successful · receipt '+rct+' issued.'); }})}])
+    ]}));
+    return {
+      page:{kicker: role==='parent'?'Ward · Aarav Menon':'Finance', title:'Fees', sub:'Every head of fee for 2026/27, with receipts against each settled payment.',
+        kpis:[ this.kpi('Total demand', this.money(total),'Academic year 2026/27',this.ico('card'),'var(--color-accent)','100%'),
+          this.kpi('Paid', this.money(paid), Math.round(paid/total*100)+'% settled',this.ico('att'),'var(--status-ok)',Math.round(paid/total*100)+'%'),
+          this.kpi('Balance', this.money(due), due?'Due 10 Aug 2026':'Nothing outstanding',this.ico('chart'), due?'var(--status-bad)':'var(--status-ok)', Math.round(due/total*100)+'%'),
+          this.kpi('Scholarship','₹15,000','Merit · credited',this.ico('cap'),'var(--color-accent)','30%')],
+        actions:[{label:'Fee structure',cls:'btn-secondary',icon:this.ico('file'),go:()=>this.toast('Fee structure for 2026/27 downloaded.')}]},
+      blocks:this.B({table:true}),
+      tbl:{title:'Fee ledger', sub:'Academic year 2026/27', chips:[], filters:[],
+        cols:[this.col('Head of fee'),this.col('Amount','right'),this.col('Date'),this.col('Mode'),this.col('Status'),this.col('','right','150px')],
+        rows, note: due? 'Hostel & mess for Term 1 is outstanding. A late fee of ₹100 per day applies after 10 August 2026.' : 'All heads of fee are settled for this academic year.'}
+    };
+  }
+
+  pg_leave(){
+    const role=this.mode(), db=this.state.db;
+    const staff = role!=='student' && role!=='parent';
+    if(staff){
+      const f=this.sv('leaveF','Pending');
+      const list=db.leaves.filter(l=>f==='All'||l.status===f);
+      const decide=(l,verdict)=>{ this.setState({db:Object.assign({},db,{leaves:db.leaves.map(x=>x.id===l.id?Object.assign({},x,{status:verdict,by:this.state.session.name}):x)})});
+        this.toast(l.who+' · leave '+verdict.toLowerCase()+'.'); };
+      const rows=list.map(l=>({cells:[
+        this.c2(l.who, l.rid), this.ct(l.type, l.type==='On Duty'?'tag-accent':'tag-neutral'),
+        this.cp(l.from+(l.days>1?' → '+l.to:'')), this.cp(l.days+(l.days>1?' days':' day'),{align:'right'}),
+        this.cp(l.reason,{size:'13px'}),
+        l.status==='Pending' ? this.ca([{t:'Approve',cls:'btn-primary',go:()=>decide(l,'Approved')},{t:'Reject',cls:'btn-secondary',go:()=>decide(l,'Rejected')}])
+          : this.ct(l.status, l.status==='Approved'?'tag-accent':'tag-neutral')
+      ]}));
+      return { page:{kicker:'Approvals', title:'Leave requests', sub:'Requests from your sections. Approved on-duty days still count towards attendance.',
+          kpis:[ this.kpi('Pending', String(db.leaves.filter(l=>l.status==='Pending').length),'Awaiting decision',this.ico('file'),'var(--status-warn)','40%'),
+            this.kpi('Approved this month','12','8 medical · 4 on duty',this.ico('att'),'var(--status-ok)','80%'),
+            this.kpi('Rejected','1','Insufficient documents',this.ico('chart'),'var(--status-bad)','10%'),
+            this.kpi('Avg. turnaround','6 h','Target 24 h',this.ico('clock'),'var(--status-ok)','92%')], actions:[]},
+        blocks:this.B({table:true}),
+        tbl:{title:'Request queue', sub:'CSE · Semester 5', chips:this.chips('leaveF','Pending',['Pending','Approved','Rejected','All']), filters:[],
+          cols:[this.col('Student'),this.col('Type'),this.col('Dates'),this.col('Days','right'),this.col('Reason'),this.col('','right','190px')],
+          rows, note:'Medical leave beyond three days needs a certificate countersigned by the institute medical officer.'} };
+    }
+    const cards=db.leaves.filter(l=>l.rid==='21CSE042').map(l=>this.card({
+      kicker:l.type+' leave', tag:l.status, tagCls: l.status==='Approved'?'tag-accent':'tag-neutral',
+      title:l.from+(l.days>1?' → '+l.to:''), body:l.reason,
+      meta: l.status==='Pending'?'Awaiting class advisor':'Decided by '+l.by,
+      actions: l.status==='Pending'?[{t:'Withdraw',cls:'btn-secondary',go:()=>{ this.setState({db:Object.assign({},db,{leaves:db.leaves.filter(x=>x.id!==l.id)})}); this.toast('Leave request withdrawn.'); }}]
+        :[{t:'View',cls:'btn-secondary',go:()=>this.openModal({kicker:'Leave record',title:l.type+' leave',sub:l.from+(l.days>1?' → '+l.to:''),
+          rows:[{k:'Applied on',v:'02 days prior'},{k:'Days',v:String(l.days)},{k:'Status',v:l.status},{k:'Decided by',v:l.by||'—'}], cancel:'Close'})}]}));
+    return {
+      page:{kicker:'Leave & on duty', title:'Leave', sub:'Apply for casual, medical or on-duty leave and track the decision.',
+        kpis:[ this.kpi('Applied','3','This semester',this.ico('file'),'var(--color-accent)','30%'),
+          this.kpi('Approved','2','1 medical · 1 on duty',this.ico('att'),'var(--status-ok)','66%'),
+          this.kpi('Pending','1','With the class advisor',this.ico('clock'),'var(--status-warn)','33%'),
+          this.kpi('Leave balance','9 days','Casual leave remaining',this.ico('cal'),'var(--color-accent)','75%')],
+        actions:[{label:'Apply for leave',cls:'btn-primary',icon:this.ico('plus'),go:()=>this.openModal({kicker:'New request',title:'Apply for leave',sub:'Routed to your class advisor, then to the HOD if longer than three days.',
+          fields:[{key:'t',label:'Type',kind:'select',options:['Casual','Medical','On Duty']},{key:'f',label:'From',kind:'date',value:'2026-08-03'},
+            {key:'to',label:'To',kind:'date',value:'2026-08-03'},{key:'d',label:'Working days',kind:'text',placeholder:'1'},
+            {key:'r',label:'Reason',kind:'area',placeholder:'Give enough detail for the advisor to decide',span:2}],
+          note:'On-duty leave for approved events counts towards attendance.', confirmLabel:'Submit request',
+          onConfirm:(f)=>{ const l={id:'L'+Date.now(),who:'Aarav Menon',rid:'21CSE042',type:f.t||'Casual',from:(f.f||'03 Aug 2026'),to:(f.to||f.f||'03 Aug 2026'),days:+(f.d||1),reason:f.r||'—',status:'Pending',by:''};
+            this.setState({modal:null, db:Object.assign({},db,{leaves:[l].concat(db.leaves)})}); this.toast('Leave request submitted to Prof. Kavitha Suresh.'); }})}]},
+      blocks:this.B({cards:true}), cards
+    };
+  }
+
+  pg_materials(){
+    const db=this.state.db, role=this.mode();
+    const f=this.sv('matSub','All subjects');
+    const list=db.materials.filter(m=>f==='All subjects'||m.code===f.split(' ')[0]);
+    const cards=list.map(m=>this.card({kicker:m.code+' · '+this.subj(m.code).short, tag:m.kind, tagCls:'tag-accent',
+      title:m.title, body:'Uploaded by '+m.by+' on '+m.on+'. '+m.size+'.',
+      hasBar:true, bar:Math.min(m.dl/3,100)+'%', barLabel:'Downloads', barValue:String(m.dl), tone:'var(--color-accent)',
+      meta:m.kind+' · '+m.size, actions:[{t:'Download',cls:'btn-primary',go:()=>this.toast('Downloading “'+m.title+'”…')}]}));
+    return {
+      page:{kicker:'Study materials', title:'Materials', sub:'Notes, slide decks and handouts published by faculty for Semester 5.',
+        kpis:[ this.kpi('Files','6','Across 5 subjects',this.ico('file'),'var(--color-accent)','60%'),
+          this.kpi('Added this week','2','CS503, CS501',this.ico('clock'),'var(--status-ok)','40%'),
+          this.kpi('Downloads','1,099','All material',this.ico('down'),'var(--color-accent)','80%'),
+          this.kpi('Storage','19.2 MB','Of 2 GB allotted',this.ico('chart'),'var(--color-accent)','12%')],
+        actions: role==='faculty'||role==='hod'||role==='admin'
+          ? [{label:'Upload material',cls:'btn-primary',icon:this.ico('plus'),go:()=>this.openModal({kicker:'Study material',title:'Upload material',sub:'Visible to every student in the selected section.',
+              fields:[{key:'t',label:'Title',kind:'text',placeholder:'e.g. Unit IV — Transport layer',span:2},{key:'s',label:'Subject',kind:'select',options:db.subjects.map(x=>x.code)},
+                {key:'k',label:'Type',kind:'select',options:['PDF','PPTX','DOCX','Video link']},{key:'f',label:'File',kind:'file',value:'Drop a file here (max 50 MB)',span:2}],
+              confirmLabel:'Publish', onConfirm:(fm)=>{ const m={code:fm.s||'CS501',title:fm.t||'Untitled material',kind:fm.k||'PDF',size:'2.4 MB',by:this.state.session.name,on:'27 Jul 2026',dl:0};
+                this.setState({modal:null, db:Object.assign({},db,{materials:[m].concat(db.materials)})}); this.toast('Material published to 62 students.'); }})}]
+          : [{label:'Request notes',cls:'btn-secondary',icon:this.ico('send'),go:()=>this.toast('Request sent to the subject faculty.')}]},
+      blocks:this.B({cards:true}), cards,
+      page2:null
+    };
+  }
+
+  pg_notifications(){
+    const db=this.state.db;
+    const f=this.sv('notifF','All');
+    const kinds=['All','Attendance','Assignment','Examination','Fees','Leave','Announcement'];
+    const list=db.notifs.filter(n=>f==='All'||n.kind===f||(f==='Assignment'&&n.kind==='Deadline'));
+    const rows=list.map(n=>({cells:[
+      this.c2(n.title, n.body), this.ct(n.kind, n.tone==='bad'||n.tone==='warn'?'tag-neutral':'tag-accent'),
+      this.cp(n.when), this.ct(n.read?'Read':'Unread', n.read?'tag-neutral':'tag-accent'),
+      this.ca([{t:'Open',cls:'btn-secondary',go:()=>{ this.setState({db:Object.assign({},db,{notifs:db.notifs.map(x=>x.id===n.id?Object.assign({},x,{read:true}):x)})}); this.go(n.route); }}])
+    ]}));
+    const staff=['faculty','hod','admin'].includes(this.mode());
+    return {
+      page:{kicker:'Inbox', title:'Notifications', sub:'Attendance alerts, deadlines, results, fee reminders and institute announcements.',
+        kpis:[ this.kpi('Unread', String(db.notifs.filter(n=>!n.read).length),'Since 16 July',this.ico('file'),'var(--color-accent)','40%'),
+          this.kpi('Action needed','2','Fee & attendance',this.ico('att'),'var(--status-warn)','20%'),
+          this.kpi('This week','4','Across 3 subjects',this.ico('clock'),'var(--color-accent)','50%'),
+          this.kpi('Channels','3','Portal · email · SMS',this.ico('send'),'var(--color-accent)','75%')],
+        actions: staff?[{label:'Send announcement',cls:'btn-primary',icon:this.ico('send'),go:()=>this.openModal({kicker:'Broadcast',title:'Send an announcement',sub:'Delivered to the portal, email and SMS.',
+            fields:[{key:'t',label:'Title',kind:'text',placeholder:'e.g. Lab session rescheduled',span:2},{key:'a',label:'Audience',kind:'select',options:['CSE 5-B','All CSE students','All faculty','Entire institute','Parents']},
+              {key:'p',label:'Priority',kind:'select',options:['Normal','High','Urgent']},{key:'b',label:'Message',kind:'area',placeholder:'Keep it short and specific',span:2}],
+            confirmLabel:'Send now', onConfirm:(f2)=>{ const n={id:'N'+Date.now(),kind:'Announcement',title:f2.t||'Announcement',body:f2.b||'',when:'Just now',tone:'accent',route:'notifications',read:false};
+              this.setState({modal:null, db:Object.assign({},db,{notifs:[n].concat(db.notifs)})}); this.toast('Announcement sent to '+(f2.a||'CSE 5-B')+'.'); }})}]
+          :[{label:'Mark all read',cls:'btn-secondary',icon:this.ico('att'),go:()=>{ this.setState({db:Object.assign({},db,{notifs:db.notifs.map(n=>Object.assign({},n,{read:true}))})}); this.toast('All notifications marked as read.'); }}]},
+      blocks:this.B({table:true}),
+      tbl:{title:'All notifications', sub:'Most recent first', chips:this.chips('notifF','All',kinds), filters:[],
+        cols:[this.col('Notification'),this.col('Type'),this.col('When'),this.col('State'),this.col('','right','120px')],
+        rows, note:'Attendance shortage alerts are also sent to the registered guardian by SMS.'}
+    };
+  }
+
+  pg_calendar(){
+    const db=this.state.db, y=2026, m=this.sv('calM',6);
+    const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const mi={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+    const first=new Date(y,m,1), startDow=(first.getDay()+6)%7, dim=new Date(y,m+1,0).getDate(), prevDim=new Date(y,m,0).getDate();
+    const evOn=(d)=>db.events.filter(e=>mi[e.m]===m && +e.d===d).map(e=>({title:e.title, tone:this.tone(e.tone)}));
+    const days=[];
+    for(let i=0;i<startDow;i++) days.push({n:prevDim-startDow+1+i, op:'.3', tone:'var(--color-text)', today:false, events:[]});
+    for(let d=1;d<=dim;d++) days.push({n:d, op:'1', tone: d===27&&m===6?'var(--color-accent)':'var(--color-text)', today:(d===27&&m===6), events:evOn(d)});
+    let nd=1; while(days.length%7!==0) days.push({n:nd++, op:'.3', tone:'var(--color-text)', today:false, events:[]});
+    const rows=db.events.map(e=>({cells:[ this.cp(e.d+' '+e.m+' 2026'), this.c2(e.title, e.when), this.ct(e.tag, e.tone==='warn'?'tag-neutral':'tag-accent'),
+      this.ca([{t:'Remind me',cls:'btn-secondary',go:()=>this.toast('Reminder set for “'+e.title+'”.')}])]}));
+    return {
+      page:{kicker:'Academic calendar 2026/27', title:'Calendar', sub:'Examinations, holidays, fee dates and institute events for the odd semester.',
+        kpis:[ this.kpi('Working days','92','Odd semester',this.ico('cal'),'var(--color-accent)','78%'),
+          this.kpi('Holidays','11','Including 3 optional',this.ico('cal'),'var(--color-accent)','20%'),
+          this.kpi('Examination days','14','Model + end semester',this.ico('cap'),'var(--status-warn)','30%'),
+          this.kpi('Events','9','Next: 01 August',this.ico('users'),'var(--color-accent)','45%')],
+        actions:[{label:'Export .ics',cls:'btn-secondary',icon:this.ico('down'),go:()=>this.toast('Academic calendar exported.')}]},
+      blocks:this.B({calendar:true, table:true}),
+      calTitle: monthNames[m]+' '+y, dows:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], calDays:days,
+      calPrev:()=>this.put('calM', Math.max(0,m-1)), calNext:()=>this.put('calM', Math.min(11,m+1)),
+      tbl:{title:'Key dates', sub:'July – October 2026', chips:[], filters:[],
+        cols:[this.col('Date'),this.col('Event'),this.col('Type'),this.col('','right','140px')], rows, note:'Dates approved by the academic council on 02 June 2026.'}
+    };
+  }
+
+  pg_placement(){
+    const db=this.state.db;
+    const cards=db.drives.map(d=>this.card({kicker:d.date, tag:d.status, tagCls: d.status==='Not eligible'?'tag-neutral':'tag-accent',
+      title:d.co, body:d.role+' · '+d.ctc+'. '+d.elig+'.',
+      meta:'Campus drive', actions: d.status==='Not eligible'?[{t:'Criteria',cls:'btn-secondary',go:()=>this.toast('You need a CGPA of 8.5 for '+d.co+'. Yours is 8.46.')}]
+        : d.status==='Registered'?[{t:'Withdraw',cls:'btn-secondary',go:()=>this.toast('Withdrawn from the '+d.co+' drive.')}]
+        :[{t:'Register',cls:'btn-primary',go:()=>this.toast('Registered for the '+d.co+' drive on '+d.date+'.')}]}));
+    return {
+      page:{kicker:'Training & placement cell', title:'Placement', sub:'Drives, eligibility and the placement record for the 2026 graduating batch.',
+        kpis:[ this.kpi('Offers','486','2026 batch',this.ico('case'),'var(--color-accent)','92%'),
+          this.kpi('Placed','92%','Of eligible students',this.ico('att'),'var(--status-ok)','92%'),
+          this.kpi('Highest','₹42 LPA','Product engineering',this.ico('chart'),'var(--color-accent)','100%'),
+          this.kpi('Average','₹8.4 LPA','Across 74 recruiters',this.ico('cap'),'var(--color-accent)','62%')],
+        actions:[{label:'Upload résumé',cls:'btn-primary',icon:this.ico('plus'),go:()=>this.openModal({kicker:'Placement profile',title:'Upload your résumé',sub:'Shared with recruiters for drives you register for.',
+          fields:[{key:'f',label:'Résumé',kind:'file',value:'Drop a PDF (max 2 MB)',span:2},{key:'s',label:'Preferred role',kind:'select',options:['Software engineering','Data science','Systems & networks','Product']}],
+          confirmLabel:'Upload', onConfirm:()=>{this.setState({modal:null}); this.toast('Résumé uploaded to your placement profile.');}})}]},
+      blocks:this.B({cards:true}), cards
+    };
+  }
+
+  pg_reports(){
+    const db=this.state.db;
+    const reports=[['Attendance summary','Section-wise attendance with shortage lists','Monthly'],
+      ['Academic performance','Subject-wise pass percentage and grade spread','Per semester'],
+      ['Faculty workload','Contact hours against the departmental guideline','Monthly'],
+      ['Fee collection','Demand, collection and outstanding by department','Weekly'],
+      ['Placement summary','Offers, packages and recruiter participation','Annual'],
+      ['Defaulters list','Students below 75% attendance in any subject','Weekly']];
+    const cards=reports.map(r=>this.card({kicker:r[2], tag:'Report', tagCls:'tag-accent', title:r[0], body:r[1],
+      meta:'Last run 26 Jul 2026', actions:[{t:'Generate',cls:'btn-primary',go:()=>this.toast('“'+r[0]+'” generated — download link emailed.')}]}));
+    return {
+      page:{kicker:'Analytics', title:'Reports', sub:'Standing reports for the department and institute, generated on demand.',
+        kpis:[ this.kpi('Avg. attendance','88.4%','Department',this.ico('att'),'var(--status-ok)','88%'),
+          this.kpi('Pass percentage','94.2%','Semester 4',this.ico('cap'),'var(--status-ok)','94%'),
+          this.kpi('Defaulters','2','Below 75%',this.ico('chart'),'var(--status-bad)','12%'),
+          this.kpi('Reports run','38','This month',this.ico('file'),'var(--color-accent)','60%')],
+        actions:[{label:'Schedule report',cls:'btn-secondary',icon:this.ico('clock'),go:()=>this.toast('Weekly schedule saved.')}]},
+      blocks:this.B({perf:true, attendance:true, cards:true}),
+      cards,
+      attTitle:'Attendance by department', attMeta:'This month',
+      donutTone:'var(--status-ok)', donutDash:((86.6/100)*2*Math.PI*51).toFixed(1)+' 999', donutValue:'86.6%', donutCaption:'INSTITUTE AVG',
+      attBars: db.depts.slice(0,5).map(d=>({label:d.code, value:d.att+'%', bar:d.att+'%', tone:this.attTone(d.att)})),
+      attNote:'Two departments are below the 85% target.',
+      perfTitle:'Pass percentage by department', perfMeta:'Semester 4',
+      perfBars: db.depts.map(d=>({label:d.code, value:d.pass.toFixed(1), h:d.pass+'%', tone:'var(--color-accent)', fill:'color-mix(in srgb, var(--color-accent) 16%, transparent)'})),
+      perfNote:'Institute pass percentage 92.4%, up 1.8 points on the previous cycle.'
+    };
+  }
+
+  pg_settings(){
+    const s=this.state, role=this.mode();
+    const tg=(k,d)=>{ const on=this.sv(k,d); return {isToggle:true,isBtn:false,isText:false, go:()=>this.put(k,!on),
+      track: on?'var(--color-accent)':'transparent', border: on?'var(--color-accent)':'var(--color-divider)',
+      knob: on?'var(--color-bg)':'var(--color-neutral-400)', just: on?'flex-end':'flex-start', value:'', btnLabel:'', cls:''}; };
+    const btn=(label,go,cls)=>({isToggle:false,isBtn:true,isText:false,btnLabel:label,go,cls:cls||'btn-secondary',track:'',border:'',knob:'',just:'',value:''});
+    const txt=(v)=>({isToggle:false,isBtn:false,isText:true,value:v,go:null,track:'',border:'',knob:'',just:'',btnLabel:'',cls:''});
+    const groups=[
+      {title:'Appearance', sub:'How the portal looks on this device', rows:[
+        Object.assign({label:'Dark mode', sub:'Follows this device only'}, tg('__dark', s.theme==='dark'), {go:()=>{const t=s.theme==='light'?'dark':'light'; this.setState({theme:t}); try{localStorage.setItem('ngcms:theme',t);}catch(e){}}, track:s.theme==='dark'?'var(--color-accent)':'transparent', border:s.theme==='dark'?'var(--color-accent)':'var(--color-divider)', knob:s.theme==='dark'?'var(--color-bg)':'var(--color-neutral-400)', just:s.theme==='dark'?'flex-end':'flex-start'}),
+        Object.assign({label:'Compact tables', sub:'Denser rows in data tables'}, tg('compact',false)),
+        Object.assign({label:'Language', sub:'Portal and notification language'}, txt('English (India)')),
+        Object.assign({label:'Time zone', sub:'Used for deadlines and registers'}, txt('IST · UTC+05:30'))]},
+      {title:'Notifications', sub:'Where each alert is delivered', rows:[
+        Object.assign({label:'Attendance shortage', sub:'Portal, email and SMS'}, tg('nAtt',true)),
+        Object.assign({label:'Assignment deadlines', sub:'24 hours before closing'}, tg('nAsg',true)),
+        Object.assign({label:'Examination & results', sub:'Timetables and publications'}, tg('nExam',true)),
+        Object.assign({label:'Fee reminders', sub:'7 days and 1 day before the due date'}, tg('nFee',true)),
+        Object.assign({label:'Guardian copy', sub:'Send a copy to the registered guardian'}, tg('nGuard', role==='student'))]},
+      {title:'Security', sub:'Account access and sessions', rows:[
+        Object.assign({label:'Password', sub:'Last changed 14 June 2026'}, btn('Change', ()=>this.openModal({kicker:'Security',title:'Change password',sub:'You will be signed out of other devices.',
+          fields:[{key:'a',label:'Current password',kind:'text',placeholder:'••••••••'},{key:'b',label:'New password',kind:'text',placeholder:'At least 10 characters'},{key:'c',label:'Confirm new password',kind:'text',placeholder:'Repeat it',span:2}],
+          confirmLabel:'Update password', onConfirm:()=>{this.setState({modal:null}); this.toast('Password updated.');}}))),
+        Object.assign({label:'Two-factor authentication', sub:'One-time code by SMS'}, tg('2fa',true)),
+        Object.assign({label:'Active sessions', sub:'2 devices · Chennai, Kochi'}, btn('Sign out all', ()=>this.toast('Signed out of all other devices.'))),
+        Object.assign({label:'Login alerts', sub:'Email on a new device'}, tg('alerts',true))]}
+    ];
+    if(role==='admin') groups.push({title:'Roles & permissions', sub:'What each role can reach', rows:[
+      Object.assign({label:'Student', sub:'Read own record · submit work'}, txt('12 permissions')),
+      Object.assign({label:'Faculty', sub:'Registers, marks, materials, approvals'}, txt('24 permissions')),
+      Object.assign({label:'HOD', sub:'Department-wide read & approvals'}, txt('31 permissions')),
+      Object.assign({label:'Administrator', sub:'Full access including finance'}, txt('All permissions')),
+      Object.assign({label:'Parent', sub:'Read-only on the linked ward'}, txt('7 permissions')),
+      Object.assign({label:'Permission matrix', sub:'Edit the role definitions'}, btn('Open', ()=>this.toast('Permission matrix opened in edit mode.'),'btn-primary'))]});
+    return {
+      page:{kicker:'Preferences', title:'Settings', sub:'Appearance, notification delivery and account security for '+this.state.session.name+'.', kpis:null, actions:[]},
+      blocks:this.B({settings:true}), setGroups:groups
+    };
+  }
+
+  modalVals(){
+    const m=this.state.modal;
+    const base={ closeModal:()=>this.setState({modal:null}), stop:(e)=>e.stopPropagation() };
+    if(!m) return Object.assign({modal:null}, base);
+    return Object.assign({modal:{
+      kicker:m.kicker||'', title:m.title||'', sub:m.sub||'', note:m.note||'',
+      hasRows:!!(m.rows&&m.rows.length), rows:m.rows||[],
+      hasBig:!!m.big, big:m.big||'', bigLabel:m.bigLabel||'',
+      hasFields:!!(m.fields&&m.fields.length),
+      fields:(m.fields||[]).map(f=>({
+        label:f.label, span:f.span||1, placeholder:f.placeholder||'',
+        isText:f.kind==='text', isDate:f.kind==='date', isArea:f.kind==='area', isSelect:f.kind==='select', isFile:f.kind==='file',
+        options:(f.options||[]).map(o=>({v:o,t:o})),
+        value: this.state.form[f.key]!==undefined ? this.state.form[f.key] : (f.value!==undefined?f.value:(f.options?f.options[0]:'')),
+        on:(e)=>this.setState({form:Object.assign({},this.state.form,{[f.key]:e.target.value})})
+      })),
+      cancel:m.cancel||'Cancel', hasConfirm:!!m.onConfirm, confirmLabel:m.confirmLabel||'Confirm',
+      confirm:()=>m.onConfirm(this.state.form)
+    }}, base);
+  }
+
+  emptyVals(){
+    return {
+      page:{kicker:'',title:'',sub:'',kpis:null,actions:[]},
+      blocks:{}, todayClasses:[], noClasses:false, todayLabel:'', attTitle:'', attMeta:'',
+      donutTone:'var(--color-accent)', donutDash:'0 999', donutValue:'', donutCaption:'',
+      attBars:[], attNote:'', perfTitle:'', perfMeta:'', perfBars:[], perfNote:'', feed:[], upcoming:[],
+      me:{initials:'',name:'',roleLabel:''}, nav:[], demos:[], results:[], notifs:[],
+      isConsole:false, kpiStrip:false, kpiCards:false, look:'classic', mainW:'1480px', hamburger:'inline-flex', crumbDisplay:'flex',
+      ayear:'2026 – 27', ayears:[], ayearDisplay:'block', roleSel:'Student', roleOptions:[], rememberOn:'1',
+      searchDisplay:'block', searchBtnDisplay:'none', toggleSearch:()=>{},
+      loginErr:'', toast:this.state.toast, theme:this.state.theme
+    };
+  }
+
+  renderVals(){
+    const s = this.state;
+    if(!s.session) return {...this.emptyVals(), ...this.loginVals(), showLogin:true, showApp:false, theme:s.theme, toast:s.toast};
+    const v = {...this.emptyVals(), ...this.shellVals(), ...this.pageVals(), ...this.modalVals(), showLogin:false, showApp:true};
+    const has = !!(v.page && v.page.kpis && v.page.kpis.length);
+    v.kpiStrip = has && v.isConsole;
+    v.kpiCards = has && !v.isConsole;
+    return v;
+  }
+}
+</script>
+</body>
+</html>
