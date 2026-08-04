@@ -8,13 +8,24 @@ const firstSet = (...keys: string[]): string | undefined => {
   return undefined;
 };
 
-const runningOnVercel = process.env.VERCEL === '1';
-const configuredDatabaseUrl = firstSet('DATABASE_URL', 'POSTGRES_PRISMA_URL', 'POSTGRES_URL');
+const withCampusSchema = (value?: string): string | undefined => {
+  if (!value || !/^postgres(?:ql)?:\/\//i.test(value)) return value;
+  const url = new URL(value);
+  if (!url.searchParams.has('schema')) url.searchParams.set('schema', 'campus_connect');
+  return url.toString();
+};
 
-export const usingDemoDatabase = runningOnVercel && !configuredDatabaseUrl;
+const runningOnVercel = process.env.VERCEL === '1';
+const rawDatabaseUrl = firstSet('DATABASE_URL', 'POSTGRES_PRISMA_URL', 'POSTGRES_URL');
+const configuredDatabaseUrl = withCampusSchema(rawDatabaseUrl);
+const configuredDirectUrl = withCampusSchema(
+  firstSet('DIRECT_URL', 'POSTGRES_URL_NON_POOLING', 'DATABASE_URL', 'POSTGRES_URL'),
+);
+
+export const usingDemoDatabase = runningOnVercel && !rawDatabaseUrl;
 export const databaseUrl = configuredDatabaseUrl ?? (usingDemoDatabase ? 'file:/tmp/campus-connect.db' : undefined);
-export const directUrl =
-  firstSet('DIRECT_URL', 'POSTGRES_URL_NON_POOLING', 'DATABASE_URL', 'POSTGRES_URL') ?? databaseUrl;
+export const directUrl = configuredDirectUrl ?? databaseUrl;
+export const databaseMode = usingDemoDatabase ? 'sqlite-demo' : configuredDatabaseUrl ? 'postgres' : 'unconfigured';
 
 const jwtSecret =
   process.env.JWT_SECRET ??
