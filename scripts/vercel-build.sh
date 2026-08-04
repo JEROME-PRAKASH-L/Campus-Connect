@@ -4,43 +4,47 @@
 set -euo pipefail
 
 # Vercel's Supabase integration provisions POSTGRES_* rather than DATABASE_URL.
-# Normalise here so the Prisma CLI and the seed — which read DATABASE_URL and
-# DIRECT_URL directly — work whether the credentials were added by hand or by
+# Normalise here so Prisma works whether credentials were added by hand or by
 # connecting Supabase to the project.
 export DATABASE_URL="${DATABASE_URL:-${POSTGRES_PRISMA_URL:-${POSTGRES_URL:-}}}"
 export DIRECT_URL="${DIRECT_URL:-${POSTGRES_URL_NON_POOLING:-$DATABASE_URL}}"
 
-SCHEMA="apps/api/prisma/schema.prisma"
-
-# `prisma generate` writes to the node_modules nearest the schema, i.e.
-# apps/api/node_modules/.prisma/client — which is also where the API sources
-# resolve @prisma/client from. apps/api's dependencies must therefore be
-# installed (see vercel.json), otherwise generation lands in the root tree while
-# the function compiles against the root's un-generated placeholder client and
-# every relation type comes back wrong.
-echo "==> Generating Prisma client"
-npx --no-install prisma generate --schema "$SCHEMA"
-
-if ! grep -q "StudyMaterialInclude" apps/api/node_modules/.prisma/client/index.d.ts 2>/dev/null; then
-  echo "Prisma client was not generated into apps/api/node_modules — aborting." >&2
-  echo "The API would compile against placeholder types and fail at runtime." >&2
-  exit 1
-fi
+POSTGRES_SCHEMA="apps/api/prisma/schema.prisma"
+SQLITE_SCHEMA="apps/api/prisma/schema.sqlite.prisma"
 
 if [ -z "$DATABASE_URL" ]; then
-  # Don't fail the build: the frontend still deploys and renders. The API
-  # functions will return a clear error until the database is connected.
-  echo "::warning::No database connection string found (DATABASE_URL / POSTGRES_PRISMA_URL)."
-  echo "    Connect Supabase to this Vercel project, or set DATABASE_URL, then redeploy."
-  echo "    Skipping schema push and seed."
-else
-  echo "==> Pushing schema"
-  npx --no-install prisma db push --schema "$SCHEMA" --skip-generate
+  echo "==> No persistent database configured — building seeded SQLite demo"
+  node apps/api/prisma/prepare-sqlite-schema.mjs
+  rm -f apps/api/prisma/seed.db
 
-  echo "==> Seeding if empty"
+  # A relative SQLite URL is resolved from the schema directory, producing
+  # apps/api/prisma/seed.db. The generated client has the same models and API as
+  # the PostgreSQL client, so the existing Express routes need no changes.
+  export DATABASE_URL="file:./seed.db"
+  export DIRECT_URL="$DATABASE_URL"
+
+  npx --no-install prisma generate --schema "$SQLITE_SCHEMA"
+  npx --no-install prisma db push --schema "$SQLITE_SCHEMA" --skip-generate
+  npx --no-install tsx apps/api/prisma/seed.ts
+else
+  echo "==> Generating PostgreSQL Prisma client"
+  npx --no-install prisma generate --schema "$POSTGRES_SCHEMA"
+
+  echo "==> Pushing PostgreSQL schema"
+  npx --no-install prisma db push --schema "$POSTGRES_SCHEMA" --skip-generate
+
+  echo "==> Seeding PostgreSQL if empty"
   npx --no-install tsx apps/api/prisma/ensure-seed.ts
+fi
+
+# The API imports @prisma/client from apps/api/node_modules. Abort rather than
+# deploying a function compiled against Prisma's placeholder types.
+if ! grep -q "StudyMaterialInclude" apps/api/node_modules/.prisma/client/index.d.ts 2>/dev/null; then
+  echo "Prisma client was not generated into apps/api/node_modules — aborting." >&2
+  exit 1
 fi
 
 echo "==> Building frontend"
 cd apps/web
-STATIC_EXPORT=true npm run build
+# Empty means same-origin /api requests for the combined Vercel deployment.
+NEXT_PUBLIC_API_BASE= STATIC_EXPORT=true npm run build
