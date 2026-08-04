@@ -25,6 +25,11 @@ const basePath = isGitHubPages ? `/${repoName}` : '';
 const config: NextConfig = {
   reactStrictMode: true,
 
+  // The repository root also has a lockfile (it carries the API's dependencies
+  // for the Vercel deployment), and Turbopack would otherwise infer the root
+  // from it and warn. The build always runs from this directory.
+  turbopack: { root: process.cwd() },
+
   // Consumed by lib/asset.ts to prefix plain <img src> paths, which Next does
   // not rewrite for basePath the way it does its own bundles.
   env: {

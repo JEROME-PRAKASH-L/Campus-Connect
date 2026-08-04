@@ -1,4 +1,10 @@
-export const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:4000';
+// Deployed, the API is served as serverless functions on the same origin as
+// this app, so an empty base means "call /api/... on this domain" — nothing to
+// configure and no cross-origin request. `next dev` runs the API separately, so
+// it keeps the local default. Set NEXT_PUBLIC_API_BASE to override either.
+const DEFAULT_API_BASE = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : '';
+
+export const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? DEFAULT_API_BASE;
 
 const TOKEN_KEY = 'campus-connect:token';
 
