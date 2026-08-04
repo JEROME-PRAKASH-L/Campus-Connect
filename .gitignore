@@ -9,6 +9,10 @@ build/
 .env*.local
 !.env.example
 
+apps/api/prisma/schema.sqlite.prisma
+apps/api/prisma/seed.sqlite.ts
+apps/api/prisma/seed.db
+
 *.log
 .DS_Store
 .turbo/

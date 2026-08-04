@@ -8,5 +8,11 @@
       "source": "/api/:path*",
       "destination": "/api/[...slug]?__path=/api/:path*"
     }
-  ]
+  ],
+  "functions": {
+    "api/**": {
+      "maxDuration": 30,
+      "includeFiles": "apps/api/prisma/seed.db"
+    }
+  }
 }
