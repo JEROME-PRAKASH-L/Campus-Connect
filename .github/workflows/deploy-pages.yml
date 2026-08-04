@@ -1,0 +1,69 @@
+name: Deploy web to GitHub Pages
+
+# GitHub Pages serves static files only, so this publishes the Next.js frontend
+# as a static export. The Express API and PostgreSQL cannot run here — set the
+# repository variable NEXT_PUBLIC_API_BASE to wherever the API is hosted, or the
+# published site will load but be unable to sign in.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it half-published.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build static export
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+
+      - run: npm ci
+
+      - name: Warn when the API base is unset
+        if: vars.NEXT_PUBLIC_API_BASE == ''
+        run: |
+          echo "::warning::NEXT_PUBLIC_API_BASE is not set, so the site will fall back to http://localhost:4000 and cannot sign in. Set it under Settings → Secrets and variables → Actions → Variables."
+
+      - name: Build
+        env:
+          GITHUB_PAGES: 'true'
+          NEXT_PUBLIC_API_BASE: ${{ vars.NEXT_PUBLIC_API_BASE }}
+        run: npm run build
+
+      # Without this, Pages runs the output through Jekyll and drops _next/.
+      - name: Disable Jekyll
+        run: touch out/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/web/out
+
+  deploy:
+    name: Publish
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

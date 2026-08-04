@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { api, post, setToken } from '@/lib/api';
+import { asset } from '@/lib/asset';
 import { ICONS } from '@/lib/icons';
 import type { SessionUser } from '@/lib/types';
 import { Icon } from './primitives';
@@ -90,7 +91,7 @@ export const LoginScreen = ({ onSignedIn, onToast }: { onSignedIn: (user: Sessio
         </svg>
 
         <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 13 }}>
-          <img src="/dmi-logo.png" alt="DMI Foundations — Fully Human & Fully Alive" style={{ width: 64, height: 64, flex: 'none', objectFit: 'contain', filter: 'drop-shadow(0 3px 12px rgba(0,0,0,.4))' }} />
+          <img src={asset('/dmi-logo.png')} alt="DMI Foundations — Fully Human & Fully Alive" style={{ width: 64, height: 64, flex: 'none', objectFit: 'contain', filter: 'drop-shadow(0 3px 12px rgba(0,0,0,.4))' }} />
           <div style={{ lineHeight: 1.25 }}>
             <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 21, letterSpacing: '-.01em' }}>DMI Campus Connect</div>
             <div style={{ fontSize: 11, letterSpacing: '.14em', color: 'rgba(238,241,250,.72)', textTransform: 'uppercase' }}>DMI College of Engineering</div>
@@ -128,7 +129,7 @@ export const LoginScreen = ({ onSignedIn, onToast }: { onSignedIn: (user: Sessio
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(32px,4vw,56px) clamp(24px,3vw,44px)' }}>
         <div style={{ width: '100%', maxWidth: 452, display: 'flex', flexDirection: 'column', gap: 20 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 13 }}>
-            <img src="/dmi-logo.png" alt="DMI Foundations crest" style={{ width: 58, height: 58, flex: 'none', objectFit: 'contain' }} />
+            <img src={asset('/dmi-logo.png')} alt="DMI Foundations crest" style={{ width: 58, height: 58, flex: 'none', objectFit: 'contain' }} />
             <div style={{ lineHeight: 1.25, minWidth: 0 }}>
               <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 16.5 }}>DMI Campus Connect</div>
               <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '.12em', color: 'var(--muted)', textTransform: 'uppercase' }}>DMI College of Engineering</div>

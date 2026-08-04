@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { api, clearToken, post, setToken as persistToken } from '@/lib/api';
+import { asset } from '@/lib/asset';
 import { ICONS } from '@/lib/icons';
 import { navFor } from '@/lib/nav';
 import { relativeTime, toneVar } from '@/lib/format';
@@ -180,7 +181,7 @@ export const AppShell = ({
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '0 4px 0 2px' }}>
-              <img src="/dmi-logo.png" alt="DMI Campus Connect" style={{ width: 34, height: 34, flex: 'none', objectFit: 'contain' }} />
+              <img src={asset('/dmi-logo.png')} alt="DMI Campus Connect" style={{ width: 34, height: 34, flex: 'none', objectFit: 'contain' }} />
               {wide ? (
                 <div style={{ lineHeight: 1.25, minWidth: 0, flex: 1 }}>
                   <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 14.5, color: '#FBFCFF', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
