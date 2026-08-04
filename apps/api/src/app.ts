@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import type { NextFunction, Request, Response } from 'express';
-import { env } from './env.js';
+import { configErrors, env, isConfigured } from './env.js';
 import { authRouter } from './routes/auth.js';
 import { dashboardRouter } from './routes/dashboard.js';
 import { profileRouter } from './routes/profile.js';
@@ -34,12 +34,21 @@ app.use(express.json({ limit: '1mb' }));
 
 // `/health` is the local form; `/api/health` is the one reachable on Vercel,
 // where only `/api/*` is routed to this function.
+// Reports what the deployment is missing, so a half-configured instance
+// explains itself instead of just failing.
 const health = (_req: Request, res: Response) => {
-  res.json({ ok: true });
+  res.json({ ok: true, configured: isConfigured, ...(isConfigured ? {} : { errors: configErrors }) });
 };
 
 app.get('/health', health);
 app.get('/api/health', health);
+
+// Everything past this point needs the database and a signing secret. Answer
+// with the specific reason rather than letting each route fail on its own.
+app.use((_req, res, next) => {
+  if (isConfigured) return next();
+  res.status(503).json({ error: `The API is not configured yet. ${configErrors.join(' ')}` });
+});
 
 app.use('/api/auth', authRouter);
 app.use('/api/dashboard', dashboardRouter);

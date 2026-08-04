@@ -8,11 +8,6 @@ const firstSet = (...keys: string[]): string | undefined => {
   return undefined;
 };
 
-const required = (value: string | undefined, message: string): string => {
-  if (!value) throw new Error(message);
-  return value;
-};
-
 /**
  * Connection string for ordinary queries.
  *
@@ -31,16 +26,40 @@ export const databaseUrl = firstSet('DATABASE_URL', 'POSTGRES_PRISMA_URL', 'POST
  */
 export const directUrl = firstSet('DIRECT_URL', 'POSTGRES_URL_NON_POOLING', 'DATABASE_URL', 'POSTGRES_URL');
 
+const jwtSecret = process.env.JWT_SECRET;
+
+/**
+ * Everything missing that the API needs in order to serve requests.
+ *
+ * Collected rather than thrown, because throwing here would happen while the
+ * module is still loading and take the whole serverless function down — every
+ * route, including /health, would return an opaque 500. Instead the app reports
+ * these on /api/health and answers other routes with a 503 that names them.
+ */
+export const configErrors: string[] = [
+  databaseUrl
+    ? null
+    : 'No database connection string. Connect Supabase to this project, or set DATABASE_URL.',
+  jwtSecret ? null : 'JWT_SECRET is not set. Add a long random string — tokens cannot be signed without one.',
+].filter((message): message is string => message !== null);
+
+export const isConfigured = configErrors.length === 0;
+
+const require_ = (value: string | undefined, name: string): string => {
+  if (!value) throw new Error(`${name} is not configured.`);
+  return value;
+};
+
 export const env = {
   port: Number(process.env.PORT ?? 4000),
-  databaseUrl: required(
-    databaseUrl,
-    'No database connection string. Set DATABASE_URL, or connect Supabase to this Vercel project so POSTGRES_PRISMA_URL is provisioned.',
-  ),
-  jwtSecret: required(
-    process.env.JWT_SECRET,
-    'JWT_SECRET is not set. Generate a long random string and add it as an environment variable — tokens cannot be signed without one.',
-  ),
+  // Getters, so an unconfigured deployment fails at the point of use — behind
+  // the guard below — rather than at import time.
+  get databaseUrl(): string {
+    return require_(databaseUrl, 'DATABASE_URL');
+  },
+  get jwtSecret(): string {
+    return require_(jwtSecret, 'JWT_SECRET');
+  },
   jwtExpiry: process.env.JWT_EXPIRY ?? '12h',
   corsOrigins: (process.env.CORS_ORIGINS ?? 'http://localhost:3000')
     .split(',')

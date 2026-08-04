@@ -152,8 +152,20 @@ If no database is configured the build still succeeds and the frontend deploys â
 it logs a warning and skips the schema push and seed, and the API returns a
 clear error until a database is connected.
 
-**Verify:** `/api/health` on the deployment should return `{"ok":true}`, then
-sign in with a demo account.
+**Verify:** `/api/health` on the deployment reports what is configured:
+
+```json
+{ "ok": true, "configured": true }
+```
+
+If something is missing it says so, and the other routes answer `503` with the
+same detail rather than failing opaquely:
+
+```json
+{ "ok": true, "configured": false, "errors": ["No database connection string. â€¦"] }
+```
+
+Once `configured` is `true`, sign in with a demo account.
 
 ### Running the two apps separately
 
