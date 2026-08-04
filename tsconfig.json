@@ -1,0 +1,17 @@
+{
+  "//": "Covers the Vercel serverless entry in api/. The app code it pulls in has its own tsconfig under apps/api.",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022"],
+    "types": ["node"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true
+  },
+  "include": ["api/**/*.ts"]
+}

@@ -5,7 +5,8 @@
   "type": "module",
   "description": "Root manifest for the Vercel deployment: the API's runtime dependencies live here so `api/` compiles as serverless functions alongside the static frontend.",
   "scripts": {
-    "vercel-build": "bash scripts/vercel-build.sh"
+    "vercel-build": "bash scripts/vercel-build.sh",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
     "@prisma/client": "^6.2.1",

@@ -12,8 +12,20 @@ export DIRECT_URL="${DIRECT_URL:-${POSTGRES_URL_NON_POOLING:-$DATABASE_URL}}"
 
 SCHEMA="apps/api/prisma/schema.prisma"
 
+# `prisma generate` writes to the node_modules nearest the schema, i.e.
+# apps/api/node_modules/.prisma/client — which is also where the API sources
+# resolve @prisma/client from. apps/api's dependencies must therefore be
+# installed (see vercel.json), otherwise generation lands in the root tree while
+# the function compiles against the root's un-generated placeholder client and
+# every relation type comes back wrong.
 echo "==> Generating Prisma client"
 npx --no-install prisma generate --schema "$SCHEMA"
+
+if ! grep -q "StudyMaterialInclude" apps/api/node_modules/.prisma/client/index.d.ts 2>/dev/null; then
+  echo "Prisma client was not generated into apps/api/node_modules — aborting." >&2
+  echo "The API would compile against placeholder types and fail at runtime." >&2
+  exit 1
+fi
 
 if [ -z "$DATABASE_URL" ]; then
   # Don't fail the build: the frontend still deploys and renders. The API

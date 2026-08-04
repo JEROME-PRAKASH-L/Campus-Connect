@@ -30,6 +30,24 @@ jobs:
       - run: npm run typecheck
       - run: npm run build
 
+  deployment-entry:
+    name: Vercel entry — typecheck
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+      DIRECT_URL: postgresql://ci:ci@localhost:5432/ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # api/ imports the app from apps/api, and its @prisma/client resolves out
+      # of apps/api/node_modules — so both installs are needed for the entry to
+      # typecheck against the generated client rather than placeholder types.
+      - run: npm install
+      - run: npm install --prefix apps/api
+      - run: npm run typecheck
+
   web:
     name: Web — typecheck & build
     runs-on: ubuntu-latest
