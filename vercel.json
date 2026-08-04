@@ -5,7 +5,8 @@
   "outputDirectory": "apps/web/out",
   "functions": {
     "api/**": {
-      "maxDuration": 30
+      "maxDuration": 30,
+      "includeFiles": "apps/api/prisma/seed.db"
     }
   }
 }
