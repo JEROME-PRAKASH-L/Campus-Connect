@@ -1,6 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "cd apps/web && npm install",
-  "buildCommand": "cd apps/web && STATIC_EXPORT=true npm run build",
-  "outputDirectory": "apps/web/out"
+  "installCommand": "npm install && npm install --prefix apps/api && npm install --prefix apps/web",
+  "buildCommand": "npm run vercel-build",
+  "outputDirectory": "apps/web/out",
+  "functions": {
+    "api/**": {
+      "maxDuration": 30
+    }
+  }
 }

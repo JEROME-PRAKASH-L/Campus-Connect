@@ -100,58 +100,67 @@ the web app's real origin.
 
 ## Deploying (Vercel + Supabase)
 
-The stack needs a Node server and a Postgres database, so it cannot run on
-GitHub Pages. It deploys as **two Vercel projects from this one repository** —
-they differ only by Root Directory — plus a Supabase database.
+The whole app deploys as **one Vercel project**. The static frontend and the API
+serverless functions are served from the same deployment, so the browser calls
+`/api/...` on its own origin — no API base URL to configure and no CORS.
 
-### 1. Database
+### 1. Import the repository
 
-Create a Supabase project. From **Connect → ORMs → Prisma** copy the two
-connection strings it gives you:
+**vercel.com/new** → import this repo. Leave Root Directory at the repository
+root; `vercel.json` drives the build:
 
-- the **transaction pooler** URI (port `6543`) → `DATABASE_URL`
-- the **session pooler** URI (port `5432`) → `DIRECT_URL`
+- `api/[...slug].ts` becomes a catch-all serverless function wrapping the same
+  Express app used locally, so every `/api/*` route is handled exactly as it is
+  in development
+- `apps/web` is built as a static export and published from `apps/web/out`
+
+### 2. Connect the database
+
+Either **connect Supabase to the project** from the Vercel dashboard, or add
+`DATABASE_URL` by hand.
+
+The Supabase integration provisions `POSTGRES_PRISMA_URL` and
+`POSTGRES_URL_NON_POOLING` rather than `DATABASE_URL`, and both the API and the
+build accept those names (`apps/api/src/env.ts`), so connecting it is enough —
+there is no connection string to copy.
+
+Setting it manually instead, from **Supabase → Connect → ORMs → Prisma**:
+
+| Variable | Value |
+| --- | --- |
+| `DATABASE_URL` | transaction pooler URI (port `6543`) + `?pgbouncer=true&connection_limit=1&sslmode=require` |
+| `DIRECT_URL` | session pooler URI (port `5432`) + `?sslmode=require` — optional; falls back to `DATABASE_URL` |
 
 Runtime queries go through the transaction pooler because serverless functions
 open many short-lived connections. Schema changes cannot run over that pooler,
-so `prisma db push` uses the session pooler instead.
+which is what `DIRECT_URL` is for.
 
-### 2. API project
-
-New Vercel project from this repo, **Root Directory `apps/api`**.
+### 3. Set the one required secret
 
 | Variable | Value |
 | --- | --- |
-| `DATABASE_URL` | transaction pooler URI, with `?pgbouncer=true&connection_limit=1&sslmode=require` |
-| `DIRECT_URL` | session pooler URI, with `?sslmode=require` |
-| `JWT_SECRET` | a long random string |
-| `CORS_ORIGINS` | the web app's origin, e.g. `https://campus-connect-web.vercel.app` |
+| `JWT_SECRET` | a long random string — tokens cannot be signed without it |
 
-`api/[...slug].ts` exports the Express app as a single catch-all serverless
-function, so every `/api/*` route reaches the same routers used locally.
+### 4. Deploy
 
-The build (`npm run vercel-build`) runs `prisma generate`, then `prisma db push`
-to create the schema, then `prisma/ensure-seed.ts`. Seeding is gated: it runs
-only when the database has no users, so the first deploy populates the demo data
-and later deploys leave real data alone. Set `FORCE_SEED=true` to reseed — that
-discards everything currently stored.
+The build runs `prisma generate`, pushes the schema, then seeds. Seeding is
+gated: it runs only when the database has no users, so the first deploy
+populates the demo data and later deploys leave real data alone. Set
+`FORCE_SEED=true` to reseed, which discards everything currently stored.
 
-### 3. Web project
+If no database is configured the build still succeeds and the frontend deploys —
+it logs a warning and skips the schema push and seed, and the API returns a
+clear error until a database is connected.
 
-A second Vercel project from the same repo, **Root Directory `apps/web`**.
+**Verify:** `/api/health` on the deployment should return `{"ok":true}`, then
+sign in with a demo account.
 
-| Variable | Value |
-| --- | --- |
-| `NEXT_PUBLIC_API_BASE` | the API project's URL, no trailing slash |
+### Running the two apps separately
 
-`NEXT_PUBLIC_*` values are baked in at build time, so changing this needs a
-redeploy rather than just a restart.
-
-### 4. Close the loop
-
-The two projects reference each other, so set `CORS_ORIGINS` on the API once the
-web URL exists and redeploy. Check `/api/health` on the API domain — it should
-return `{"ok":true}` — then sign in with a demo account.
+The split layout still works — deploy `apps/api` and `apps/web` as their own
+Vercel projects with those Root Directories, set `NEXT_PUBLIC_API_BASE` on the
+web project to the API's URL and `CORS_ORIGINS` on the API to the web origin.
+Nothing in the code assumes the combined layout; it is just fewer moving parts.
 
 ## Deploying the frontend to GitHub Pages
 
