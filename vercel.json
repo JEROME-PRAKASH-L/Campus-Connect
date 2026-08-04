@@ -3,9 +3,10 @@
   "installCommand": "npm install && npm install --prefix apps/api && npm install --prefix apps/web",
   "buildCommand": "npm run vercel-build",
   "outputDirectory": "apps/web/out",
-  "functions": {
-    "api/**": {
-      "maxDuration": 30
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/[...slug]?__path=/api/:path*"
     }
-  }
+  ]
 }
