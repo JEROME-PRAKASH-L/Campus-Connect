@@ -162,11 +162,13 @@ every push to `main`.
 and PostgreSQL still need a host elsewhere — the published site loads but cannot
 sign in until it can reach an API.
 
-1. **Settings → Pages → Source: GitHub Actions.**
-2. **Settings → Secrets and variables → Actions → Variables**, add
+The workflow turns Pages on itself (`actions/configure-pages` with
+`enablement: true`), so there is no settings step. The only thing to set is:
+
+1. **Settings → Secrets and variables → Actions → Variables**, add
    `NEXT_PUBLIC_API_BASE` pointing at the deployed API. The workflow logs a
    warning if it is missing.
-3. Push to `main`, or run the workflow manually from the Actions tab.
+2. Push to `main`, or run the workflow manually from the Actions tab.
 
 The site is published at `https://<owner>.github.io/<repo>/`.
 
