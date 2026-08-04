@@ -7,6 +7,14 @@ export DIRECT_URL="${DIRECT_URL:-${POSTGRES_URL_NON_POOLING:-$DATABASE_URL}}"
 POSTGRES_SCHEMA="apps/api/prisma/schema.prisma"
 SQLITE_SCHEMA="apps/api/prisma/schema.sqlite.prisma"
 
+with_campus_schema() {
+  node -e '
+const url = new URL(process.argv[1]);
+if (!url.searchParams.has("schema")) url.searchParams.set("schema", "campus_connect");
+process.stdout.write(url.toString());
+' "$1"
+}
+
 if [ -z "$DATABASE_URL" ]; then
   echo "==> No persistent database configured — building seeded SQLite demo"
   node apps/api/prisma/prepare-sqlite-demo.mjs
@@ -18,6 +26,10 @@ if [ -z "$DATABASE_URL" ]; then
   npx --no-install prisma db push --schema "$SQLITE_SCHEMA" --skip-generate
   npx --no-install tsx -e "import('./apps/api/prisma/seed.sqlite.ts').then(({ seed }) => seed()).catch((error) => { console.error(error); process.exit(1); })"
 else
+  # Keep Campus Connect separate from any existing Supabase tables in public.
+  export DATABASE_URL="$(with_campus_schema "$DATABASE_URL")"
+  export DIRECT_URL="$(with_campus_schema "$DIRECT_URL")"
+  echo "==> Using isolated PostgreSQL schema: campus_connect"
   echo "==> Generating PostgreSQL Prisma client"
   npx --no-install prisma generate --schema "$POSTGRES_SCHEMA"
   echo "==> Pushing PostgreSQL schema"
