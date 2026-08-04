@@ -8,34 +8,24 @@ const firstSet = (...keys: string[]): string | undefined => {
   return undefined;
 };
 
-/**
- * Connection string for ordinary queries.
- *
- * Vercel's Supabase integration provisions its own variable names rather than
- * DATABASE_URL, so those are accepted too — connecting Supabase to the project
- * is then enough on its own, with no connection string to copy by hand.
- * POSTGRES_PRISMA_URL is the pooled connection with the pgbouncer flag already
- * applied, which is what serverless functions need.
- */
-export const databaseUrl = firstSet('DATABASE_URL', 'POSTGRES_PRISMA_URL', 'POSTGRES_URL');
+const runningOnVercel = process.env.VERCEL === '1';
+const configuredDatabaseUrl = firstSet('DATABASE_URL', 'POSTGRES_PRISMA_URL', 'POSTGRES_URL');
 
 /**
- * Connection used for schema changes only. DDL cannot run over a transaction
- * pooler, so this prefers a direct/session connection and falls back to the
- * pooled one, which is still fine for a database already matching the schema.
+ * A configured Supabase/PostgreSQL connection always takes priority. When the
+ * combined Vercel demo has no database attached, the build bundles a seeded
+ * SQLite file and each cold function instance copies it into writable /tmp.
  */
-export const directUrl = firstSet('DIRECT_URL', 'POSTGRES_URL_NON_POOLING', 'DATABASE_URL', 'POSTGRES_URL');
+export const usingDemoDatabase = runningOnVercel && !configuredDatabaseUrl;
+export const databaseUrl = configuredDatabaseUrl ?? (usingDemoDatabase ? 'file:/tmp/campus-connect.db' : undefined);
 
-const jwtSecret = process.env.JWT_SECRET;
+export const directUrl =
+  firstSet('DIRECT_URL', 'POSTGRES_URL_NON_POOLING', 'DATABASE_URL', 'POSTGRES_URL') ?? databaseUrl;
 
-/**
- * Everything missing that the API needs in order to serve requests.
- *
- * Collected rather than thrown, because throwing here would happen while the
- * module is still loading and take the whole serverless function down — every
- * route, including /health, would return an opaque 500. Instead the app reports
- * these on /api/health and answers other routes with a 503 that names them.
- */
+const jwtSecret =
+  process.env.JWT_SECRET ??
+  (usingDemoDatabase ? 'campus-connect-vercel-demo-secret-replace-before-production' : undefined);
+
 export const configErrors: string[] = [
   databaseUrl
     ? null
@@ -52,8 +42,6 @@ const require_ = (value: string | undefined, name: string): string => {
 
 export const env = {
   port: Number(process.env.PORT ?? 4000),
-  // Getters, so an unconfigured deployment fails at the point of use — behind
-  // the guard below — rather than at import time.
   get databaseUrl(): string {
     return require_(databaseUrl, 'DATABASE_URL');
   },
