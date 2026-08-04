@@ -1,25 +1,104 @@
-# CODING AGENTS: READ THIS FIRST
+# DMI Campus Connect
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+A college/university management system — Smart College ERP & Learning Platform for DMI College of Engineering.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+Built from the Claude Design handoff in `design-handoff/`, which is preserved verbatim as the visual
+reference. The Classic look (navy rail, accent-ruled panels, Manrope) is implemented; the prototype's
+Blueprint and Console alternates were dropped by request.
 
-## What you should do — IMPORTANT
+## What's here
 
-**Read the chat transcripts first.** There are 1 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+```
+apps/
+  api/    Express 5 + Prisma + PostgreSQL — JWT auth, role-based routes, seed data
+  web/    Next.js 16 (App Router) + TypeScript + Tailwind 4 — the five role dashboards
+design-handoff/
+  README.md, chats/, project/   The original Claude Design export
+```
 
-**Read `project/Campus Management System.dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+## Roles and modules
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+Five roles, each with its own sidebar and dashboard:
 
-## About the design files
+| Role | Modules |
+| --- | --- |
+| Student | Dashboard, Profile, Attendance, Timetable, Academics, Assignments, Examinations, Results, Fees, Leave, Materials, Notifications, Calendar, Placement, Settings |
+| Faculty | …plus People and Reports; Attendance becomes the four-state register |
+| HOD | Department overview, People, Attendance monitoring, Academics (allocation), Reports, approvals |
+| Admin | Institute overview, People (incl. Admissions), Fees management, Reports, all monitoring |
+| Parent | Read-only view of the linked ward: attendance, results, fees, timetable, examinations |
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+## Running it locally
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+You need Node 22+ and a PostgreSQL 16 database.
 
-## Bundle contents
+```bash
+# 1. Database
+createdb campus_connect
 
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `College Management System Design` project files (HTML prototypes, assets, components)
+# 2. API
+cd apps/api
+cp .env.example .env          # set DATABASE_URL and a real JWT_SECRET
+npm install
+npx prisma db push            # create the schema
+npm run seed                  # realistic demo data
+npm run dev                   # http://localhost:4000
+
+# 3. Web (second terminal)
+cd apps/web
+cp .env.example .env.local    # NEXT_PUBLIC_API_BASE=http://localhost:4000
+npm install
+npm run dev                   # http://localhost:3000
+```
+
+### Demo accounts
+
+Every demo account uses the password `demo1234`. They're listed on the login screen and sign you in
+with one click.
+
+| Role | Login ID | Name |
+| --- | --- | --- |
+| Student | `21CSE042` | Aarav Menon |
+| Faculty | `FAC1180` | Prof. Kavitha Suresh |
+| HOD | `HOD204` | Dr. Meera Rajan |
+| Administrator | `ADM001` | Dr. S. Venkatesh |
+| Parent | `PAR7042` | Ramesh Menon |
+
+## Data model
+
+Prisma schema in `apps/api/prisma/schema.prisma` covers Users, Students, Faculty, Parents,
+Departments, Courses, Semesters, Sections, Subjects, Timetables, Attendance, Assignments,
+Submissions, Marks, Results, Exams, Fees, Payments, Leave requests, Study materials, Notifications,
+Events, Certificates and Placement drives, with relations between them.
+
+The seed builds one fully-populated section (CSE Semester 5, Section B — 16 students, 7 subjects,
+a Mon–Sat timetable, ~5,700 attendance records, four published semesters of results, fees and
+receipts) alongside institute-wide figures for the six departments.
+
+### Computed, not hard-coded
+
+Every figure the UI shows is derived from stored rows:
+
+- **Attendance %** — from `AttendanceRecord`. On-duty counts as present; medical leave leaves the
+  denominator (`apps/api/src/domain.ts`).
+- **CGPA** — credit-weighted mean of semester GPAs.
+- **Internal totals and grades** — IA average, assignment and practical marks blended per the
+  design's formula, then banded to O/A+/A/B+/B/C/RA.
+- **Fee balance, submission counts, pass percentages** — aggregated at request time.
+
+Saving a register recalculates every affected student's percentage and raises a shortage
+notification for anyone who drops below 75%.
+
+## Auth
+
+Email/register-number + password, bcrypt-hashed, exchanged for a JWT carrying the user's role.
+Routes are guarded by `requireAuth` and `requireRole`; the student/parent routes resolve their
+"context student" server-side, so a parent can only ever read their own ward's record.
+
+For production, set a long random `JWT_SECRET`, put the API behind TLS, and set `CORS_ORIGINS` to
+the web app's real origin.
+
+## Scripts
+
+Both apps: `npm run dev`, `npm run build`, `npm run typecheck`.
+API also has `npm run seed` and `npm run prisma:push`.
