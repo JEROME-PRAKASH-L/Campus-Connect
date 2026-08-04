@@ -1,60 +1,8 @@
-import express from 'express';
-import cors from 'cors';
-import type { NextFunction, Request, Response } from 'express';
+import { app } from './app.js';
 import { env } from './env.js';
-import { authRouter } from './routes/auth.js';
-import { dashboardRouter } from './routes/dashboard.js';
-import { profileRouter } from './routes/profile.js';
-import { peopleRouter } from './routes/people.js';
-import { attendanceRouter } from './routes/attendance.js';
-import { timetableRouter } from './routes/timetable.js';
-import { academicsRouter } from './routes/academics.js';
-import { assignmentsRouter } from './routes/assignments.js';
-import { examinationsRouter } from './routes/examinations.js';
-import { resultsRouter } from './routes/results.js';
-import { feesRouter } from './routes/fees.js';
-import { leaveRouter } from './routes/leave.js';
-import { materialsRouter } from './routes/materials.js';
-import { notificationsRouter } from './routes/notifications.js';
-import { calendarRouter, placementRouter, reportsRouter, searchRouter } from './routes/misc.js';
 
-const app = express();
-
-app.use(cors({ origin: env.corsOrigins, credentials: true }));
-app.use(express.json({ limit: '1mb' }));
-
-app.get('/health', (_req, res) => {
-  res.json({ ok: true });
-});
-
-app.use('/api/auth', authRouter);
-app.use('/api/dashboard', dashboardRouter);
-app.use('/api/profile', profileRouter);
-app.use('/api/people', peopleRouter);
-app.use('/api/attendance', attendanceRouter);
-app.use('/api/timetable', timetableRouter);
-app.use('/api/academics', academicsRouter);
-app.use('/api/assignments', assignmentsRouter);
-app.use('/api/examinations', examinationsRouter);
-app.use('/api/results', resultsRouter);
-app.use('/api/fees', feesRouter);
-app.use('/api/leave', leaveRouter);
-app.use('/api/materials', materialsRouter);
-app.use('/api/notifications', notificationsRouter);
-app.use('/api/calendar', calendarRouter);
-app.use('/api/placement', placementRouter);
-app.use('/api/reports', reportsRouter);
-app.use('/api/search', searchRouter);
-
-app.use((_req, res) => {
-  res.status(404).json({ error: 'Not found' });
-});
-
-app.use((err: Error & { status?: number }, _req: Request, res: Response, _next: NextFunction) => {
-  console.error(err);
-  res.status(err.status ?? 500).json({ error: err.status ? err.message : 'Something went wrong on the server.' });
-});
-
+// Local / long-running server entry. On Vercel the app is served by
+// `api/index.ts` as a serverless function instead, and this file is not used.
 app.listen(env.port, () => {
   console.log(`Campus Connect API listening on http://localhost:${env.port}`);
 });
