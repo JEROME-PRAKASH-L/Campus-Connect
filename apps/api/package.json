@@ -9,6 +9,8 @@
     "start": "node dist/src/index.js",
     "postinstall": "prisma generate",
     "vercel-build": "prisma generate && prisma db push && tsx prisma/ensure-seed.ts",
+    "vercel-build:sqlite": "node prisma/prepare-sqlite-schema.mjs && rm -f prisma/seed.db && DATABASE_URL=file:./seed.db prisma generate --schema prisma/schema.sqlite.prisma && DATABASE_URL=file:./seed.db prisma db push --schema prisma/schema.sqlite.prisma --skip-generate && DATABASE_URL=file:./seed.db tsx prisma/seed.ts",
+    "vercel-build:auto": "if [ -n \"$DATABASE_URL\" ] && [ -n \"$DIRECT_URL\" ]; then npm run vercel-build; else npm run vercel-build:sqlite; fi",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
     "seed": "tsx prisma/seed.ts",
