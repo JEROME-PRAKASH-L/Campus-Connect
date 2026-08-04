@@ -81,22 +81,15 @@ const PAST_SEMESTERS = [
   },
 ];
 
-const GRADE_POINTS: Record<string, number> = { O: 10, 'A+': 9, A: 8, 'B+': 7, B: 6, C: 5 };
-
 const EVENTS = [
-  { day: '2026-07-27', title: 'Model Examination I — schedule released', tag: 'Examination', tone: 'ACCENT' as const },
-  { day: '2026-07-28', title: 'CS501 assignment submission closes', tag: 'Assignment', tone: 'WARN' as const },
-  { day: '2026-08-01', title: 'Guest lecture — Edge AI, Dr. R. Sundaram', tag: 'Event', tone: 'ACCENT' as const },
-  { day: '2026-08-03', title: 'Model Examination I begins', tag: 'Examination', tone: 'ACCENT' as const },
-  { day: '2026-08-10', title: 'Hostel & mess fee due', tag: 'Fees', tone: 'WARN' as const },
-  { day: '2026-08-15', title: 'Independence Day — institute holiday', tag: 'Holiday', tone: 'OK' as const },
-  { day: '2026-08-24', title: 'Internal Assessment II begins', tag: 'Examination', tone: 'ACCENT' as const },
-  { day: '2026-09-12', title: 'Cognizance ’26 — technical symposium', tag: 'Event', tone: 'ACCENT' as const },
-  { day: '2026-10-20', title: 'End-semester examinations begin', tag: 'Examination', tone: 'ACCENT' as const },
+  { day: '2026-08-03', title: 'Semester classes commence', tag: 'Academic', tone: 'ACCENT' as const },
+  { day: '2026-08-05', title: 'TCS Digital campus drive', tag: 'Placement', tone: 'OK' as const },
+  { day: '2026-08-10', title: 'Internal Assessment I begins', tag: 'Examination', tone: 'WARN' as const },
+  { day: '2026-08-15', title: 'Independence Day', tag: 'Holiday', tone: 'ACCENT' as const },
+  { day: '2026-08-22', title: 'Qualcomm India campus drive', tag: 'Placement', tone: 'OK' as const },
 ];
 
 const DRIVES = [
-  { company: 'Zoho Corporation', role: 'Member Technical Staff', ctc: '₹9.5 LPA', date: '2026-07-31', eligibility: 'CGPA ≥ 7.0, no arrears', minCgpa: 7, noArrears: true },
   { company: 'Freshworks', role: 'Software Engineer I', ctc: '₹12.0 LPA', date: '2026-08-12', eligibility: 'CGPA ≥ 8.0, no arrears', minCgpa: 8, noArrears: true },
   { company: 'TCS Digital', role: 'Systems Engineer', ctc: '₹7.2 LPA', date: '2026-08-05', eligibility: 'CGPA ≥ 6.5', minCgpa: 6.5, noArrears: false },
   { company: 'Qualcomm India', role: 'Software Intern → FTE', ctc: '₹18.0 LPA', date: '2026-08-22', eligibility: 'CGPA ≥ 8.5, no arrears', minCgpa: 8.5, noArrears: true },
@@ -219,82 +212,21 @@ async function main() {
   const adminUser = await prisma.user.create({
     data: {
       loginId: 'ADM001',
-      email: 'adm001@dmice.edu.in',
+      email: 'administrator@dmice.edu.in',
       passwordHash,
       name: 'Dr. S. Venkatesh',
       role: 'ADMIN',
       initials: 'SV',
       roleLabel: 'Administrator',
-      extra: 'Registrar',
+      extra: 'Principal & Campus Administrator',
     },
   });
 
-  console.log('Seeding subjects, timetable and examinations…');
-  const subjectByCode = new Map<string, { id: string; kind: 'THEORY' | 'PRACTICAL' }>();
-  for (const s of SUBJECTS) {
-    const subject = await prisma.subject.create({
-      data: {
-        code: s.code,
-        name: s.name,
-        shortName: s.shortName,
-        credits: s.credits,
-        room: s.room,
-        kind: s.kind,
-        periodsHeld: s.held,
-        departmentId: departments.CSE.id,
-        semesterId: currentSemester.id,
-        facultyId: facultyByStaffId.get(s.staffId)!.id,
-      },
-    });
-    subjectByCode.set(s.code, { id: subject.id, kind: s.kind });
-  }
-
-  const timetableRows: Prisma.TimetableEntryCreateManyInput[] = [];
-  for (const [day, codes] of Object.entries(TIMETABLE)) {
-    codes.forEach((code, index) => {
-      if (!code) return;
-      const subject = subjectByCode.get(code);
-      const staffId = SUBJECTS.find((s) => s.code === code)?.staffId;
-      timetableRows.push({
-        dayOfWeek: Number(day),
-        period: index + 1,
-        startTime: PERIODS[index][0],
-        endTime: PERIODS[index][1],
-        room: subject ? SUBJECTS.find((s) => s.code === code)!.room : code === 'LIB' ? 'Library' : 'Grounds',
-        label: subject ? null : code === 'LIB' ? 'Library / Mentoring' : 'Sports & Clubs',
-        sectionId: sectionB.id,
-        semesterId: currentSemester.id,
-        subjectId: subject?.id ?? null,
-        facultyId: staffId ? facultyByStaffId.get(staffId)!.id : null,
-      });
-    });
-  }
-  await prisma.timetableEntry.createMany({ data: timetableRows });
-
-  const examSchedule = [
-    { code: 'CS501', date: '2026-08-03', hall: 'Hall A-1', seat: 'A1-034' },
-    { code: 'CS502', date: '2026-08-04', hall: 'Hall A-1', seat: 'A1-034' },
-    { code: 'CS503', date: '2026-08-05', hall: 'Hall B-2', seat: 'B2-011' },
-    { code: 'CS504', date: '2026-08-06', hall: 'Hall B-2', seat: 'B2-011' },
-    { code: 'CS505', date: '2026-08-07', hall: 'Hall A-1', seat: 'A1-034' },
-    { code: 'CS506', date: '2026-08-08', hall: 'CN-Lab', seat: '—' },
-  ];
-  await prisma.exam.createMany({
-    data: examSchedule.map((e) => ({
-      title: 'Model Examination I',
-      date: new Date(e.date),
-      session: '09:30 – 12:30',
-      hall: e.hall,
-      seatNo: e.seat,
-      strength: 62,
-      subjectId: subjectByCode.get(e.code)!.id,
-    })),
-  });
-
-  console.log('Seeding students…');
-  const studentIds: { id: string; userId: string; name: string; attendance: number }[] = [];
+  console.log('Seeding students and parents…');
+  const studentIds: { id: string; userId: string; attendance: number }[] = [];
+  let aarav!: { id: string; userId: string };
   for (const [index, name] of CLASSMATES.entries()) {
-    const registerNumber = `21CSE0${String(42 + index * 3).padStart(2, '0')}`;
+    const registerNumber = index === 0 ? '21CSE042' : `21CSE${String(43 + index).padStart(3, '0')}`;
     const user = await prisma.user.create({
       data: {
         loginId: registerNumber,
@@ -304,19 +236,19 @@ async function main() {
         role: 'STUDENT',
         initials: initials(name),
         roleLabel: 'Student',
-        extra: 'Semester 5 · Section B',
+        extra: `B.E. CSE · Semester 5 · Section B`,
         departmentId: departments.CSE.id,
       },
     });
     const student = await prisma.student.create({
       data: {
         registerNumber,
-        batch: '2022 – 2026',
-        dateOfBirth: new Date('2004-03-09'),
-        bloodGroup: 'O positive',
-        mobile: `+91 98407 21${String(800 + index).slice(-3)}`,
-        residence: index % 3 === 0 ? 'Day scholar · Route 14' : 'Hostel · Block C',
-        admissionQuota: 'Merit · Counselling',
+        batch: '2024 – 2028',
+        dateOfBirth: new Date(index === 0 ? '2006-09-14' : `2006-${String((index % 12) + 1).padStart(2, '0')}-${String((index % 25) + 1).padStart(2, '0')}`),
+        bloodGroup: ['B+', 'O+', 'A+', 'AB+'][index % 4],
+        mobile: `+91 98765 ${String(42000 + index)}`,
+        residence: index % 3 === 0 ? 'College Hostel' : 'Day Scholar',
+        admissionQuota: index % 5 === 0 ? 'Management' : 'Government',
         mentorName: 'Prof. Kavitha Suresh',
         userId: user.id,
         departmentId: departments.CSE.id,
@@ -324,14 +256,14 @@ async function main() {
         sectionId: sectionB.id,
       },
     });
-    studentIds.push({ id: student.id, userId: user.id, name, attendance: CLASS_ATTENDANCE[index] });
+    studentIds.push({ id: student.id, userId: user.id, attendance: CLASS_ATTENDANCE[index] });
+    if (index === 0) aarav = { id: student.id, userId: user.id };
   }
-  const aarav = studentIds[0];
 
   const parentUser = await prisma.user.create({
     data: {
       loginId: 'PAR7042',
-      email: 'par7042@dmice.edu.in',
+      email: 'ramesh.menon@example.com',
       passwordHash,
       name: 'Ramesh Menon',
       role: 'PARENT',
@@ -350,7 +282,6 @@ async function main() {
   for (const subjectSpec of SUBJECTS) {
     const subject = subjectByCode.get(subjectSpec.code)!;
     for (const student of studentIds) {
-      // Aarav's record reproduces the subject figures exactly; classmates track their own cumulative rate.
       const target = student.id === aarav.id ? (subjectSpec.attended / subjectSpec.held) * 100 : student.attendance;
       const marks = marksFor(subjectSpec.held, target);
       marks.forEach((mark, session) => {
@@ -368,7 +299,7 @@ async function main() {
     }
   }
   for (let i = 0; i < attendanceRows.length; i += 2000) {
-    await prisma.attendanceRecord.createMany({ data: attendanceRows.slice(i, i + 2000), skipDuplicates: true });
+    await prisma.attendanceRecord.createMany({ data: attendanceRows.slice(i, i + 2000) });
   }
 
   console.log('Seeding marks and results…');
@@ -388,12 +319,12 @@ async function main() {
   for (const spec of PAST_SEMESTERS) {
     const semester = semesters.find((s) => s.number === spec.number)!;
     for (const [index, student] of studentIds.entries()) {
-      const drift = student.id === aarav.id ? 0 : (((index * 13) % 17) - 8) / 10;
       const result = await prisma.semesterResult.create({
         data: {
-          gpa: Number(Math.min(9.8, Math.max(6.2, spec.gpa + drift)).toFixed(2)),
+          gpa: student.id === aarav.id ? spec.gpa : Math.max(6.1, Math.min(9.7, spec.gpa + ((index % 7) - 3) * 0.17)),
           credits: spec.credits,
-          publishedOn: new Date(spec.number === 4 ? '2026-07-18' : '2025-12-20'),
+          publishedOn: new Date(`2026-0${spec.number + 1}-15`),
+          arrears: index % 8 === 6 ? 1 : 0,
           studentId: student.id,
           semesterId: semester.id,
         },
@@ -401,161 +332,139 @@ async function main() {
       await prisma.resultRow.createMany({
         data: spec.rows.map((row) => {
           const [code, name, credits, grade] = row.split('|');
-          return { code, name, credits: Number(credits), grade, gradePoint: GRADE_POINTS[grade] ?? 0, resultId: result.id };
+          const points: Record<string, number> = { O: 10, 'A+': 9, A: 8, 'B+': 7, B: 6, C: 5, RA: 0 };
+          return { code, name, credits: Number(credits), grade, gradePoint: points[grade], resultId: result.id };
         }),
       });
     }
   }
 
-  console.log('Seeding assignments and submissions…');
-  const assignmentSpecs = [
-    { code: 'CS501', title: 'Subnetting & VLSM Worksheet', due: '2026-07-28', brief: 'Solve 12 subnetting problems and submit as a single PDF with working shown.', submittedCount: 41, score: null },
-    { code: 'CS503', title: 'Regression on Housing Dataset', due: '2026-07-30', brief: 'Build and evaluate a linear regression model; submit notebook and a one-page report.', submittedCount: 18, score: null },
-    { code: 'CS505', title: 'RSA Implementation in Python', due: '2026-08-05', brief: 'Implement key generation, encryption and decryption; include test vectors.', submittedCount: 6, score: null },
-    { code: 'CS502', title: 'Lexical Analyzer in C', due: '2026-07-21', brief: 'Write a lexical analyzer for a subset of C using Lex.', submittedCount: 16, score: 18 },
-    { code: 'CS504', title: 'SRS Document — Campus App', due: '2026-07-15', brief: 'Prepare an IEEE-830 style SRS for a campus utility application.', submittedCount: 16, score: 19 },
-  ];
-
-  for (const spec of assignmentSpecs) {
-    const subject = SUBJECTS.find((s) => s.code === spec.code)!;
-    const assignment = await prisma.assignment.create({
+  console.log('Seeding subjects, timetable and academic activity…');
+  const subjectByCode = new Map<string, { id: string }>();
+  for (const s of SUBJECTS) {
+    const subject = await prisma.subject.create({
       data: {
-        title: spec.title,
-        brief: spec.brief,
-        dueDate: new Date(spec.due),
-        maxMarks: 20,
-        subjectId: subjectByCode.get(spec.code)!.id,
-        sectionId: sectionB.id,
-        facultyId: facultyByStaffId.get(subject.staffId)!.id,
+        code: s.code,
+        name: s.name,
+        shortName: s.shortName,
+        credits: s.credits,
+        room: s.room,
+        kind: s.kind,
+        periodsHeld: s.held,
+        departmentId: departments.CSE.id,
+        semesterId: currentSemester.id,
+        facultyId: facultyByStaffId.get(s.staffId)!.id,
       },
     });
-    const submittedUpTo = Math.min(studentIds.length, Math.round((spec.submittedCount / 62) * studentIds.length) || spec.submittedCount);
+    subjectByCode.set(s.code, subject);
+  }
+
+  for (const [dayText, codes] of Object.entries(TIMETABLE)) {
+    const dayOfWeek = Number(dayText);
+    for (const [index, code] of codes.entries()) {
+      if (!code) continue;
+      const subjectSpec = SUBJECTS.find((s) => s.code === code);
+      await prisma.timetableEntry.create({
+        data: {
+          dayOfWeek,
+          period: index + 1,
+          startTime: PERIODS[index][0],
+          endTime: PERIODS[index][1],
+          room: subjectSpec?.room ?? '—',
+          label: subjectSpec ? null : code,
+          sectionId: sectionB.id,
+          semesterId: currentSemester.id,
+          subjectId: subjectSpec ? subjectByCode.get(code)!.id : null,
+          facultyId: subjectSpec ? facultyByStaffId.get(subjectSpec.staffId)!.id : null,
+        },
+      });
+    }
+  }
+
+  const assignments = await Promise.all([
+    prisma.assignment.create({ data: { title: 'Subnetting Design Exercise', brief: 'Design an IPv4 subnet plan for six departments and justify the address allocation.', dueDate: new Date('2026-08-08'), maxMarks: 20, subjectId: subjectByCode.get('CS501')!.id, sectionId: sectionB.id, facultyId: facultyByStaffId.get('FAC1180')!.id } }),
+    prisma.assignment.create({ data: { title: 'Lexical Analyser Implementation', brief: 'Implement a lexical analyser for the specified token set and submit source code with output.', dueDate: new Date('2026-08-14'), maxMarks: 20, subjectId: subjectByCode.get('CS502')!.id, sectionId: sectionB.id, facultyId: facultyByStaffId.get('FAC1024')!.id } }),
+    prisma.assignment.create({ data: { title: 'Classification Model Report', brief: 'Train and compare two classification algorithms using the supplied student-performance dataset.', dueDate: new Date('2026-08-18'), maxMarks: 20, subjectId: subjectByCode.get('CS503')!.id, sectionId: sectionB.id, facultyId: facultyByStaffId.get('HOD204')!.id } }),
+  ]);
+
+  for (const assignment of assignments) {
     await prisma.submission.createMany({
-      data: studentIds.map((student, index) => {
-        // Closed assignments are in from everyone; open ones fill from the back so Aarav's three stay pending.
-        const hasSubmitted = spec.score !== null || index >= studentIds.length - submittedUpTo;
-        const graded = spec.score !== null && hasSubmitted;
-        return {
-          assignmentId: assignment.id,
-          studentId: student.id,
-          status: graded ? ('GRADED' as const) : hasSubmitted ? ('SUBMITTED' as const) : ('PENDING' as const),
-          score: graded ? Math.max(12, Math.min(20, (spec.score ?? 0) - (index % 4))) : null,
-          fileCount: hasSubmitted ? 1 : 0,
-          feedback: graded ? 'Well-structured submission. Cite the RFC numbers in the next one.' : '',
-          submittedAt: hasSubmitted ? new Date(spec.due) : null,
-        };
-      }),
+      data: studentIds.map((student, index) => ({
+        assignmentId: assignment.id,
+        studentId: student.id,
+        status: index % 4 === 0 ? 'PENDING' : index % 3 === 0 ? 'GRADED' : 'SUBMITTED',
+        score: index % 3 === 0 ? 14 + (index % 7) : null,
+        fileCount: index % 4 === 0 ? 0 : 1,
+        note: index % 4 === 0 ? '' : 'Submitted through the portal.',
+        feedback: index % 3 === 0 ? 'Good work. Review the marked comments.' : '',
+        submittedAt: index % 4 === 0 ? null : new Date('2026-08-02'),
+      })),
     });
   }
 
-  console.log('Seeding materials, fees, leave and notifications…');
-  const materialSpecs = [
-    { code: 'CS501', title: 'Unit III — Network Layer & Routing', kind: 'PDF' as const, size: '4.2 MB', staffId: 'FAC1180', downloads: 214 },
-    { code: 'CS501', title: 'Wireshark Lab Handout', kind: 'PDF' as const, size: '1.1 MB', staffId: 'FAC1180', downloads: 186 },
-    { code: 'CS503', title: 'Gradient Descent — Slide Deck', kind: 'PPTX' as const, size: '8.6 MB', staffId: 'HOD204', downloads: 301 },
-    { code: 'CS502', title: 'Syntax Analysis — Solved Problems', kind: 'PDF' as const, size: '2.8 MB', staffId: 'FAC1024', downloads: 158 },
-    { code: 'CS504', title: 'Agile Estimation Case Study', kind: 'DOCX' as const, size: '640 KB', staffId: 'FAC1312', downloads: 97 },
-    { code: 'CS505', title: 'Number Theory Primer', kind: 'PDF' as const, size: '1.9 MB', staffId: 'FAC1198', downloads: 143 },
-  ];
-  await prisma.studyMaterial.createMany({
-    data: materialSpecs.map((m) => ({
-      title: m.title,
-      kind: m.kind,
-      size: m.size,
-      downloads: m.downloads,
-      subjectId: subjectByCode.get(m.code)!.id,
-      uploadedById: facultyByStaffId.get(m.staffId)!.userId,
+  await prisma.exam.createMany({
+    data: SUBJECTS.slice(0, 5).map((s, index) => ({
+      title: index < 2 ? 'Internal Assessment I' : 'Model Examination',
+      date: new Date(`2026-08-${String(10 + index).padStart(2, '0')}`),
+      session: index % 2 === 0 ? 'FN · 10:00 AM' : 'AN · 2:00 PM',
+      hall: `A-${201 + index}`,
+      seatNo: `A${String(42 + index).padStart(3, '0')}`,
+      strength: 60,
+      subjectId: subjectByCode.get(s.code)!.id,
     })),
   });
 
-  const feeSpecs = [
-    { head: 'Tuition Fee — 2026/27', amount: 92500, status: 'PAID' as const, due: '2026-06-12', mode: 'Net Banking', receipt: 'RCT-2026-0442' },
-    { head: 'Examination Fee — Semester 5', amount: 4200, status: 'PAID' as const, due: '2026-07-02', mode: 'UPI', receipt: 'RCT-2026-0781' },
-    { head: 'Hostel & Mess — Term 1', amount: 48000, status: 'PENDING' as const, due: '2026-08-10', mode: '', receipt: '' },
-    { head: 'Transport — Route 14', amount: 18500, status: 'PAID' as const, due: '2026-06-20', mode: 'UPI', receipt: 'RCT-2026-0553' },
-    { head: 'Library & Laboratory', amount: 6000, status: 'PAID' as const, due: '2026-06-12', mode: 'Net Banking', receipt: 'RCT-2026-0443' },
+  const feeHeads = [
+    { head: 'Tuition Fee', amount: 75000, status: 'PAID' as const, dueDate: '2026-07-10' },
+    { head: 'Examination Fee', amount: 2250, status: 'PAID' as const, dueDate: '2026-07-25' },
+    { head: 'Hostel Fee', amount: 48000, status: 'PENDING' as const, dueDate: '2026-08-15' },
+    { head: 'Transport Fee', amount: 18000, status: 'PENDING' as const, dueDate: '2026-08-20' },
   ];
-  for (const [studentIndex, student] of studentIds.entries()) {
-    for (const [feeIndex, spec] of feeSpecs.entries()) {
-      // Every seventh student (Aarav included) carries an outstanding hostel balance, matching the design's defaulter rate.
-      const status = spec.status === 'PENDING' ? (studentIndex % 7 === 0 ? ('PENDING' as const) : ('PAID' as const)) : spec.status;
-      const fee = await prisma.fee.create({
-        data: {
-          head: spec.head,
-          amount: spec.amount,
-          status,
-          dueDate: new Date(spec.due),
-          academicYear: ACADEMIC_YEAR,
-          studentId: student.id,
-        },
+  for (const student of studentIds) {
+    for (const fee of feeHeads) {
+      const created = await prisma.fee.create({
+        data: { ...fee, dueDate: new Date(fee.dueDate), academicYear: ACADEMIC_YEAR, studentId: student.id },
       });
-      if (status === 'PAID') {
+      if (fee.status === 'PAID') {
         await prisma.payment.create({
           data: {
-            feeId: fee.id,
-            receiptNumber: student.id === aarav.id ? spec.receipt : `RCT-2026-${1000 + studentIndex * 10 + feeIndex}`,
-            amount: spec.amount,
-            mode: spec.mode || 'UPI',
-            paidOn: new Date(spec.due),
-            referenceName: student.name,
+            receiptNumber: `DMICE/${created.id.slice(-8).toUpperCase()}`,
+            amount: fee.amount,
+            mode: student.id === aarav.id ? 'UPI' : 'Online',
+            paidOn: new Date('2026-07-08'),
+            referenceName: student.id === aarav.id ? 'Ramesh Menon' : '',
+            feeId: created.id,
           },
         });
       }
     }
   }
 
-  const leaveSpecs = [
-    { student: 'Aarav Menon', type: 'MEDICAL' as const, from: '2026-06-12', to: '2026-06-13', reason: 'Viral fever — medical certificate attached.', status: 'APPROVED' as const, by: 'FAC1180' },
-    { student: 'Aarav Menon', type: 'ON_DUTY' as const, from: '2026-07-04', to: '2026-07-04', reason: 'Inter-college hackathon at Vellore.', status: 'APPROVED' as const, by: 'HOD204' },
-    { student: 'Aarav Menon', type: 'CASUAL' as const, from: '2026-07-29', to: '2026-07-29', reason: 'Sibling wedding at Kochi.', status: 'PENDING' as const, by: null },
-    { student: 'Farhan Sheikh', type: 'MEDICAL' as const, from: '2026-07-27', to: '2026-07-29', reason: 'Dengue — hospitalised, report attached.', status: 'PENDING' as const, by: null },
-    { student: 'Kavya Ramesh', type: 'ON_DUTY' as const, from: '2026-07-31', to: '2026-08-01', reason: 'State-level basketball selection.', status: 'PENDING' as const, by: null },
-    { student: 'Manav Gupta', type: 'CASUAL' as const, from: '2026-08-03', to: '2026-08-03', reason: 'Passport verification appointment.', status: 'PENDING' as const, by: null },
-  ];
   await prisma.leaveRequest.createMany({
-    data: leaveSpecs.map((l) => {
-      const from = new Date(l.from);
-      const to = new Date(l.to);
-      return {
-        type: l.type,
-        fromDate: from,
-        toDate: to,
-        days: Math.round((to.getTime() - from.getTime()) / 86_400_000) + 1,
-        reason: l.reason,
-        status: l.status,
-        studentId: studentIds.find((s) => s.name === l.student)!.id,
-        decidedById: l.by ? facultyByStaffId.get(l.by)!.userId : null,
-      };
-    }),
+    data: [
+      { type: 'MEDICAL', fromDate: new Date('2026-07-10'), toDate: new Date('2026-07-11'), days: 2, reason: 'Fever and medical consultation', status: 'APPROVED', studentId: aarav.id, decidedById: facultyByStaffId.get('HOD204')!.userId },
+      { type: 'ON_DUTY', fromDate: new Date('2026-07-22'), toDate: new Date('2026-07-22'), days: 1, reason: 'Inter-college coding competition', status: 'APPROVED', studentId: aarav.id, decidedById: facultyByStaffId.get('HOD204')!.userId },
+    ],
   });
 
-  const notificationSpecs = [
-    { kind: 'ATTENDANCE' as const, title: 'Attendance shortage — CS505', body: 'Cryptography & Network Security is at 72.7%. Minimum required is 75%.', tone: 'BAD' as const, route: 'attendance', read: false },
-    { kind: 'ASSIGNMENT' as const, title: 'New assignment posted — CS503', body: 'Regression on Housing Dataset, due 30 Jul 2026.', tone: 'ACCENT' as const, route: 'assignments', read: false },
-    { kind: 'DEADLINE' as const, title: 'Submission due tomorrow — CS501', body: 'Subnetting & VLSM Worksheet closes 28 Jul, 23:59.', tone: 'WARN' as const, route: 'assignments', read: false },
-    { kind: 'EXAMINATION' as const, title: 'Model Examination I timetable published', body: 'Model exams run 03 Aug – 08 Aug. Hall tickets available.', tone: 'ACCENT' as const, route: 'examinations', read: false },
-    { kind: 'FEES' as const, title: 'Hostel fee reminder', body: '₹48,000 payable by 10 Aug 2026 to avoid a late fee.', tone: 'WARN' as const, route: 'fees', read: true },
-    { kind: 'LEAVE' as const, title: 'Leave approved — On Duty, 04 Jul', body: 'Approved by Dr. Meera Rajan.', tone: 'OK' as const, route: 'leave', read: true },
-    { kind: 'RESULTS' as const, title: 'Semester 4 results published', body: 'GPA 8.48 · CGPA 8.39. No arrears.', tone: 'OK' as const, route: 'results', read: true },
-    { kind: 'ANNOUNCEMENT' as const, title: 'Cognizance ’26 registrations open', body: 'Annual technical symposium, 12 Sep. Register before 20 Aug.', tone: 'ACCENT' as const, route: 'notifications', read: true },
-  ];
-  const allUsers = await prisma.user.findMany();
+  await prisma.studyMaterial.createMany({
+    data: [
+      { title: 'Computer Networks — Unit I Notes', kind: 'PDF', size: '2.4 MB', downloads: 118, subjectId: subjectByCode.get('CS501')!.id, uploadedById: facultyByStaffId.get('FAC1180')!.userId },
+      { title: 'Compiler Design — Parsing Slides', kind: 'PPTX', size: '5.8 MB', downloads: 94, subjectId: subjectByCode.get('CS502')!.id, uploadedById: facultyByStaffId.get('FAC1024')!.userId },
+      { title: 'Machine Learning — Classification Lab', kind: 'DOCX', size: '1.2 MB', downloads: 131, subjectId: subjectByCode.get('CS503')!.id, uploadedById: facultyByStaffId.get('HOD204')!.userId },
+      { title: 'Cryptography — RSA Demonstration', kind: 'VIDEO', size: '48 MB', downloads: 76, subjectId: subjectByCode.get('CS505')!.id, uploadedById: facultyByStaffId.get('FAC1198')!.userId },
+    ],
+  });
+
   await prisma.notification.createMany({
-    data: allUsers.flatMap((user) =>
-      notificationSpecs
-        .filter((n) => {
-          if (user.role === 'STUDENT' || user.role === 'PARENT') return true;
-          return ['EXAMINATION', 'ANNOUNCEMENT', 'LEAVE', 'RESULTS'].includes(n.kind);
-        })
-        .map((n, index) => ({
-          ...n,
-          recipientId: user.id,
-          createdAt: new Date(Date.now() - index * 6 * 3_600_000),
-        })),
-    ),
+    data: [
+      { kind: 'ATTENDANCE', title: 'Attendance shortage — CS505', body: 'Cryptography & Network Security is below the required 75%.', tone: 'BAD', route: 'attendance', recipientId: aarav.userId },
+      { kind: 'ASSIGNMENT', title: 'Assignment due soon', body: 'Subnetting Design Exercise is due on 8 August.', tone: 'WARN', route: 'assignments', recipientId: aarav.userId },
+      { kind: 'EXAMINATION', title: 'IA I timetable published', body: 'The Internal Assessment I timetable is now available.', tone: 'ACCENT', route: 'examinations', recipientId: aarav.userId },
+      { kind: 'ANNOUNCEMENT', title: 'Semester classes commence', body: 'Semester 5 classes begin on 3 August 2026.', tone: 'OK', route: 'calendar', recipientId: aarav.userId, authorId: adminUser.id },
+    ],
   });
 
-  console.log('Seeding calendar, certificates and placement…');
   await prisma.event.createMany({
     data: EVENTS.map((e) => ({ title: e.title, date: new Date(e.day), tag: e.tag, tone: e.tone })),
   });
@@ -598,10 +507,6 @@ async function main() {
 
 export { main as seed };
 
-// Only self-execute when run directly (`npm run seed`). When imported — as
-// `ensure-seed.ts` does during a deploy — the caller decides when to run.
-// The separator matters: without it this also matches "ensure-seed.ts", which
-// imports this module and would then trigger an unconditional reseed.
 const runDirectly = Boolean(process.argv[1] && /[\\/]seed\.(ts|js)$/.test(process.argv[1]));
 
 if (runDirectly) {
