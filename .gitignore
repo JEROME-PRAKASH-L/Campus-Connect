@@ -9,6 +9,11 @@ build/
 .env*.local
 !.env.example
 
+# Generated during the zero-configuration Vercel demo build.
+apps/api/prisma/schema.sqlite.prisma
+apps/api/prisma/seed.sqlite.ts
+apps/api/prisma/seed.db
+
 *.log
 .DS_Store
 .turbo/
