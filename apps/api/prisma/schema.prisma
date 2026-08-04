@@ -1,10 +1,18 @@
 generator client {
   provider = "prisma-client-js"
+  // "native" for local dev; the RHEL target is the engine Vercel's Node
+  // runtime (Amazon Linux 2023, OpenSSL 3) needs at runtime.
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
   provider = "postgresql"
+  // Runtime traffic goes through Supabase's transaction pooler (port 6543).
   url      = env("DATABASE_URL")
+  // Schema changes cannot run over the transaction pooler, so `db push` and
+  // `migrate` use a session-mode connection (port 5432) instead. Falls back to
+  // DATABASE_URL locally, where both are the same plain Postgres server.
+  directUrl = env("DIRECT_URL")
 }
 
 enum Role {

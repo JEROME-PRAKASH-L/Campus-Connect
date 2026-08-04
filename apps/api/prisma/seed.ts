@@ -596,9 +596,19 @@ async function main() {
   ]);
 }
 
-main()
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  })
-  .finally(() => prisma.$disconnect());
+export { main as seed };
+
+// Only self-execute when run directly (`npm run seed`). When imported — as
+// `ensure-seed.ts` does during a deploy — the caller decides when to run.
+// The separator matters: without it this also matches "ensure-seed.ts", which
+// imports this module and would then trigger an unconditional reseed.
+const runDirectly = Boolean(process.argv[1] && /[\\/]seed\.(ts|js)$/.test(process.argv[1]));
+
+if (runDirectly) {
+  main()
+    .catch((error) => {
+      console.error(error);
+      process.exit(1);
+    })
+    .finally(() => prisma.$disconnect());
+}

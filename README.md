@@ -38,7 +38,7 @@ createdb campus_connect
 
 # 2. API
 cd apps/api
-cp .env.example .env          # set DATABASE_URL and a real JWT_SECRET
+cp .env.example .env          # set DATABASE_URL, DIRECT_URL and a real JWT_SECRET
 npm install
 npx prisma db push            # create the schema
 npm run seed                  # realistic demo data
@@ -98,7 +98,62 @@ Routes are guarded by `requireAuth` and `requireRole`; the student/parent routes
 For production, set a long random `JWT_SECRET`, put the API behind TLS, and set `CORS_ORIGINS` to
 the web app's real origin.
 
+## Deploying (Vercel + Supabase)
+
+The stack needs a Node server and a Postgres database, so it cannot run on
+GitHub Pages. It deploys as **two Vercel projects from this one repository** —
+they differ only by Root Directory — plus a Supabase database.
+
+### 1. Database
+
+Create a Supabase project. From **Connect → ORMs → Prisma** copy the two
+connection strings it gives you:
+
+- the **transaction pooler** URI (port `6543`) → `DATABASE_URL`
+- the **session pooler** URI (port `5432`) → `DIRECT_URL`
+
+Runtime queries go through the transaction pooler because serverless functions
+open many short-lived connections. Schema changes cannot run over that pooler,
+so `prisma db push` uses the session pooler instead.
+
+### 2. API project
+
+New Vercel project from this repo, **Root Directory `apps/api`**.
+
+| Variable | Value |
+| --- | --- |
+| `DATABASE_URL` | transaction pooler URI, with `?pgbouncer=true&connection_limit=1&sslmode=require` |
+| `DIRECT_URL` | session pooler URI, with `?sslmode=require` |
+| `JWT_SECRET` | a long random string |
+| `CORS_ORIGINS` | the web app's origin, e.g. `https://campus-connect-web.vercel.app` |
+
+`api/[...slug].ts` exports the Express app as a single catch-all serverless
+function, so every `/api/*` route reaches the same routers used locally.
+
+The build (`npm run vercel-build`) runs `prisma generate`, then `prisma db push`
+to create the schema, then `prisma/ensure-seed.ts`. Seeding is gated: it runs
+only when the database has no users, so the first deploy populates the demo data
+and later deploys leave real data alone. Set `FORCE_SEED=true` to reseed — that
+discards everything currently stored.
+
+### 3. Web project
+
+A second Vercel project from the same repo, **Root Directory `apps/web`**.
+
+| Variable | Value |
+| --- | --- |
+| `NEXT_PUBLIC_API_BASE` | the API project's URL, no trailing slash |
+
+`NEXT_PUBLIC_*` values are baked in at build time, so changing this needs a
+redeploy rather than just a restart.
+
+### 4. Close the loop
+
+The two projects reference each other, so set `CORS_ORIGINS` on the API once the
+web URL exists and redeploy. Check `/api/health` on the API domain — it should
+return `{"ok":true}` — then sign in with a demo account.
+
 ## Scripts
 
 Both apps: `npm run dev`, `npm run build`, `npm run typecheck`.
-API also has `npm run seed` and `npm run prisma:push`.
+API also has `npm run seed`, `npm run prisma:push` and `npm run vercel-build`.
