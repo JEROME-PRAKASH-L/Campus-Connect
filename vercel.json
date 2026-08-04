@@ -1,6 +1,14 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "cd apps/web && npm install",
-  "buildCommand": "cd apps/web && STATIC_EXPORT=true npm run build",
-  "outputDirectory": "apps/web/out"
+  "installCommand": "cd apps/api && DATABASE_URL=\"${DATABASE_URL:-postgresql://user:pass@localhost:5432/campus}\" DIRECT_URL=\"${DIRECT_URL:-postgresql://user:pass@localhost:5432/campus}\" npm install && cd ../web && npm install",
+  "buildCommand": "cd apps/api && npm run vercel-build:auto && cd ../web && NEXT_PUBLIC_API_BASE= STATIC_EXPORT=true npm run build",
+  "outputDirectory": "apps/web/out",
+  "functions": {
+    "api/[...slug].ts": {
+      "maxDuration": 30,
+      "includeFiles": [
+        "apps/api/prisma/seed.db"
+      ]
+    }
+  }
 }
