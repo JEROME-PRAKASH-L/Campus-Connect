@@ -153,6 +153,38 @@ The two projects reference each other, so set `CORS_ORIGINS` on the API once the
 web URL exists and redeploy. Check `/api/health` on the API domain — it should
 return `{"ok":true}` — then sign in with a demo account.
 
+## Deploying the frontend to GitHub Pages
+
+`.github/workflows/deploy-pages.yml` publishes the web app to GitHub Pages on
+every push to `main`.
+
+**Pages can only host the frontend.** It serves static files, so the Express API
+and PostgreSQL still need a host elsewhere — the published site loads but cannot
+sign in until it can reach an API.
+
+The workflow turns Pages on itself (`actions/configure-pages` with
+`enablement: true`), so there is no settings step. The only thing to set is:
+
+1. **Settings → Secrets and variables → Actions → Variables**, add
+   `NEXT_PUBLIC_API_BASE` pointing at the deployed API. The workflow logs a
+   warning if it is missing.
+2. Push to `main`, or run the workflow manually from the Actions tab.
+
+The site is published at `https://<owner>.github.io/<repo>/`.
+
+Because a project site lives under a sub-path, `GITHUB_PAGES=true` switches the
+build to `output: 'export'` with a matching `basePath`. Next rewrites its own
+bundles for that prefix but not plain `<img src>`, so `lib/asset.ts` applies it
+to files served from `public/`. Both settings are opt-in: the default build, the
+one Vercel runs, is unchanged.
+
+## Continuous integration
+
+`.github/workflows/ci.yml` typechecks and builds both apps on every push to
+`main` and on every pull request. It needs no database — the placeholder
+connection strings exist only so `prisma generate` can resolve its datasource
+variables.
+
 ## Scripts
 
 Both apps: `npm run dev`, `npm run build`, `npm run typecheck`.
