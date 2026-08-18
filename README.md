@@ -12,9 +12,15 @@ Blueprint and Console alternates were dropped by request.
 apps/
   api/    Express 5 + Prisma + PostgreSQL — JWT auth, role-based routes, seed data
   web/    Next.js 16 (App Router) + TypeScript + Tailwind 4 — the five role dashboards
+docs/
+  architecture.md   Runtime flow and feature-module conventions
 design-handoff/
   README.md, chats/, project/   The original Claude Design export
 ```
+
+The repository root is an npm workspace. New features are organized under
+`apps/web/src/features/<feature>` and `apps/api/src/modules/<feature>`. Attendance is the first
+module migrated to this structure; existing endpoints and UI behavior remain unchanged.
 
 ## Roles and modules
 
@@ -36,19 +42,15 @@ You need Node 22+ and a PostgreSQL 16 database.
 # 1. Database
 createdb campus_connect
 
-# 2. API
-cd apps/api
-cp .env.example .env          # set DATABASE_URL, DIRECT_URL and a real JWT_SECRET
-npm install
-npx prisma db push            # create the schema
-npm run seed                  # realistic demo data
-npm run dev                   # http://localhost:4000
+# 2. Configuration
+cp apps/api/.env.example apps/api/.env       # set DATABASE_URL, DIRECT_URL and JWT_SECRET
+cp apps/web/.env.example apps/web/.env.local # NEXT_PUBLIC_API_BASE=http://localhost:4000
 
-# 3. Web (second terminal)
-cd apps/web
-cp .env.example .env.local    # NEXT_PUBLIC_API_BASE=http://localhost:4000
+# 3. Install, create demo data, and run both applications
 npm install
-npm run dev                   # http://localhost:3000
+npm run db:push
+npm run db:seed
+npm run dev                   # web :3000, API :4000
 ```
 
 ### Demo accounts
@@ -208,5 +210,13 @@ variables.
 
 ## Scripts
 
-Both apps: `npm run dev`, `npm run build`, `npm run typecheck`.
-API also has `npm run seed`, `npm run prisma:push` and `npm run vercel-build`.
+From the repository root:
+
+- `npm run dev` — run web and API together
+- `npm run dev:web` / `npm run dev:api` — run one application
+- `npm run build` — build API, then web
+- `npm run typecheck` — typecheck the serverless entry, API, and web
+- `npm test` — run the available test suite
+- `npm run prisma:generate` — generate Prisma Client
+- `npm run db:push` / `npm run db:seed` — prepare development data
+- `npm run vercel-build` — preserve the existing production deployment flow

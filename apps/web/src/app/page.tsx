@@ -11,7 +11,7 @@ import { ICONS } from '@/lib/icons';
 import { Dashboard } from '@/pages-app/Dashboard';
 import { Profile } from '@/pages-app/Profile';
 import { People } from '@/pages-app/People';
-import { Attendance } from '@/pages-app/Attendance';
+import { Attendance } from '@/features/attendance';
 import { Timetable } from '@/pages-app/Timetable';
 import { Academics } from '@/pages-app/Academics';
 import { Assignments } from '@/pages-app/Assignments';

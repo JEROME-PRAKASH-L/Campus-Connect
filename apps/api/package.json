@@ -12,6 +12,7 @@
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
     "seed": "tsx prisma/seed.ts",
+    "test": "tsc -p tsconfig.json && node --test dist/src/modules/attendance/*.test.js",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

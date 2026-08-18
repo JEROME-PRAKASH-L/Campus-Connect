@@ -6,7 +6,7 @@ import { authRouter } from './routes/auth.js';
 import { dashboardRouter } from './routes/dashboard.js';
 import { profileRouter } from './routes/profile.js';
 import { peopleRouter } from './routes/people.js';
-import { attendanceRouter } from './routes/attendance.js';
+import { attendanceRouter } from './modules/attendance/attendance.routes.js';
 import { timetableRouter } from './routes/timetable.js';
 import { academicsRouter } from './routes/academics.js';
 import { assignmentsRouter } from './routes/assignments.js';

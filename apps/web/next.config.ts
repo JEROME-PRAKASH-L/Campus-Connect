@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import { fileURLToPath } from 'node:url';
 
 // The app is a client-side SPA that fetches everything from the API, so it can
 // be emitted as a fully static bundle. Two deploy targets want that:
@@ -21,14 +22,15 @@ const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'Campus-Connect
 
 // Only a project sub-path needs a prefix; a root-served export must not have one.
 const basePath = isGitHubPages ? `/${repoName}` : '';
+const repositoryRoot = fileURLToPath(new URL('../..', import.meta.url));
 
 const config: NextConfig = {
   reactStrictMode: true,
 
-  // The repository root also has a lockfile (it carries the API's dependencies
-  // for the Vercel deployment), and Turbopack would otherwise infer the root
-  // from it and warn. The build always runs from this directory.
-  turbopack: { root: process.cwd() },
+  // Dependencies may be installed from the npm workspace root or directly in
+  // apps/web. Using the repository root keeps both layouts inside Turbopack's
+  // allowed filesystem boundary.
+  turbopack: { root: repositoryRoot },
 
   // Consumed by lib/asset.ts to prefix plain <img src> paths, which Next does
   // not rewrite for basePath the way it does its own bundles.

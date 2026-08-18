@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { prisma } from '../prisma.js';
 import { requireAuth, requireRole } from '../auth.js';
 import { currentSemester, resolveContextStudent } from '../context.js';
-import { subjectAttendanceFor } from './attendance.js';
+import { subjectAttendanceFor } from '../modules/attendance/attendance.service.js';
 
 export const academicsRouter = Router();
 academicsRouter.use(requireAuth);
