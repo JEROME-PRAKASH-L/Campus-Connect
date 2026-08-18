@@ -28,7 +28,7 @@ jobs:
           cache-dependency-path: apps/api/package-lock.json
       - run: npm ci
       - run: npm run typecheck
-      - run: npm run build
+      - run: npm test
 
   deployment-entry:
     name: Vercel entry — typecheck

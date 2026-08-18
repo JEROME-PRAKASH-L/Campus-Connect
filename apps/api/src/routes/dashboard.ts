@@ -4,7 +4,7 @@ import { requireAuth } from '../auth.js';
 import { currentSemester, facultyFor, resolveContextStudent } from '../context.js';
 import { cgpaFrom, countsAsPresent, countsInDenominator, percentage } from '../domain.js';
 import { PERIODS } from './timetable.js';
-import { subjectAttendanceFor } from './attendance.js';
+import { subjectAttendanceFor } from '../modules/attendance/attendance.service.js';
 
 export const dashboardRouter = Router();
 dashboardRouter.use(requireAuth);

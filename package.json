@@ -4,9 +4,27 @@
   "private": true,
   "type": "module",
   "description": "Root manifest for the Vercel deployment: the API's runtime dependencies live here so `api/` compiles as serverless functions alongside the static frontend.",
+  "workspaces": [
+    "apps/api",
+    "apps/web"
+  ],
   "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:api": "npm run dev --workspace @campus-connect/api",
+    "dev:web": "npm run dev --workspace @campus-connect/web",
+    "build": "npm run build:api && npm run build:web",
+    "build:api": "npm run build --workspace @campus-connect/api",
+    "build:web": "npm run build --workspace @campus-connect/web",
+    "test": "npm run test:api",
+    "test:api": "npm run test --workspace @campus-connect/api",
     "vercel-build": "bash scripts/vercel-build.sh",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "typecheck": "npm run typecheck:root && npm run typecheck:api && npm run typecheck:web",
+    "typecheck:root": "tsc --noEmit -p tsconfig.json",
+    "typecheck:api": "npm run typecheck --workspace @campus-connect/api",
+    "typecheck:web": "npm run typecheck --workspace @campus-connect/web",
+    "prisma:generate": "npm run prisma:generate --workspace @campus-connect/api",
+    "db:push": "npm run prisma:push --workspace @campus-connect/api",
+    "db:seed": "npm run seed --workspace @campus-connect/api"
   },
   "dependencies": {
     "@prisma/client": "^6.2.1",
