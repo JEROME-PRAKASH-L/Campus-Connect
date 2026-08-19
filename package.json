@@ -1,0 +1,34 @@
+{
+  "name": "campus-connect",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DMI Campus Connect — College ERP and Learning Management Portal",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace @campus-connect/api & npm run dev --workspace @campus-connect/web",
+    "dev:api": "npm run dev --workspace @campus-connect/api",
+    "dev:web": "npm run dev --workspace @campus-connect/web",
+    "build": "npm run build --workspace @campus-connect/contracts && npm run build --workspace @campus-connect/api && npm run build --workspace @campus-connect/web",
+    "build:api": "npm run build --workspace @campus-connect/contracts && npm run build --workspace @campus-connect/api",
+    "build:web": "npm run build --workspace @campus-connect/contracts && npm run build --workspace @campus-connect/web",
+    "typecheck": "npm run build --workspace @campus-connect/contracts && npm run typecheck --workspace @campus-connect/api && npm run typecheck --workspace @campus-connect/web && npm run typecheck --workspace @campus-connect/ui",
+    "lint": "npm run lint --workspace @campus-connect/web",
+    "test": "npm run build --workspace @campus-connect/contracts && npm run test --workspace @campus-connect/api && npm run test --workspace @campus-connect/web",
+    "prisma:generate": "npm run prisma:generate --workspace @campus-connect/api",
+    "db:push": "npm run db:push --workspace @campus-connect/api",
+    "db:seed": "npm run db:seed --workspace @campus-connect/api",
+    "start:api": "npm run start --workspace @campus-connect/api",
+    "start:web": "npm run start --workspace @campus-connect/web"
+  },
+  "overrides": {
+    "postcss": "^8.5.25",
+    "sharp": "^0.35.3"
+  }
+}

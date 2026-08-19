@@ -95,6 +95,21 @@ const EVENTS = [
   { day: '2026-10-20', title: 'End-semester examinations begin', tag: 'Examination', tone: 'ACCENT' as const },
 ];
 
+const COMPANIES = [
+  { name: 'Zoho Corporation', sector: 'Product engineering', website: 'https://www.zoho.com', contactName: 'Campus Relations', contactEmail: 'campus@example.invalid', contactPhone: '+91 44 6900 0000' },
+  { name: 'Freshworks', sector: 'SaaS', website: 'https://www.freshworks.com', contactName: 'University Programmes', contactEmail: 'university@example.invalid', contactPhone: '+91 44 6100 0000' },
+  { name: 'TCS Digital', sector: 'IT services', website: 'https://www.tcs.com', contactName: 'Talent Acquisition', contactEmail: 'hiring@example.invalid', contactPhone: '+91 44 6600 0000' },
+  { name: 'Qualcomm India', sector: 'Semiconductors', website: 'https://www.qualcomm.com', contactName: 'Campus Hiring', contactEmail: 'campus.in@example.invalid', contactPhone: '+91 80 4000 0000' },
+];
+
+const FEE_CATEGORIES = [
+  { code: 'TUITION', name: 'Tuition fee', defaultAmount: 62500, description: 'Semester tuition, payable at the start of the term.' },
+  { code: 'EXAM', name: 'Examination fee', defaultAmount: 3200, description: 'End-semester examination and valuation.' },
+  { code: 'HOSTEL', name: 'Hostel & mess', defaultAmount: 48000, description: 'Room, mess and utilities for resident students.' },
+  { code: 'TRANSPORT', name: 'Transport', defaultAmount: 18500, description: 'College bus, route-wise.' },
+  { code: 'LAB', name: 'Laboratory & library', defaultAmount: 6400, description: 'Consumables, laboratory and library access.' },
+];
+
 const DRIVES = [
   { company: 'Zoho Corporation', role: 'Member Technical Staff', ctc: '₹9.5 LPA', date: '2026-07-31', eligibility: 'CGPA ≥ 7.0, no arrears', minCgpa: 7, noArrears: true },
   { company: 'Freshworks', role: 'Software Engineer I', ctc: '₹12.0 LPA', date: '2026-08-12', eligibility: 'CGPA ≥ 8.0, no arrears', minCgpa: 8, noArrears: true },
@@ -113,6 +128,10 @@ const marksFor = (held: number, targetPct: number): AttendanceMark[] => {
 
 const wipe = async () => {
   await prisma.$transaction([
+    prisma.auditLog.deleteMany(),
+    prisma.supportRequest.deleteMany(),
+    prisma.studentRemark.deleteMany(),
+    prisma.setting.deleteMany(),
     prisma.facultyFeedback.deleteMany(),
     prisma.placementRegistration.deleteMany(),
     prisma.placementDrive.deleteMany(),
@@ -140,6 +159,9 @@ const wipe = async () => {
     prisma.course.deleteMany(),
     prisma.user.deleteMany(),
     prisma.department.deleteMany(),
+    prisma.feeCategory.deleteMany(),
+    prisma.company.deleteMany(),
+    prisma.storedFile.deleteMany(),
   ]);
 };
 
@@ -569,11 +591,18 @@ async function main() {
     ],
   });
 
+  const companies = Object.fromEntries(
+    await Promise.all(
+      COMPANIES.map(async (c) => [c.name, await prisma.company.create({ data: c })] as const),
+    ),
+  );
+
   const drives = await Promise.all(
     DRIVES.map((d) =>
       prisma.placementDrive.create({
         data: {
           company: d.company,
+          companyId: companies[d.company]?.id ?? null,
           role: d.role,
           ctc: d.ctc,
           driveDate: new Date(d.date),
@@ -585,6 +614,39 @@ async function main() {
     ),
   );
   await prisma.placementRegistration.create({ data: { driveId: drives[0].id, studentId: aarav.id } });
+
+  console.log('Seeding institution profile, fee categories and allocations…');
+  await prisma.setting.create({
+    data: {
+      key: 'institution.profile',
+      scope: 'INSTITUTION',
+      value: {
+        name: 'DMI College of Engineering',
+        shortName: 'DMI',
+        affiliation: 'Affiliated to Anna University, Chennai',
+        addressLine1: 'Palanchur, Nazarethpet Post',
+        addressLine2: 'Chennai – Bangalore Highway',
+        city: 'Chennai',
+        state: 'Tamil Nadu',
+        postalCode: '600123',
+        phone: '+91 44 2745 1234',
+        email: 'office@example.invalid',
+        website: 'https://www.example.invalid',
+        logoFileId: '',
+      },
+    },
+  });
+
+  await prisma.feeCategory.createMany({
+    data: FEE_CATEGORIES.map((c) => ({ ...c, academicYear: ACADEMIC_YEAR })),
+  });
+
+  // The HOD account heads CSE; the class adviser for 5-B is the section's own faculty.
+  const hodUser = await prisma.user.findUnique({ where: { loginId: 'HOD204' } });
+  if (hodUser) await prisma.department.update({ where: { id: departments.CSE.id }, data: { hodUserId: hodUser.id } });
+
+  const adviser = await prisma.faculty.findUnique({ where: { staffId: 'FAC1180' } });
+  if (adviser) await prisma.section.update({ where: { id: sectionB.id }, data: { advisorFacultyId: adviser.id } });
 
   console.log('\nSeed complete. Demo accounts (password: demo1234):');
   console.table([

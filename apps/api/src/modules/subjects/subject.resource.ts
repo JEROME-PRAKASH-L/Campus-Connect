@@ -1,0 +1,61 @@
+import { subjectCreateSchema, subjectUpdateSchema } from '@campus-connect/contracts';
+import { prisma } from '../../database/prisma.js';
+import { assertDepartmentAccess, departmentWhere } from '../../middleware/authorization.middleware.js';
+import type { ResourceDefinition } from '../../shared/resource/resource.types.js';
+
+export const subjectResource: ResourceDefinition = {
+  name: 'subjects',
+  entity: 'Subject',
+  module: 'subjects',
+  delegate: () => prisma.subject,
+  createSchema: subjectCreateSchema,
+  updateSchema: subjectUpdateSchema,
+  searchFields: ['code', 'name', 'shortName'],
+  sortFields: ['code', 'name', 'credits', 'createdAt'],
+  defaultSort: 'code',
+  filters: [
+    { key: 'departmentId', where: (value) => ({ departmentId: value }) },
+    { key: 'semesterId', where: (value) => ({ semesterId: value }) },
+    { key: 'facultyId', where: (value) => ({ facultyId: value }) },
+    { key: 'kind', where: (value) => ({ kind: value }) },
+  ],
+  include: {
+    department: { select: { code: true } },
+    semester: { select: { number: true, academicYear: true } },
+    faculty: { include: { user: { select: { name: true } } } },
+  },
+  readPermission: 'subject:read',
+  writePermission: 'subject:write',
+  scope: (req) => departmentWhere(req),
+  assertAccess: (req, row) => assertDepartmentAccess(req, row.departmentId as string),
+  toCreateData: (input) => ({ ...input, room: input.room ?? '', facultyId: input.facultyId || null, periodsHeld: 0 }),
+  toUpdateData: (input) => ({ ...input, ...(input.facultyId !== undefined ? { facultyId: input.facultyId || null } : {}) }),
+  serialize: (row) => ({
+    id: row.id,
+    code: row.code,
+    name: row.name,
+    shortName: row.shortName,
+    credits: row.credits,
+    room: row.room,
+    kind: row.kind,
+    departmentId: row.departmentId,
+    department: row.department?.code ?? '—',
+    semesterId: row.semesterId,
+    semester: row.semester ? `Semester ${row.semester.number}` : '—',
+    facultyId: row.facultyId ?? '',
+    faculty: row.faculty?.user?.name ?? 'Unallocated',
+    periodsHeld: row.periodsHeld,
+    status: row.status,
+    archivedAt: row.archivedAt,
+  }),
+  csvColumns: [
+    { key: 'code', label: 'Code' },
+    { key: 'name', label: 'Subject' },
+    { key: 'kind', label: 'Kind' },
+    { key: 'credits', label: 'Credits' },
+    { key: 'department', label: 'Department' },
+    { key: 'semester', label: 'Semester' },
+    { key: 'faculty', label: 'Faculty' },
+    { key: 'status', label: 'Status' },
+  ],
+};
