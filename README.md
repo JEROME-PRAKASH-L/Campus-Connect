@@ -120,11 +120,11 @@ screen and sign you in with one click.
 
 | Role | Login ID | Name |
 | --- | --- | --- |
-| Student | `21CSE042` | Aarav Menon |
-| Faculty | `FAC1180` | Prof. Kavitha Suresh |
-| HOD | `HOD204` | Dr. Meera Rajan |
-| Administrator | `ADM001` | Dr. S. Venkatesh |
-| Parent | `PAR7042` | Ramesh Menon |
+| Student | `21CSE042` | Donald Trump |
+| Faculty | `FAC1180` | Vladimir Putin |
+| HOD | `HOD204` | Kim Jong Un |
+| Administrator | `ADM001` | Elon Musk |
+| Parent | `PAR7042` | Errol Musk |
 
 ## Data entry
 

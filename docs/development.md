@@ -66,11 +66,11 @@ Every demo account uses the password `demo1234`.
 
 | Role | Login ID | Name |
 | --- | --- | --- |
-| Student | `21CSE042` | Aarav Menon |
-| Faculty | `FAC1180` | Prof. Kavitha Suresh |
-| HOD | `HOD204` | Dr. Meera Rajan |
-| Administrator | `ADM001` | Dr. S. Venkatesh |
-| Parent | `PAR7042` | Ramesh Menon |
+| Student | `21CSE042` | Donald Trump |
+| Faculty | `FAC1180` | Vladimir Putin |
+| HOD | `HOD204` | Kim Jong Un |
+| Administrator | `ADM001` | Elon Musk |
+| Parent | `PAR7042` | Errol Musk |
 
 The seed is the only place demo data may live. Everything else the portal shows
 is entered through a form and read back from PostgreSQL.

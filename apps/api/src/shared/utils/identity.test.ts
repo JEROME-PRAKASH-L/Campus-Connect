@@ -4,8 +4,8 @@ import { generateLoginId, initialsFor, roleLabelFor } from './identity.js';
 
 describe('identity helpers', () => {
   it('takes the first two initials of a name', () => {
-    assert.equal(initialsFor('Aarav Menon'), 'AM');
-    assert.equal(initialsFor('Dr. Meera Rajan'), 'DM');
+    assert.equal(initialsFor('Donald Trump'), 'DT');
+    assert.equal(initialsFor('Dr. Kim Jong Un'), 'DK');
     assert.equal(initialsFor('Prakash'), 'P');
   });
 
