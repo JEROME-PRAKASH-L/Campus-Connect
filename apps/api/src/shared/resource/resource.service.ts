@@ -3,53 +3,8 @@ import { listQuerySchema, pageMeta, type Paginated } from '@campus-connect/contr
 import { conflict, notFound } from '../errors/http-error.js';
 import { parseOrThrow } from '../../middleware/validation.middleware.js';
 import { recordAudit } from '../../modules/audit/audit.service.js';
-import type { ResourceDefinition, ResourceRow, WhereFragment } from './resource.types.js';
-
-/** `?filter[departmentId]=x` and the flat `?departmentId=x` form both work. */
-const readFilters = (query: Record<string, unknown>, definition: ResourceDefinition): WhereFragment[] => {
-  const nested = (query.filter ?? {}) as Record<string, string>;
-  return (definition.filters ?? [])
-    .map((f) => {
-      const raw = nested[f.key] ?? (typeof query[f.key] === 'string' ? (query[f.key] as string) : undefined);
-      return raw ? f.where(raw) : null;
-    })
-    .filter((w): w is WhereFragment => w !== null);
-};
-
-const searchWhere = (definition: ResourceDefinition, search?: string): WhereFragment | null => {
-  if (!search || !definition.searchFields.length) return null;
-  return {
-    OR: definition.searchFields.map((field) =>
-      field.includes('.')
-        ? field.split('.').reduceRight<WhereFragment>((acc, key, index, parts) => (index === parts.length - 1 ? { [key]: { contains: search, mode: 'insensitive' } } : { [key]: acc }), {})
-        : { [field]: { contains: search, mode: 'insensitive' } },
-    ),
-  };
-};
-
-const statusWhere = (definition: ResourceDefinition, status: 'ACTIVE' | 'ARCHIVED' | 'ALL'): WhereFragment | null => {
-  if (definition.archivable === false || status === 'ALL') return null;
-  return { status };
-};
-
-const orderBy = (definition: ResourceDefinition, sort: string | undefined, direction: 'asc' | 'desc'): WhereFragment => {
-  const field = sort && definition.sortFields.includes(sort) ? sort : definition.defaultSort;
-  const dir = sort && definition.sortFields.includes(sort) ? direction : (definition.defaultDirection ?? direction);
-  return field.includes('.')
-    ? field.split('.').reduceRight<WhereFragment>((acc, key, index, parts) => (index === parts.length - 1 ? { [key]: dir } : { [key]: acc }), {})
-    : { [field]: dir };
-};
-
-export const buildWhere = (req: Request, definition: ResourceDefinition, query: ReturnType<typeof listQuerySchema.parse>): WhereFragment => {
-  const clauses = [
-    definition.scope?.(req),
-    searchWhere(definition, query.search),
-    statusWhere(definition, query.status),
-    ...readFilters(req.query as Record<string, unknown>, definition),
-  ].filter((c): c is WhereFragment => Boolean(c) && Object.keys(c as WhereFragment).length > 0);
-
-  return clauses.length ? { AND: clauses } : {};
-};
+import { buildWhere, orderBy } from './resource.query.js';
+import type { ResourceDefinition, ResourceRow } from './resource.types.js';
 
 export const listResource = async (req: Request, definition: ResourceDefinition): Promise<Paginated<ResourceRow>> => {
   const query = parseOrThrow(listQuerySchema, req.query);
