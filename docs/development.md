@@ -132,6 +132,27 @@ To point at a real bucket, set `STORAGE_DRIVER=s3` plus `S3_BUCKET`,
 `S3_REGION` and credentials. Any S3-compatible service works — set `S3_ENDPOINT`
 and `S3_FORCE_PATH_STYLE=true` for MinIO.
 
+## Deploying the web app
+
+`apps/web` is a Next.js app inside an npm workspace. A host must build it from
+`apps/web`, not from the repository root — the root `package.json` is the
+workspace manifest and declares no framework.
+
+On Vercel that means **Project → Settings → Build & Deployment → Root Directory
+= `apps/web`**, with *Include files outside the root directory* enabled so the
+workspace root and `packages/*` are available. Nothing else needs configuring:
+`apps/web`'s own `prebuild` compiles `@campus-connect/contracts` first, and
+`apps/api`'s `postinstall` generates the Prisma client, so a plain
+`npm install && npm run build` works from a clean checkout.
+
+Set `NEXT_PUBLIC_API_BASE` in the host's environment to wherever the API is
+reachable. It defaults to `http://localhost:4000`, which is only right for local
+development.
+
+`apps/api` is a long-running Express server and needs a Node host plus a
+reachable PostgreSQL instance — it is not a serverless target. Deploy it
+separately and point `NEXT_PUBLIC_API_BASE` and `CORS_ORIGINS` at each other.
+
 ## Troubleshooting
 
 **`Invalid environment configuration`** — the message names the variable and
