@@ -76,15 +76,15 @@ enum MaterialKind {
 }
 
 model User {
-  id           String  @id @default(cuid())
-  loginId      String  @unique
-  email        String  @unique
+  id           String @id @default(cuid())
+  loginId      String @unique
+  email        String @unique
   passwordHash String
   name         String
   role         Role
   initials     String
   roleLabel    String
-  extra        String  @default("")
+  extra        String @default("")
 
   departmentId String?
   department   Department? @relation(fields: [departmentId], references: [id])
@@ -93,25 +93,37 @@ model User {
   faculty Faculty?
   parent  Parent?
 
-  sentAnnouncements Notification[] @relation("NotificationAuthor")
-  notifications     Notification[] @relation("NotificationRecipient")
-  decidedLeaves     LeaveRequest[] @relation("LeaveDecider")
+  sentAnnouncements Notification[]     @relation("NotificationAuthor")
+  notifications     Notification[]     @relation("NotificationRecipient")
+  decidedLeaves     LeaveRequest[]     @relation("LeaveDecider")
   uploadedMaterials StudyMaterial[]
   markedAttendance  AttendanceRecord[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  headedDepartments Department[]     @relation("DepartmentHead")
+  auditEntries      AuditLog[]
+  supportRequests   SupportRequest[] @relation("SupportRaisedBy")
+  resolvedSupport   SupportRequest[] @relation("SupportResolvedBy")
+  authoredRemarks   StudentRemark[]  @relation("RemarkAuthor")
+  uploadedFiles     StoredFile[]     @relation("FileUploader")
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
 }
 
 model Department {
-  id       String @id @default(cuid())
-  code     String @unique
-  name     String
-  block    String
-  hodName  String
-  facultyCount Int
-  studentCount Int
-  avgAttendance Float
+  id             String @id @default(cuid())
+  code           String @unique
+  name           String
+  block          String
+  hodName        String
+  facultyCount   Int
+  studentCount   Int
+  avgAttendance  Float
   passPercentage Float
 
   users    User[]
@@ -119,13 +131,23 @@ model Department {
   faculty  Faculty[]
   courses  Course[]
   subjects Subject[]
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+
+  hodUserId String?
+  hodUser   User?   @relation("DepartmentHead", fields: [hodUserId], references: [id])
 }
 
 model Course {
-  id           String @id @default(cuid())
-  code         String @unique
-  name         String
-  degree       String
+  id            String @id @default(cuid())
+  code          String @unique
+  name          String
+  degree        String
   durationYears Int
 
   departmentId String
@@ -133,42 +155,66 @@ model Course {
 
   students Student[]
   sections Section[]
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
 }
 
 model Semester {
-  id       String @id @default(cuid())
-  number   Int
-  label    String
+  id           String  @id @default(cuid())
+  number       Int
+  label        String
   academicYear String
-  isCurrent Boolean @default(false)
+  isCurrent    Boolean @default(false)
 
   subjects  Subject[]
   sections  Section[]
   results   SemesterResult[]
   timetable TimetableEntry[]
 
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+
   @@unique([number, academicYear])
 }
 
 model Section {
-  id    String @id @default(cuid())
-  name  String
+  id   String @id @default(cuid())
+  name String
 
   courseId   String
-  course     Course @relation(fields: [courseId], references: [id])
+  course     Course   @relation(fields: [courseId], references: [id])
   semesterId String
   semester   Semester @relation(fields: [semesterId], references: [id])
 
-  students   Student[]
-  timetable  TimetableEntry[]
+  students    Student[]
+  timetable   TimetableEntry[]
   assignments Assignment[]
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+
+  advisorFacultyId String?
+  advisorFaculty   Faculty? @relation("SectionAdvisor", fields: [advisorFacultyId], references: [id])
 
   @@unique([courseId, semesterId, name])
 }
 
 model Student {
-  id             String @id @default(cuid())
-  registerNumber String @unique
+  id             String   @id @default(cuid())
+  registerNumber String   @unique
   batch          String
   dateOfBirth    DateTime
   bloodGroup     String
@@ -184,33 +230,44 @@ model Student {
   departmentId String
   department   Department @relation(fields: [departmentId], references: [id])
   courseId     String
-  course       Course @relation(fields: [courseId], references: [id])
+  course       Course     @relation(fields: [courseId], references: [id])
   sectionId    String
-  section      Section @relation(fields: [sectionId], references: [id])
+  section      Section    @relation(fields: [sectionId], references: [id])
 
-  parents      Parent[]
-  attendance   AttendanceRecord[]
-  submissions  Submission[]
-  marks        Mark[]
-  results      SemesterResult[]
-  fees         Fee[]
+  parents       Parent[]
+  attendance    AttendanceRecord[]
+  submissions   Submission[]
+  marks         Mark[]
+  results       SemesterResult[]
+  fees          Fee[]
   leaveRequests LeaveRequest[]
-  certificates Certificate[]
-  feedback     FacultyFeedback[]
-  placements   PlacementRegistration[]
+  certificates  Certificate[]
+  feedback      FacultyFeedback[]
+  placements    PlacementRegistration[]
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+
+  photoFileId String?
+  photoFile   StoredFile?     @relation("StudentPhoto", fields: [photoFileId], references: [id])
+  remarks     StudentRemark[]
 }
 
 model Faculty {
-  id          String @id @default(cuid())
-  staffId     String @unique
-  designation String
-  qualification String
+  id              String   @id @default(cuid())
+  staffId         String   @unique
+  designation     String
+  qualification   String
   experienceYears Int
-  cabin       String
-  mobile      String
-  joinedOn    DateTime
-  weeklyHours Int    @default(0)
-  sectionCount Int   @default(0)
+  cabin           String
+  mobile          String
+  joinedOn        DateTime
+  weeklyHours     Int      @default(0)
+  sectionCount    Int      @default(0)
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -218,10 +275,19 @@ model Faculty {
   departmentId String
   department   Department @relation(fields: [departmentId], references: [id])
 
-  subjects   Subject[]
-  timetable  TimetableEntry[]
+  subjects    Subject[]
+  timetable   TimetableEntry[]
   assignments Assignment[]
-  feedback   FacultyFeedback[]
+  feedback    FacultyFeedback[]
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+
+  advisedSections Section[] @relation("SectionAdvisor")
 }
 
 model Parent {
@@ -234,23 +300,30 @@ model Parent {
 
   wardId String
   ward   Student @relation(fields: [wardId], references: [id])
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
 }
 
 model Subject {
-  id      String @id @default(cuid())
-  code    String @unique
-  name    String
+  id        String      @id @default(cuid())
+  code      String      @unique
+  name      String
   shortName String
-  credits Int
-  room    String
-  kind    SubjectKind
+  credits   Int
+  room      String
+  kind      SubjectKind
 
   departmentId String
   department   Department @relation(fields: [departmentId], references: [id])
   semesterId   String
-  semester     Semester @relation(fields: [semesterId], references: [id])
+  semester     Semester   @relation(fields: [semesterId], references: [id])
   facultyId    String?
-  faculty      Faculty? @relation(fields: [facultyId], references: [id])
+  faculty      Faculty?   @relation(fields: [facultyId], references: [id])
 
   periodsHeld Int @default(0)
 
@@ -261,10 +334,19 @@ model Subject {
   timetable   TimetableEntry[]
   exams       Exam[]
   feedback    FacultyFeedback[]
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+
+  remarks StudentRemark[]
 }
 
 model TimetableEntry {
-  id        String @id @default(cuid())
+  id        String  @id @default(cuid())
   dayOfWeek Int
   period    Int
   startTime String
@@ -273,7 +355,7 @@ model TimetableEntry {
   label     String?
 
   sectionId  String
-  section    Section @relation(fields: [sectionId], references: [id])
+  section    Section  @relation(fields: [sectionId], references: [id])
   semesterId String
   semester   Semester @relation(fields: [semesterId], references: [id])
   subjectId  String?
@@ -281,34 +363,44 @@ model TimetableEntry {
   facultyId  String?
   faculty    Faculty? @relation(fields: [facultyId], references: [id])
 
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+
   @@unique([sectionId, dayOfWeek, period])
 }
 
 model AttendanceRecord {
-  id     String @id @default(cuid())
+  id     String         @id @default(cuid())
   date   DateTime
   period Int
   mark   AttendanceMark
 
-  studentId String
-  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  subjectId String
-  subject   Subject @relation(fields: [subjectId], references: [id])
+  studentId  String
+  student    Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subjectId  String
+  subject    Subject @relation(fields: [subjectId], references: [id])
   markedById String?
-  markedBy   User? @relation(fields: [markedById], references: [id])
+  markedBy   User?   @relation(fields: [markedById], references: [id])
 
   createdAt DateTime @default(now())
+
+  correctionReason String?
+  updatedAt        DateTime @default(now()) @updatedAt
 
   @@unique([studentId, subjectId, date, period])
   @@index([subjectId, date])
 }
 
 model Assignment {
-  id        String @id @default(cuid())
-  title     String
-  brief     String
-  dueDate   DateTime
-  maxMarks  Int
+  id       String   @id @default(cuid())
+  title    String
+  brief    String
+  dueDate  DateTime
+  maxMarks Int
 
   subjectId String
   subject   Subject @relation(fields: [subjectId], references: [id])
@@ -318,32 +410,41 @@ model Assignment {
   faculty   Faculty @relation(fields: [facultyId], references: [id])
 
   submissions Submission[]
-  createdAt   DateTime @default(now())
+  createdAt   DateTime     @default(now())
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  updatedAt   DateTime     @default(now()) @updatedAt
 }
 
 model Submission {
-  id       String @id @default(cuid())
-  status   AssignmentStatus @default(PENDING)
-  score    Int?
-  fileCount Int @default(0)
-  note     String @default("")
-  feedback String @default("")
+  id          String           @id @default(cuid())
+  status      AssignmentStatus @default(PENDING)
+  score       Int?
+  fileCount   Int              @default(0)
+  note        String           @default("")
+  feedback    String           @default("")
   submittedAt DateTime?
 
   assignmentId String
   assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
   studentId    String
-  student      Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  student      Student    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  fileId String?
+  file   StoredFile? @relation("SubmissionFile", fields: [fileId], references: [id])
 
   @@unique([assignmentId, studentId])
 }
 
 model Mark {
-  id        String @id @default(cuid())
-  internal1 Int?
-  internal2 Int?
-  assignment Int?
-  practical Int?
+  id           String @id @default(cuid())
+  internal1    Int?
+  internal2    Int?
+  assignment   Int?
+  practical    Int?
   semesterExam Int?
 
   studentId String
@@ -351,18 +452,25 @@ model Mark {
   subjectId String
   subject   Subject @relation(fields: [subjectId], references: [id])
 
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+
   @@unique([studentId, subjectId])
 }
 
 model SemesterResult {
-  id      String @id @default(cuid())
-  gpa     Float
-  credits Int
+  id          String   @id @default(cuid())
+  gpa         Float
+  credits     Int
   publishedOn DateTime
-  arrears Int @default(0)
+  arrears     Int      @default(0)
 
   studentId  String
-  student    Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  student    Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
   semesterId String
   semester   Semester @relation(fields: [semesterId], references: [id])
 
@@ -384,7 +492,7 @@ model ResultRow {
 }
 
 model Exam {
-  id       String @id @default(cuid())
+  id       String   @id @default(cuid())
   title    String
   date     DateTime
   session  String
@@ -394,36 +502,59 @@ model Exam {
 
   subjectId String
   subject   Subject @relation(fields: [subjectId], references: [id])
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
 }
 
 model Fee {
-  id     String @id @default(cuid())
-  head   String
-  amount Int
-  status FeeStatus @default(PENDING)
-  dueDate DateTime
+  id           String    @id @default(cuid())
+  head         String
+  amount       Int
+  status       FeeStatus @default(PENDING)
+  dueDate      DateTime
   academicYear String
 
   studentId String
   student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
   payment Payment?
+
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+
+  categoryId String?
+  category   FeeCategory? @relation(fields: [categoryId], references: [id])
 }
 
 model Payment {
-  id            String @id @default(cuid())
-  receiptNumber String @unique
+  id            String   @id @default(cuid())
+  receiptNumber String   @unique
   amount        Int
   mode          String
   paidOn        DateTime
-  referenceName String @default("")
+  referenceName String   @default("")
 
   feeId String @unique
-  fee   Fee @relation(fields: [feeId], references: [id], onDelete: Cascade)
+  fee   Fee    @relation(fields: [feeId], references: [id], onDelete: Cascade)
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
 }
 
 model LeaveRequest {
-  id       String @id @default(cuid())
+  id       String      @id @default(cuid())
   type     LeaveType
   fromDate DateTime
   toDate   DateTime
@@ -431,42 +562,56 @@ model LeaveRequest {
   reason   String
   status   LeaveStatus @default(PENDING)
 
-  studentId String
-  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId   String
+  student     Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
   decidedById String?
-  decidedBy   User? @relation("LeaveDecider", fields: [decidedById], references: [id])
+  decidedBy   User?   @relation("LeaveDecider", fields: [decidedById], references: [id])
 
   createdAt DateTime @default(now())
+
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  updatedAt   DateTime  @default(now()) @updatedAt
 }
 
 model StudyMaterial {
-  id     String @id @default(cuid())
-  title  String
-  kind   MaterialKind
-  size   String
-  downloads Int @default(0)
+  id        String       @id @default(cuid())
+  title     String
+  kind      MaterialKind
+  size      String
+  downloads Int          @default(0)
 
-  subjectId String
-  subject   Subject @relation(fields: [subjectId], references: [id])
+  subjectId    String
+  subject      Subject @relation(fields: [subjectId], references: [id])
   uploadedById String
-  uploadedBy   User @relation(fields: [uploadedById], references: [id])
+  uploadedBy   User    @relation(fields: [uploadedById], references: [id])
 
   createdAt DateTime @default(now())
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  updatedAt   DateTime     @default(now()) @updatedAt
+
+  fileId String?
+  file   StoredFile? @relation("MaterialFile", fields: [fileId], references: [id])
 }
 
 model Notification {
-  id    String @id @default(cuid())
+  id    String           @id @default(cuid())
   kind  NotificationKind
   title String
   body  String
-  tone  Tone   @default(ACCENT)
-  route String @default("notifications")
-  read  Boolean @default(false)
+  tone  Tone             @default(ACCENT)
+  route String           @default("notifications")
+  read  Boolean          @default(false)
 
   recipientId String
-  recipient   User @relation("NotificationRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  recipient   User    @relation("NotificationRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
   authorId    String?
-  author      User? @relation("NotificationAuthor", fields: [authorId], references: [id])
+  author      User?   @relation("NotificationAuthor", fields: [authorId], references: [id])
 
   createdAt DateTime @default(now())
 
@@ -474,15 +619,22 @@ model Notification {
 }
 
 model Event {
-  id    String @id @default(cuid())
+  id    String   @id @default(cuid())
   title String
   date  DateTime
   tag   String
-  tone  Tone @default(ACCENT)
+  tone  Tone     @default(ACCENT)
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
 }
 
 model Certificate {
-  id        String @id @default(cuid())
+  id        String    @id @default(cuid())
   title     String
   reference String
   issuedOn  DateTime?
@@ -490,19 +642,38 @@ model Certificate {
 
   studentId String
   student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+
+  fileId String?
+  file   StoredFile? @relation("CertificateFile", fields: [fileId], references: [id])
 }
 
 model PlacementDrive {
-  id       String @id @default(cuid())
-  company  String
-  role     String
-  ctc      String
-  driveDate DateTime
+  id          String   @id @default(cuid())
+  company     String
+  role        String
+  ctc         String
+  driveDate   DateTime
   eligibility String
-  minCgpa  Float
-  noArrears Boolean @default(false)
+  minCgpa     Float
+  noArrears   Boolean  @default(false)
 
   registrations PlacementRegistration[]
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+
+  companyId  String?
+  companyRef Company? @relation(fields: [companyId], references: [id])
 }
 
 model PlacementRegistration {
@@ -511,7 +682,7 @@ model PlacementRegistration {
   driveId   String
   drive     PlacementDrive @relation(fields: [driveId], references: [id], onDelete: Cascade)
   studentId String
-  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  student   Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
 
@@ -530,4 +701,196 @@ model FacultyFeedback {
   faculty   Faculty @relation(fields: [facultyId], references: [id])
 
   @@unique([studentId, subjectId])
+}
+
+enum RecordStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  ARCHIVE
+  RESTORE
+  DELETE
+  APPROVE
+  REJECT
+  PAYMENT
+  MARKS
+  ATTENDANCE
+  LOGIN
+  PASSWORD
+}
+
+enum UploadPurpose {
+  STUDENT_PHOTO
+  STUDY_MATERIAL
+  SUBMISSION
+  CERTIFICATE
+  INSTITUTION_LOGO
+}
+
+enum SupportRequestKind {
+  SUPPORT
+  CONTACT_UPDATE
+  ACKNOWLEDGEMENT
+  RECORD_CORRECTION
+}
+
+enum SupportRequestStatus {
+  OPEN
+  RESOLVED
+  REJECTED
+}
+
+enum RemarkCategory {
+  ACADEMIC
+  BEHAVIOUR
+  ATTENDANCE
+  COMMENDATION
+}
+
+/// Every create, update, archive, approval, payment, marks and attendance action
+/// lands here. Written inside the same transaction as the change where possible.
+model AuditLog {
+  id         String      @id @default(cuid())
+  action     AuditAction
+  module     String
+  entityType String
+  entityId   String?
+  oldValues  Json?
+  newValues  Json?
+  ipAddress  String?
+  userAgent  String?
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([module, entityType, entityId])
+  @@index([userId, createdAt])
+}
+
+/// Institution profile and system settings. One row per key; the value is JSON so
+/// a setting can grow structure without a migration.
+model Setting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value Json
+  scope String @default("SYSTEM")
+
+  updatedById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+}
+
+/// Metadata for a file held in object storage. The bytes never touch PostgreSQL —
+/// only the URL, key and the details needed to serve and audit it.
+model StoredFile {
+  id        String        @id @default(cuid())
+  key       String        @unique
+  url       String
+  fileName  String
+  mimeType  String
+  sizeBytes Int
+  purpose   UploadPurpose
+  checksum  String?
+
+  uploadedById String?
+  uploadedBy   User?   @relation("FileUploader", fields: [uploadedById], references: [id])
+
+  studentPhotos Student[]       @relation("StudentPhoto")
+  materials     StudyMaterial[] @relation("MaterialFile")
+  submissions   Submission[]    @relation("SubmissionFile")
+  certificates  Certificate[]   @relation("CertificateFile")
+
+  createdAt DateTime @default(now())
+
+  @@index([purpose, createdAt])
+}
+
+/// Support tickets, contact-update requests and parent acknowledgements.
+model SupportRequest {
+  id         String               @id @default(cuid())
+  kind       SupportRequestKind   @default(SUPPORT)
+  subject    String
+  body       String
+  status     SupportRequestStatus @default(OPEN)
+  resolution String               @default("")
+
+  raisedById String
+  raisedBy   User   @relation("SupportRaisedBy", fields: [raisedById], references: [id], onDelete: Cascade)
+
+  resolvedById String?
+  resolvedBy   User?     @relation("SupportResolvedBy", fields: [resolvedById], references: [id])
+  resolvedAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([status, createdAt])
+}
+
+/// A faculty note against a student, optionally tied to a subject.
+model StudentRemark {
+  id       String         @id @default(cuid())
+  category RemarkCategory @default(ACADEMIC)
+  body     String
+
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subjectId String?
+  subject   Subject? @relation(fields: [subjectId], references: [id])
+  authorId  String
+  author    User     @relation("RemarkAuthor", fields: [authorId], references: [id])
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+
+  @@index([studentId, createdAt])
+}
+
+/// A head of fee an administrator can define once and then assign to students.
+model FeeCategory {
+  id            String @id @default(cuid())
+  code          String @unique
+  name          String
+  defaultAmount Int
+  academicYear  String
+  description   String @default("")
+
+  fees Fee[]
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+}
+
+/// A recruiter. Drives reference it so company details are entered once.
+model Company {
+  id           String @id @default(cuid())
+  name         String @unique
+  sector       String @default("")
+  website      String @default("")
+  contactName  String @default("")
+  contactEmail String @default("")
+  contactPhone String @default("")
+
+  drives PlacementDrive[]
+
+  status      RecordStatus @default(ACTIVE)
+  archivedAt  DateTime?
+  createdById String?
+  updatedById String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
 }

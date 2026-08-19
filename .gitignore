@@ -15,3 +15,6 @@ build/
 next-env.d.ts
 tsconfig.tsbuildinfo
 *.tsbuildinfo
+
+# object storage scratch directory used by STORAGE_DRIVER=local
+apps/api/.storage/

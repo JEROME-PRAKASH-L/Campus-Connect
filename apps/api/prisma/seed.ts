@@ -7,7 +7,7 @@ const ACADEMIC_YEAR = '2026 – 27';
 const DEMO_PASSWORD = 'demo1234';
 
 const DEPARTMENTS = [
-  { code: 'CSE', name: 'Computer Science & Engineering', hodName: 'Dr. Meera Rajan', facultyCount: 38, studentCount: 642, avgAttendance: 88.4, passPercentage: 94.2, block: 'A Block' },
+  { code: 'CSE', name: 'Computer Science & Engineering', hodName: 'Kim Jong Un', facultyCount: 38, studentCount: 642, avgAttendance: 88.4, passPercentage: 94.2, block: 'A Block' },
   { code: 'ECE', name: 'Electronics & Communication', hodName: 'Dr. S. Anand', facultyCount: 29, studentCount: 511, avgAttendance: 86.1, passPercentage: 91.8, block: 'B Block' },
   { code: 'MECH', name: 'Mechanical Engineering', hodName: 'Dr. P. Ganesan', facultyCount: 26, studentCount: 468, avgAttendance: 83.7, passPercentage: 89.4, block: 'C Block' },
   { code: 'IT', name: 'Information Technology', hodName: 'Dr. Nithya Balan', facultyCount: 22, studentCount: 398, avgAttendance: 89.2, passPercentage: 95.1, block: 'A Block' },
@@ -16,9 +16,9 @@ const DEPARTMENTS = [
 ];
 
 const FACULTY = [
-  { staffId: 'FAC1180', name: 'Prof. Kavitha Suresh', designation: 'Associate Professor', experienceYears: 11 },
+  { staffId: 'FAC1180', name: 'Vladimir Putin', designation: 'Associate Professor', experienceYears: 11 },
   { staffId: 'FAC1024', name: 'Dr. Arun Prakash', designation: 'Professor', experienceYears: 17 },
-  { staffId: 'HOD204', name: 'Dr. Meera Rajan', designation: 'Professor & Head', experienceYears: 22 },
+  { staffId: 'HOD204', name: 'Kim Jong Un', designation: 'Professor & Head', experienceYears: 22 },
   { staffId: 'FAC1312', name: 'Prof. Divya Nair', designation: 'Assistant Professor', experienceYears: 6 },
   { staffId: 'FAC1198', name: 'Prof. Rahul Iyer', designation: 'Assistant Professor', experienceYears: 8 },
   { staffId: 'FAC1077', name: 'Dr. Lakshmi Rao', designation: 'Associate Professor', experienceYears: 14 },
@@ -56,7 +56,7 @@ const PERIODS = [
 ];
 
 const CLASSMATES = [
-  'Aarav Menon', 'Diya Krishnan', 'Farhan Sheikh', 'Ishita Bose', 'Joel Mathew', 'Kavya Ramesh',
+  'Donald Trump', 'Diya Krishnan', 'Farhan Sheikh', 'Ishita Bose', 'Joel Mathew', 'Kavya Ramesh',
   'Manav Gupta', 'Nithya Prakash', 'Om Sundaram', 'Priya Varghese', 'Rahul Deshmukh', 'Sneha Balaji',
   'Tarun Chandrasekar', 'Vidya Nambiar', 'Yusuf Rahman', 'Zoya Fernandes',
 ];
@@ -95,6 +95,21 @@ const EVENTS = [
   { day: '2026-10-20', title: 'End-semester examinations begin', tag: 'Examination', tone: 'ACCENT' as const },
 ];
 
+const COMPANIES = [
+  { name: 'Zoho Corporation', sector: 'Product engineering', website: 'https://www.zoho.com', contactName: 'Campus Relations', contactEmail: 'campus@example.invalid', contactPhone: '+91 44 6900 0000' },
+  { name: 'Freshworks', sector: 'SaaS', website: 'https://www.freshworks.com', contactName: 'University Programmes', contactEmail: 'university@example.invalid', contactPhone: '+91 44 6100 0000' },
+  { name: 'TCS Digital', sector: 'IT services', website: 'https://www.tcs.com', contactName: 'Talent Acquisition', contactEmail: 'hiring@example.invalid', contactPhone: '+91 44 6600 0000' },
+  { name: 'Qualcomm India', sector: 'Semiconductors', website: 'https://www.qualcomm.com', contactName: 'Campus Hiring', contactEmail: 'campus.in@example.invalid', contactPhone: '+91 80 4000 0000' },
+];
+
+const FEE_CATEGORIES = [
+  { code: 'TUITION', name: 'Tuition fee', defaultAmount: 62500, description: 'Semester tuition, payable at the start of the term.' },
+  { code: 'EXAM', name: 'Examination fee', defaultAmount: 3200, description: 'End-semester examination and valuation.' },
+  { code: 'HOSTEL', name: 'Hostel & mess', defaultAmount: 48000, description: 'Room, mess and utilities for resident students.' },
+  { code: 'TRANSPORT', name: 'Transport', defaultAmount: 18500, description: 'College bus, route-wise.' },
+  { code: 'LAB', name: 'Laboratory & library', defaultAmount: 6400, description: 'Consumables, laboratory and library access.' },
+];
+
 const DRIVES = [
   { company: 'Zoho Corporation', role: 'Member Technical Staff', ctc: '₹9.5 LPA', date: '2026-07-31', eligibility: 'CGPA ≥ 7.0, no arrears', minCgpa: 7, noArrears: true },
   { company: 'Freshworks', role: 'Software Engineer I', ctc: '₹12.0 LPA', date: '2026-08-12', eligibility: 'CGPA ≥ 8.0, no arrears', minCgpa: 8, noArrears: true },
@@ -113,6 +128,10 @@ const marksFor = (held: number, targetPct: number): AttendanceMark[] => {
 
 const wipe = async () => {
   await prisma.$transaction([
+    prisma.auditLog.deleteMany(),
+    prisma.supportRequest.deleteMany(),
+    prisma.studentRemark.deleteMany(),
+    prisma.setting.deleteMany(),
     prisma.facultyFeedback.deleteMany(),
     prisma.placementRegistration.deleteMany(),
     prisma.placementDrive.deleteMany(),
@@ -140,6 +159,9 @@ const wipe = async () => {
     prisma.course.deleteMany(),
     prisma.user.deleteMany(),
     prisma.department.deleteMany(),
+    prisma.feeCategory.deleteMany(),
+    prisma.company.deleteMany(),
+    prisma.storedFile.deleteMany(),
   ]);
 };
 
@@ -221,9 +243,9 @@ async function main() {
       loginId: 'ADM001',
       email: 'adm001@dmice.edu.in',
       passwordHash,
-      name: 'Dr. S. Venkatesh',
+      name: 'Elon Musk',
       role: 'ADMIN',
-      initials: 'SV',
+      initials: 'EM',
       roleLabel: 'Administrator',
       extra: 'Registrar',
     },
@@ -317,7 +339,7 @@ async function main() {
         mobile: `+91 98407 21${String(800 + index).slice(-3)}`,
         residence: index % 3 === 0 ? 'Day scholar · Route 14' : 'Hostel · Block C',
         admissionQuota: 'Merit · Counselling',
-        mentorName: 'Prof. Kavitha Suresh',
+        mentorName: 'Vladimir Putin',
         userId: user.id,
         departmentId: departments.CSE.id,
         courseId: course.id,
@@ -326,22 +348,22 @@ async function main() {
     });
     studentIds.push({ id: student.id, userId: user.id, name, attendance: CLASS_ATTENDANCE[index] });
   }
-  const aarav = studentIds[0];
+  const demoStudent = studentIds[0];
 
   const parentUser = await prisma.user.create({
     data: {
       loginId: 'PAR7042',
       email: 'par7042@dmice.edu.in',
       passwordHash,
-      name: 'Ramesh Menon',
+      name: 'Errol Musk',
       role: 'PARENT',
-      initials: 'RM',
+      initials: 'EM',
       roleLabel: 'Parent',
-      extra: 'Guardian of Aarav Menon',
+      extra: 'Guardian of Donald Trump',
     },
   });
   await prisma.parent.create({
-    data: { relation: 'Father', mobile: '+91 94440 10228', userId: parentUser.id, wardId: aarav.id },
+    data: { relation: 'Father', mobile: '+91 94440 10228', userId: parentUser.id, wardId: demoStudent.id },
   });
 
   console.log('Seeding attendance registers…');
@@ -350,8 +372,8 @@ async function main() {
   for (const subjectSpec of SUBJECTS) {
     const subject = subjectByCode.get(subjectSpec.code)!;
     for (const student of studentIds) {
-      // Aarav's record reproduces the subject figures exactly; classmates track their own cumulative rate.
-      const target = student.id === aarav.id ? (subjectSpec.attended / subjectSpec.held) * 100 : student.attendance;
+      // The demo student's record reproduces the subject figures exactly; classmates track their own cumulative rate.
+      const target = student.id === demoStudent.id ? (subjectSpec.attended / subjectSpec.held) * 100 : student.attendance;
       const marks = marksFor(subjectSpec.held, target);
       marks.forEach((mark, session) => {
         const date = new Date(baseDate);
@@ -377,10 +399,10 @@ async function main() {
       studentIds.map((student, index) => ({
         studentId: student.id,
         subjectId: subjectByCode.get(s.code)!.id,
-        internal1: s.ia1 === null ? null : Math.max(20, Math.min(50, s.ia1 + (student.id === aarav.id ? 0 : ((index * 5) % 11) - 5))),
-        internal2: s.ia2 === null ? null : Math.max(20, Math.min(50, s.ia2 + (student.id === aarav.id ? 0 : ((index * 7) % 11) - 5))),
-        assignment: s.assignment === null ? null : Math.max(8, Math.min(20, s.assignment + (student.id === aarav.id ? 0 : ((index * 3) % 5) - 2))),
-        practical: s.practical === null ? null : Math.max(30, Math.min(50, s.practical + (student.id === aarav.id ? 0 : ((index * 4) % 7) - 3))),
+        internal1: s.ia1 === null ? null : Math.max(20, Math.min(50, s.ia1 + (student.id === demoStudent.id ? 0 : ((index * 5) % 11) - 5))),
+        internal2: s.ia2 === null ? null : Math.max(20, Math.min(50, s.ia2 + (student.id === demoStudent.id ? 0 : ((index * 7) % 11) - 5))),
+        assignment: s.assignment === null ? null : Math.max(8, Math.min(20, s.assignment + (student.id === demoStudent.id ? 0 : ((index * 3) % 5) - 2))),
+        practical: s.practical === null ? null : Math.max(30, Math.min(50, s.practical + (student.id === demoStudent.id ? 0 : ((index * 4) % 7) - 3))),
       })),
     ),
   });
@@ -388,7 +410,7 @@ async function main() {
   for (const spec of PAST_SEMESTERS) {
     const semester = semesters.find((s) => s.number === spec.number)!;
     for (const [index, student] of studentIds.entries()) {
-      const drift = student.id === aarav.id ? 0 : (((index * 13) % 17) - 8) / 10;
+      const drift = student.id === demoStudent.id ? 0 : (((index * 13) % 17) - 8) / 10;
       const result = await prisma.semesterResult.create({
         data: {
           gpa: Number(Math.min(9.8, Math.max(6.2, spec.gpa + drift)).toFixed(2)),
@@ -432,7 +454,7 @@ async function main() {
     const submittedUpTo = Math.min(studentIds.length, Math.round((spec.submittedCount / 62) * studentIds.length) || spec.submittedCount);
     await prisma.submission.createMany({
       data: studentIds.map((student, index) => {
-        // Closed assignments are in from everyone; open ones fill from the back so Aarav's three stay pending.
+        // Closed assignments are in from everyone; open ones fill from the back so the demo student's three stay pending.
         const hasSubmitted = spec.score !== null || index >= studentIds.length - submittedUpTo;
         const graded = spec.score !== null && hasSubmitted;
         return {
@@ -477,7 +499,7 @@ async function main() {
   ];
   for (const [studentIndex, student] of studentIds.entries()) {
     for (const [feeIndex, spec] of feeSpecs.entries()) {
-      // Every seventh student (Aarav included) carries an outstanding hostel balance, matching the design's defaulter rate.
+      // Every seventh student (the demo student included) carries an outstanding hostel balance, matching the design's defaulter rate.
       const status = spec.status === 'PENDING' ? (studentIndex % 7 === 0 ? ('PENDING' as const) : ('PAID' as const)) : spec.status;
       const fee = await prisma.fee.create({
         data: {
@@ -493,7 +515,7 @@ async function main() {
         await prisma.payment.create({
           data: {
             feeId: fee.id,
-            receiptNumber: student.id === aarav.id ? spec.receipt : `RCT-2026-${1000 + studentIndex * 10 + feeIndex}`,
+            receiptNumber: student.id === demoStudent.id ? spec.receipt : `RCT-2026-${1000 + studentIndex * 10 + feeIndex}`,
             amount: spec.amount,
             mode: spec.mode || 'UPI',
             paidOn: new Date(spec.due),
@@ -505,9 +527,9 @@ async function main() {
   }
 
   const leaveSpecs = [
-    { student: 'Aarav Menon', type: 'MEDICAL' as const, from: '2026-06-12', to: '2026-06-13', reason: 'Viral fever — medical certificate attached.', status: 'APPROVED' as const, by: 'FAC1180' },
-    { student: 'Aarav Menon', type: 'ON_DUTY' as const, from: '2026-07-04', to: '2026-07-04', reason: 'Inter-college hackathon at Vellore.', status: 'APPROVED' as const, by: 'HOD204' },
-    { student: 'Aarav Menon', type: 'CASUAL' as const, from: '2026-07-29', to: '2026-07-29', reason: 'Sibling wedding at Kochi.', status: 'PENDING' as const, by: null },
+    { student: 'Donald Trump', type: 'MEDICAL' as const, from: '2026-06-12', to: '2026-06-13', reason: 'Viral fever — medical certificate attached.', status: 'APPROVED' as const, by: 'FAC1180' },
+    { student: 'Donald Trump', type: 'ON_DUTY' as const, from: '2026-07-04', to: '2026-07-04', reason: 'Inter-college hackathon at Vellore.', status: 'APPROVED' as const, by: 'HOD204' },
+    { student: 'Donald Trump', type: 'CASUAL' as const, from: '2026-07-29', to: '2026-07-29', reason: 'Sibling wedding at Kochi.', status: 'PENDING' as const, by: null },
     { student: 'Farhan Sheikh', type: 'MEDICAL' as const, from: '2026-07-27', to: '2026-07-29', reason: 'Dengue — hospitalised, report attached.', status: 'PENDING' as const, by: null },
     { student: 'Kavya Ramesh', type: 'ON_DUTY' as const, from: '2026-07-31', to: '2026-08-01', reason: 'State-level basketball selection.', status: 'PENDING' as const, by: null },
     { student: 'Manav Gupta', type: 'CASUAL' as const, from: '2026-08-03', to: '2026-08-03', reason: 'Passport verification appointment.', status: 'PENDING' as const, by: null },
@@ -535,7 +557,7 @@ async function main() {
     { kind: 'DEADLINE' as const, title: 'Submission due tomorrow — CS501', body: 'Subnetting & VLSM Worksheet closes 28 Jul, 23:59.', tone: 'WARN' as const, route: 'assignments', read: false },
     { kind: 'EXAMINATION' as const, title: 'Model Examination I timetable published', body: 'Model exams run 03 Aug – 08 Aug. Hall tickets available.', tone: 'ACCENT' as const, route: 'examinations', read: false },
     { kind: 'FEES' as const, title: 'Hostel fee reminder', body: '₹48,000 payable by 10 Aug 2026 to avoid a late fee.', tone: 'WARN' as const, route: 'fees', read: true },
-    { kind: 'LEAVE' as const, title: 'Leave approved — On Duty, 04 Jul', body: 'Approved by Dr. Meera Rajan.', tone: 'OK' as const, route: 'leave', read: true },
+    { kind: 'LEAVE' as const, title: 'Leave approved — On Duty, 04 Jul', body: 'Approved by Kim Jong Un.', tone: 'OK' as const, route: 'leave', read: true },
     { kind: 'RESULTS' as const, title: 'Semester 4 results published', body: 'GPA 8.48 · CGPA 8.39. No arrears.', tone: 'OK' as const, route: 'results', read: true },
     { kind: 'ANNOUNCEMENT' as const, title: 'Cognizance ’26 registrations open', body: 'Annual technical symposium, 12 Sep. Register before 20 Aug.', tone: 'ACCENT' as const, route: 'notifications', read: true },
   ];
@@ -562,18 +584,25 @@ async function main() {
 
   await prisma.certificate.createMany({
     data: [
-      { title: 'Bonafide Certificate', reference: 'BON/2026/1184', issuedOn: new Date('2026-07-14'), status: 'Issued', studentId: aarav.id },
-      { title: 'Semester 4 Grade Sheet', reference: 'GS/S4/21CSE042', issuedOn: new Date('2026-07-18'), status: 'Issued', studentId: aarav.id },
-      { title: 'Course Completion — NPTEL Deep Learning', reference: 'NPTEL26CS88', issuedOn: new Date('2026-05-02'), status: 'Issued', studentId: aarav.id },
-      { title: 'Transfer Certificate', reference: '—', issuedOn: null, status: 'Not applicable', studentId: aarav.id },
+      { title: 'Bonafide Certificate', reference: 'BON/2026/1184', issuedOn: new Date('2026-07-14'), status: 'Issued', studentId: demoStudent.id },
+      { title: 'Semester 4 Grade Sheet', reference: 'GS/S4/21CSE042', issuedOn: new Date('2026-07-18'), status: 'Issued', studentId: demoStudent.id },
+      { title: 'Course Completion — NPTEL Deep Learning', reference: 'NPTEL26CS88', issuedOn: new Date('2026-05-02'), status: 'Issued', studentId: demoStudent.id },
+      { title: 'Transfer Certificate', reference: '—', issuedOn: null, status: 'Not applicable', studentId: demoStudent.id },
     ],
   });
+
+  const companies = Object.fromEntries(
+    await Promise.all(
+      COMPANIES.map(async (c) => [c.name, await prisma.company.create({ data: c })] as const),
+    ),
+  );
 
   const drives = await Promise.all(
     DRIVES.map((d) =>
       prisma.placementDrive.create({
         data: {
           company: d.company,
+          companyId: companies[d.company]?.id ?? null,
           role: d.role,
           ctc: d.ctc,
           driveDate: new Date(d.date),
@@ -584,15 +613,48 @@ async function main() {
       }),
     ),
   );
-  await prisma.placementRegistration.create({ data: { driveId: drives[0].id, studentId: aarav.id } });
+  await prisma.placementRegistration.create({ data: { driveId: drives[0].id, studentId: demoStudent.id } });
+
+  console.log('Seeding institution profile, fee categories and allocations…');
+  await prisma.setting.create({
+    data: {
+      key: 'institution.profile',
+      scope: 'INSTITUTION',
+      value: {
+        name: 'DMI College of Engineering',
+        shortName: 'DMI',
+        affiliation: 'Affiliated to Anna University, Chennai',
+        addressLine1: 'Palanchur, Nazarethpet Post',
+        addressLine2: 'Chennai – Bangalore Highway',
+        city: 'Chennai',
+        state: 'Tamil Nadu',
+        postalCode: '600123',
+        phone: '+91 44 2745 1234',
+        email: 'office@example.invalid',
+        website: 'https://www.example.invalid',
+        logoFileId: '',
+      },
+    },
+  });
+
+  await prisma.feeCategory.createMany({
+    data: FEE_CATEGORIES.map((c) => ({ ...c, academicYear: ACADEMIC_YEAR })),
+  });
+
+  // The HOD account heads CSE; the class adviser for 5-B is the section's own faculty.
+  const hodUser = await prisma.user.findUnique({ where: { loginId: 'HOD204' } });
+  if (hodUser) await prisma.department.update({ where: { id: departments.CSE.id }, data: { hodUserId: hodUser.id } });
+
+  const adviser = await prisma.faculty.findUnique({ where: { staffId: 'FAC1180' } });
+  if (adviser) await prisma.section.update({ where: { id: sectionB.id }, data: { advisorFacultyId: adviser.id } });
 
   console.log('\nSeed complete. Demo accounts (password: demo1234):');
   console.table([
-    { role: 'Student', loginId: '21CSE042', name: 'Aarav Menon' },
-    { role: 'Faculty', loginId: 'FAC1180', name: 'Prof. Kavitha Suresh' },
-    { role: 'HOD', loginId: 'HOD204', name: 'Dr. Meera Rajan' },
+    { role: 'Student', loginId: '21CSE042', name: 'Donald Trump' },
+    { role: 'Faculty', loginId: 'FAC1180', name: 'Vladimir Putin' },
+    { role: 'HOD', loginId: 'HOD204', name: 'Kim Jong Un' },
     { role: 'Admin', loginId: adminUser.loginId, name: adminUser.name },
-    { role: 'Parent', loginId: 'PAR7042', name: 'Ramesh Menon' },
+    { role: 'Parent', loginId: 'PAR7042', name: 'Errol Musk' },
   ]);
 }
 

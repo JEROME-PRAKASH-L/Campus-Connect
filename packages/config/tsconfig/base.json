@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Campus Connect base",
+  "extends": "../../../tsconfig.base.json"
+}

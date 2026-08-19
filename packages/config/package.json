@@ -1,0 +1,15 @@
+{
+  "name": "@campus-connect/config",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shared TypeScript, lint and formatting configuration for the Campus Connect workspace.",
+  "files": ["tsconfig", "eslint", "prettier.json"],
+  "exports": {
+    "./tsconfig/base.json": "./tsconfig/base.json",
+    "./tsconfig/node.json": "./tsconfig/node.json",
+    "./tsconfig/next.json": "./tsconfig/next.json",
+    "./tsconfig/react-library.json": "./tsconfig/react-library.json",
+    "./eslint/next.mjs": "./eslint/next.mjs",
+    "./prettier.json": "./prettier.json"
+  }
+}
