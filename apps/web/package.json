@@ -8,7 +8,11 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test \"src/**/*.test.ts\""
+    "test": "node --import tsx --test \"src/**/*.test.ts\"",
+    "contracts": "npm --prefix ../../packages/contracts run build",
+    "prebuild": "npm run contracts",
+    "pretypecheck": "npm run contracts",
+    "pretest": "npm run contracts"
   },
   "dependencies": {
     "@campus-connect/contracts": "*",
